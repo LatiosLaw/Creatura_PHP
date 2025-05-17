@@ -30,8 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `creatura` (
   `id_creatura` int(10) NOT NULL,
   `nombre_creatura` varchar(30) NOT NULL,
-  `tipo1` varchar(15) NOT NULL,
-  `tipo2` varchar(15) NOT NULL,
+  `id_tipo1` int(5) NOT NULL,
+  `id_tipo2` int(5) NOT NULL,
+  `descripcion` varchar(200) NOT NULL,
   `hp` int(3) NOT NULL,
   `atk` int(3) NOT NULL,
   `def` int(3) NOT NULL,
@@ -65,7 +66,7 @@ CREATE TABLE `efectividades` (
 CREATE TABLE `habilidad` (
   `id_habilidad` int(5) NOT NULL,
   `nombre_habilidad` varchar(25) NOT NULL,
-  `tipo_habilidad` varchar(20) NOT NULL COMMENT 'A que tipo pertenece esta habilidad',
+  `id_tipo_habilidad` int(5) NOT NULL COMMENT 'A que tipo pertenece esta habilidad',
   `descripcion` varchar(80) NOT NULL,
   `categoria_habilidad` varchar(10) NOT NULL COMMENT 'Ataque físico, ataque especial o habilidad de estado',
   `potencia` int(5) NOT NULL
@@ -79,8 +80,8 @@ CREATE TABLE `habilidad` (
 
 CREATE TABLE `moveset` (
   `id_moveset` int(5) NOT NULL,
-  `nombre_creatura` varchar(30) NOT NULL,
-  `nombre_habilidad` varchar(25) NOT NULL
+  `id_creatura` int(10) NOT NULL,
+  `id_habilidad` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -90,9 +91,9 @@ CREATE TABLE `moveset` (
 --
 
 CREATE TABLE `tipo` (
-  `id_tipo` varchar(5) NOT NULL,
+  `id_tipo` int(5) NOT NULL,
   `nombre_tipo` varchar(15) NOT NULL,
-  `color` int(6) NOT NULL
+  `color` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -102,7 +103,7 @@ CREATE TABLE `tipo` (
 --
 
 CREATE TABLE `usuario` (
-  `nickname` varchar(20) NOT NULL,
+  `nickname` varchar(30) NOT NULL,
   `correo` varchar(35) NOT NULL,
   `contraseña` varchar(30) NOT NULL,
   `tipo` varchar(20) NOT NULL
