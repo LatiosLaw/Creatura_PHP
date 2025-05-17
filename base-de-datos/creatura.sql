@@ -69,7 +69,8 @@ CREATE TABLE `habilidad` (
   `id_tipo_habilidad` int(5) NOT NULL COMMENT 'A que tipo pertenece esta habilidad',
   `descripcion` varchar(80) NOT NULL,
   `categoria_habilidad` varchar(10) NOT NULL COMMENT 'Ataque físico, ataque especial o habilidad de estado',
-  `potencia` int(5) NOT NULL
+  `potencia` int(5) NOT NULL,
+  `creador` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -93,7 +94,8 @@ CREATE TABLE `moveset` (
 CREATE TABLE `tipo` (
   `id_tipo` int(5) NOT NULL,
   `nombre_tipo` varchar(15) NOT NULL,
-  `color` varchar(6) NOT NULL
+  `color` varchar(6) NOT NULL,
+  `creador` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
