@@ -107,6 +107,8 @@ CREATE TABLE `tipo` (
 CREATE TABLE `usuario` (
   `nickname` varchar(30) NOT NULL,
   `correo` varchar(35) NOT NULL,
+  `foto` varchar(100) NOT NULL,
+  `biografia` varchar(200) NOT NULL,
   `contraseña` varchar(30) NOT NULL,
   `tipo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
