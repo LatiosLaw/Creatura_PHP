@@ -52,8 +52,8 @@ CREATE TABLE `creatura` (
 
 CREATE TABLE `efectividades` (
   `id_efectividad` int(5) NOT NULL,
-  `atacante` varchar(20) NOT NULL,
-  `defensor` varchar(20) NOT NULL,
+  `atacante` int(5) NOT NULL,
+  `defensor` int(5) NOT NULL,
   `multiplicador` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -95,6 +95,7 @@ CREATE TABLE `tipo` (
   `id_tipo` int(5) NOT NULL,
   `nombre_tipo` varchar(15) NOT NULL,
   `color` varchar(6) NOT NULL,
+  `icono` varchar(100) NOT NULL,
   `creador` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -113,6 +114,18 @@ CREATE TABLE `usuario` (
   `tipo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rating`
+--
+
+CREATE TABLE `rating` (
+  `id_rating` int(5) NOT NULL,
+  `nickname_usuario` varchar(30) NOT NULL,
+  `id_creatura` int(10) NOT NULL,
+  `estrellas` float(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 --
 -- Índices para tablas volcadas
 --
@@ -130,6 +143,11 @@ ALTER TABLE `efectividades`
   ADD PRIMARY KEY (`id_efectividad`);
 
 --
+-- Indices de la tabla `rating`
+--
+ALTER TABLE `rating`
+  ADD PRIMARY KEY (`id_rating`);
+--
 -- Indices de la tabla `habilidad`
 --
 ALTER TABLE `habilidad`
@@ -140,6 +158,13 @@ ALTER TABLE `habilidad`
 --
 ALTER TABLE `tipo`
   ADD PRIMARY KEY (`id_tipo`);
+
+  --
+-- Indices de la tabla `moveset`
+--
+ALTER TABLE `moveset`
+  ADD PRIMARY KEY (`id_moveset`);
+COMMIT;
 
 --
 -- Indices de la tabla `usuario`
