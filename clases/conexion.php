@@ -3,9 +3,9 @@
 class Conexion {
 
   private $ip = "localhost";
-  private $usuario = "tecnologo";
-  private $contra = "tecnologo";
-  private $bd = "cure";
+  private $usuario = "root";
+  private $contra = "";
+  private $bd = "creatura_PHP";
 
   // Funcion para conectar
   function conectar() {

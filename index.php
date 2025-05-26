@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creadex - Lobby</title>
+    <title>Index de Verdad</title>
 </head>
 <body>
-    Porunga
+    <a href="./testin.php"><button>Zona de Testeo</button></a>
 </body>
 </html>
