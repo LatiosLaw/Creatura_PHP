@@ -228,6 +228,14 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
 </div>
 </div>
 
+<?php
+
+$usuario_elegido = $controladorUsuario->retornar_usuario("WeirdAniki7963", $conexion);
+
+?>
+
+<div></div>
+
 <?php // TO DO : 
 
 //Información de Usuario con sus creaturas
