@@ -226,9 +226,16 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
     }
     ?>
 </div>
-
-
 </div>
+
+<?php // TO DO : 
+
+//Información de Usuario con sus creaturas
+//Información de un tipo con sus matchups ofensivos
+//Mostrar ataques de un tipo
+//Mostrar ratings de una creatura
+
+?>
         
 </body>
 </html>
