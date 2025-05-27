@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-05-2025 a las 03:30:31
+-- Tiempo de generación: 27-05-2025 a las 05:46:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `creatura`
+-- Base de datos: `creatura_php`
 --
 
 -- --------------------------------------------------------
@@ -702,7 +702,7 @@ INSERT INTO `usuario` (`nickname`, `correo`, `foto`, `biografia`, `contraseña`,
 ('Juansito', 'perepupengue@gmail.com', '', 'Juansito el devorador de mundos.', '1234', 'Basico'),
 ('KeyboardGremlin', 'gremlin@chaos.net', 'gremlin.png', 'Te hackeo mientras duermes.', 'pwd1234', 'basico'),
 ('LordOfBread', 'bread@yeast.net', 'bread.png', 'Poder del pan ancestral.', 'crustylord', 'basico'),
-('Mr.Dr.Admin', 'perepupengue@gmail.com', '', 'Ayuda', '1234', 'Admin'),
+('Mr.Dr.Admin', 'perepupengue@gmail.com', 'PayasoChu.jpg', 'Pere el que te pupengue.', '1234', 'Admin'),
 ('MrBeefyToes', 'beef@meatmail.com', 'beef.png', 'El futuro es de los pies poderosos.', 'toepocalypse', 'basico'),
 ('PepeQuantum', 'pepe@frog.net', 'pepe.png', 'Vengo del multiverso de los memes.', 'rarep3p3', 'basico'),
 ('UwUDestructor', 'uwu@kawaii.org', 'uwu.png', 'No te dejes engañar por mi carita kawaii.', 'softb0y', 'basico'),
