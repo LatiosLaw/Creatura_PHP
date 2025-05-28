@@ -33,6 +33,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
                 <th>Nombre</th>
                 <th>Tipo 1</th>
                 <th>Tipo 2</th>
+                <th>Rating</th>
                 <th>Descripción</th>
                 <th>HP</th>
                 <th>ATK</th>
@@ -48,8 +49,8 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
         <tbody>
             <?php while ($fila = mysqli_fetch_assoc($creaturas)) : 
                 
-                $tipo1 = $controladorTipo->retornar_tipo($conexion, $fila['id_tipo1']);
-                $tipo2 = $controladorTipo->retornar_tipo($conexion, $fila['id_tipo2'])
+                $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1'], $conexion);
+                $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'], $conexion)
                 
             ?>
                 <tr>
@@ -61,6 +62,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
                     <td style="background-color: #<?= $tipo2['color']; ?>; color: #fff;">
                     <?= $tipo2['nombre_tipo']; ?>
                     </td>
+                    <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']), $conexion)) ?>/5</td>
                     <td><?= htmlspecialchars($fila['descripcion']) ?></td>
                     <td><?= $fila['hp'] ?></td>
                     <td><?= $fila['atk'] ?></td>
@@ -75,6 +77,8 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
             <?php endwhile; ?>
         </tbody>
     </table></div>
+
+    <br><hr><hr><hr>
 
     <div><h1>Listado de Usuarios</h1>
     <table border="1" cellpadding="4" cellspacing="0">
@@ -96,12 +100,14 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
         </tbody>
     </table></div>
 
+    <br><hr><hr><hr>
+
 <?php
 $creatura_elegida = $controladorCreatura->retornar_creatura("Waifumancer", "AnimeTank47", $conexion);
 if($creatura_elegida!=false){
 $habilidades = $controladorCreatura->retornar_habilidades($creatura_elegida['id_creatura'], $conexion);
-$tipo1_elegida = $controladorTipo->retornar_tipo($conexion, $creatura_elegida['id_tipo1']);
-$tipo2_elegida = $controladorTipo->retornar_tipo($conexion, $creatura_elegida['id_tipo2']);      
+$tipo1_elegida = $controladorTipo->retornar_tipo($creatura_elegida['id_tipo1'], $conexion);
+$tipo2_elegida = $controladorTipo->retornar_tipo($creatura_elegida['id_tipo2'], $conexion);      
 
 $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($tipo1_elegida['id_tipo'], $tipo2_elegida['id_tipo'], $conexion);
 }
@@ -114,6 +120,7 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
         <div>
             <h2><?= htmlspecialchars($creatura_elegida['nombre_creatura']) ?></h2>
             <p><strong>Creador:</strong> <?= htmlspecialchars($creatura_elegida['creador']) ?></p>
+            <p><strong>Rating:</strong> <?= htmlspecialchars($creatura_elegida['rating_promedio']) ?>/5</p>
             <p>
             <div style="background-color: #<?= $tipo1_elegida['color']; ?>; color: #fff;"><?= $tipo1_elegida['nombre_tipo']; ?></div>
             <div style="background-color: #<?= $tipo2_elegida['color']; ?>; color: #fff;"><?= $tipo2_elegida['nombre_tipo']; ?></div>
@@ -132,8 +139,6 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
     </div>
 </div>
 
-<hr>
-
 <div>
     <h2>Habilidades que aprende</h2>
     <?php if (count($habilidades) > 0): ?>
@@ -150,7 +155,7 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
             </thead>
             <tbody>
                 <?php foreach ($habilidades as $habilidad): ?>
-                    <?php $tipo = $controladorTipo->retornar_tipo($conexion, $habilidad['id_tipo_habilidad']); ?>
+                    <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad'], $conexion); ?>
                     <tr>
                         <td><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></td>
                         <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
@@ -168,8 +173,6 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
         <p>Esta creatura aún no tiene habilidades registradas.</p>
     <?php endif; ?>
 </div>
-
-<hr>
 
 <div>
     <h2>Interacciones defensivas</h2>
@@ -228,22 +231,144 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
 </div>
 </div>
 
+<hr><hr><hr>
+
 <?php
 
-$usuario_elegido = $controladorUsuario->retornar_usuario("WeirdAniki7963", $conexion);
+$usuario_elegido = $controladorUsuario->retornar_usuario_personal("WeirdAniki7963", $conexion);
+$creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario("WeirdAniki7963", $conexion);
 
 ?>
 
-<div></div>
+<div>
+    <h1>Información de un Usuario</h1>
+    <div style="display: flex; gap: 20px;">
+        <img src="./imagenes/<?= htmlspecialchars($usuario_elegido['foto']) ?>" alt="Imagen del Usuario" width="200" onerror="this.onerror=null; this.src='./imagenes/sin_imagen.png';">
+        <div>
+            <h2><?= htmlspecialchars($usuario_elegido['nickname']) ?></h2>
+            <p><strong>Correo:</strong> <?= htmlspecialchars($usuario_elegido['correo']) ?></p>
+            <p><strong>Biografia:</strong> <?= htmlspecialchars($usuario_elegido['biografia']) ?></p>
+        </div>
+    </div>
+</div>
 
-<?php // TO DO : 
+<div>
+    <h1>Creaturas del Usuario</h1>
+    <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th>Nombre de la Creatura</th>
+            <th>Rating</th>
+            <th>Tipo 1</th>
+            <th>Tipo 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($creaturas_usuario as $creatura): ?>
+            <tr>
+                <td style="text-align:center;"><?= htmlspecialchars($creatura['nombre']) ?></td>
 
-//Información de Usuario con sus creaturas
-//Información de un tipo con sus matchups ofensivos
-//Mostrar ataques de un tipo
-//Mostrar ratings de una creatura
+                <td style="text-align:center;"><?= htmlspecialchars($controladorCreatura->rating_promedio(($creatura['id_creatura']), $conexion)) ?>/5</td>
+
+                <!-- Tipo 1 -->
+                <td style="background-color: #<?= $creatura['tipo1']['color'] ?>; color: #fff; text-align: center;">
+                    <?php if (!empty($creatura['tipo1']['icono'])): ?>
+                        <img src="./imagenes/<?= htmlspecialchars($creatura['tipo1']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
+                    <?php endif; ?>
+                    <?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>
+                </td>
+
+                <!-- Tipo 2 -->
+                <td style="background-color: #<?= $creatura['tipo2']['color'] ?>; color: #fff; text-align: center;">
+                    <?php if (!empty($creatura['tipo2']['icono'])): ?>
+                        <img src="./imagenes/<?= htmlspecialchars($creatura['tipo2']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
+                    <?php endif; ?>
+                    <?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+</div>
+
+<br><hr><hr><hr>
+
+<?php
+
+$habilidades_tipo = $controladorTipo->retornar_habilidades_tipo(18, $conexion);
+$habilidades_tipo2 = $controladorTipo->retornar_habilidades_tipo(22, $conexion);
 
 ?>
+
+<div><h1>Listado de Habilidades del Tipo Waifu : </h1>
+    <?php if (count($habilidades_tipo) > 0): ?>
+    <table border="1" cellpadding="4" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Categoría</th>
+                    <th>Potencia</th>
+                    <th>Descripción</th>
+                    <th>Creador</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($habilidades_tipo as $habilidad): ?>
+                <?php $tipo_habilidad = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad'], $conexion); ?>
+                    <tr>
+                        <td><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></td>
+                        <td style="background-color: #<?= $tipo_habilidad['color'] ?>; color: #fff;">
+                            <?= htmlspecialchars($tipo_habilidad['nombre_tipo']) ?>
+                        </td>
+                        <td><?= htmlspecialchars($habilidad['categoria_habilidad']) ?></td>
+                        <td><?= $habilidad['potencia'] ?></td>
+                        <td><?= htmlspecialchars($habilidad['descripcion']) ?></td>
+                        <td><?= htmlspecialchars($habilidad['creador']) ?></td>
+                    </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+        <p>Este tipo no tiene habilidades registradas.</p>
+    <?php endif; ?>
+</div>
+
+<div><h1>Listado de Habilidades del Tipo Rana : </h1>
+    <?php if (count($habilidades_tipo) > 0): ?>
+    <table border="1" cellpadding="4" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Categoría</th>
+                    <th>Potencia</th>
+                    <th>Descripción</th>
+                    <th>Creador</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($habilidades_tipo2 as $habilidad2): ?>
+                <?php $tipo_habilidad2 = $controladorTipo->retornar_tipo($habilidad2['id_tipo_habilidad'], $conexion); ?>
+                    <tr>
+                        <td><?= htmlspecialchars($habilidad2['nombre_habilidad']) ?></td>
+                        <td style="background-color: #<?= $tipo_habilidad2['color'] ?>; color: #fff;">
+                            <?= htmlspecialchars($tipo_habilidad2['nombre_tipo']) ?>
+                        </td>
+                        <td><?= htmlspecialchars($habilidad2['categoria_habilidad']) ?></td>
+                        <td><?= $habilidad2['potencia'] ?></td>
+                        <td><?= htmlspecialchars($habilidad2['descripcion']) ?></td>
+                        <td><?= htmlspecialchars($habilidad2['creador']) ?></td>
+                    </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+        <p>Este tipo no tiene habilidades registradas.</p>
+    <?php endif; ?>
+</div>
+
+    <br><hr><hr><hr>
         
 </body>
 </html>
