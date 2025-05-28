@@ -369,6 +369,16 @@ $habilidades_tipo2 = $controladorTipo->retornar_habilidades_tipo(22, $conexion);
 </div>
 
     <br><hr><hr><hr>
+
+    <?php
+
+    //TO DO
+
+    //Formulario ejemplo de alta de todos los casos posibles
+    //Paginas controlador que reciban tales formularios
+    //Creacion de todas las paginas necesarias para la implementacion real (Al menos crear los .php)
+
+    ?>
         
 </body>
 </html>
