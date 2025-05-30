@@ -57,7 +57,7 @@ INSERT INTO `creatura` (`id_creatura`, `nombre_creatura`, `id_tipo1`, `id_tipo2`
 (5, 'Walter Grey', 3, 0, '', 50, 50, 50, 200, 130, 50, 'Juansito', '', 0),
 (10, 'Elemental-Fogo', 2, 0, 'Bicho básico de un elemento.\r\n', 90, 90, 90, 90, 90, 90, 'Mr.Dr.Admin', '', 1),
 (11, 'Elemental-Walter', 3, 0, 'Bicho basico de un elemento', 90, 90, 90, 90, 90, 90, 'Mr.Dr.Admin', '', 1),
-(13, 'Elemental-Weed', 1, 0, 'Elemental basico de un elemento', 90, 90, 90, 90, 90, 90, 'Mr.Dr.Admin', 'GdrMNInXoAAfXfa.jpg', 1),
+(13, 'Elemental-Weed', 1, 0, 'Elemental basico de un elemento', 90, 90, 90, 90, 90, 90, 'Mr.Dr.Admin', 'green.jpg', 1),
 (20, 'CHivito', 5, 2, 'Calientemente hediendo a chivo', 100, 45, 23, 150, 34, 60, 'Juansito', '', 0),
 (21, 'PuraRaza', 5, 0, 'Un chivo puro', 90, 90, 90, 90, 90, 90, 'Juansito', '', 0),
 (100, 'Portónus', 6, 11, 'Guardia dimensional con bisagras místicas.', 90, 70, 100, 60, 95, 40, 'WeirdAniki7963', 'portonus.png', 1),
@@ -214,9 +214,9 @@ INSERT INTO `efectividades` (`id_efectividad`, `atacante`, `defensor`, `multipli
 
 CREATE TABLE `habilidad` (
   `id_habilidad` int(5) NOT NULL,
-  `nombre_habilidad` varchar(25) NOT NULL,
+  `nombre_habilidad` varchar(30) NOT NULL,
   `id_tipo_habilidad` int(5) NOT NULL COMMENT 'A que tipo pertenece esta habilidad',
-  `descripcion` varchar(80) NOT NULL,
+  `descripcion` varchar(200) NOT NULL,
   `categoria_habilidad` varchar(10) NOT NULL COMMENT 'Ataque físico, ataque especial o habilidad de estado',
   `potencia` int(5) NOT NULL,
   `creador` varchar(30) NOT NULL
@@ -697,19 +697,19 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`nickname`, `correo`, `foto`, `biografia`, `contraseña`, `tipo`) VALUES
-('420BlazeIt69', 'blaze@weedmail.com', 'blaze.png', 'Solo lucho en modo ultra instinto.', 'blzpwnd', 'basico'),
-('AnimeTank47', 'tank@waifu.jp', 'tank.png', 'Mi waifu me da poder.', 'senpai47', 'basico'),
-('Ghost_Memez', 'memez@void.lol', 'ghost.png', 'Estoy en todos lados y en ninguno.', 'memegeist', 'basico'),
-('GigaShrek420', 'shrek@swamp.com', 'shrek.png', 'El pantano es mi dojo.', 'fion4ever', 'basico'),
-('Juansito', 'perepupengue@gmail.com', '', 'Juansito el devorador de mundos.', '1234', 'Basico'),
-('KeyboardGremlin', 'gremlin@chaos.net', 'gremlin.png', 'Te hackeo mientras duermes.', 'pwd1234', 'basico'),
-('LordOfBread', 'bread@yeast.net', 'bread.png', 'Poder del pan ancestral.', 'crustylord', 'basico'),
-('Mr.Dr.Admin', 'perepupengue@gmail.com', 'PayasoChu.jpg', 'Pere el que te pupengue.', '1234', 'Admin'),
-('MrBeefyToes', 'beef@meatmail.com', 'beef.png', 'El futuro es de los pies poderosos.', 'toepocalypse', 'basico'),
-('PepeQuantum', 'pepe@frog.net', 'pepe.png', 'Vengo del multiverso de los memes.', 'rarep3p3', 'basico'),
-('UwUDestructor', 'uwu@kawaii.org', 'uwu.png', 'No te dejes engañar por mi carita kawaii.', 'softb0y', 'basico'),
-('WeirdAniki7963', 'the.aniki.way@gmail.com', 'me.png', 'The SUPERRRRRRR Aniki everyone needs.', 'eithercolaornothing', 'básico'),
-('xX_DoritoLord_Xx', 'dorito@snack.net', 'dorito.png', 'Me alimento solo de fuego y memes.', 'nacho420', 'basico');
+('420BlazeIt69', 'blaze@weedmail.com', 'blaze.png', 'Solo lucho en modo ultra instinto.', 'blzpwnd', 'usuario'),
+('AnimeTank47', 'tank@waifu.jp', 'tank.png', 'Mi waifu me da poder.', 'senpai47', 'usuario'),
+('Ghost_Memez', 'memez@void.lol', 'ghost.png', 'Estoy en todos lados y en ninguno.', 'memegeist', 'usuario'),
+('GigaShrek420', 'shrek@swamp.com', 'shrek.png', 'El pantano es mi dojo.', 'fion4ever', 'usuario'),
+('Juansito', 'perepupengue@gmail.com', '', 'Juansito el devorador de mundos.', '1234', 'usuario'),
+('KeyboardGremlin', 'gremlin@chaos.net', 'gremlin.png', 'Te hackeo mientras duermes.', 'pwd1234', 'usuario'),
+('LordOfBread', 'bread@yeast.net', 'bread.png', 'Poder del pan ancestral.', 'crustylord', 'usuario'),
+('Mr.Dr.Admin', 'perepupengue@gmail.com', 'PayasoChu.jpg', 'Pere el que te pupengue.', '1234', 'admin'),
+('MrBeefyToes', 'beef@meatmail.com', 'beef.png', 'El futuro es de los pies poderosos.', 'toepocalypse', 'usuario'),
+('PepeQuantum', 'pepe@frog.net', 'pepe.png', 'Vengo del multiverso de los memes.', 'rarep3p3', 'usuario'),
+('UwUDestructor', 'uwu@kawaii.org', 'uwu.png', 'No te dejes engañar por mi carita kawaii.', 'softb0y', 'usuario'),
+('WeirdAniki7963', 'the.aniki.way@gmail.com', 'me.png', 'The SUPERRRRRRR Aniki everyone needs.', 'eithercolaornothing', 'usuario'),
+('xX_DoritoLord_Xx', 'dorito@snack.net', 'dorito.png', 'Me alimento solo de fuego y memes.', 'nacho420', 'usuario');
 
 --
 -- Índices para tablas volcadas

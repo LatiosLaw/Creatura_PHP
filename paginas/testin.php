@@ -1,9 +1,9 @@
 <?php
 
-include_once("./clases/conexion.php");
-include_once("./clases/tipo.php");
-include_once("./clases/creatura.php");
-include_once("./clases/usuario.php");
+include_once("../clases/conexion.php");
+include_once("../clases/tipo.php");
+include_once("../clases/creatura.php");
+include_once("../clases/usuario.php");
 
 $controladorConexion = new Conexion();
 $controladorCreatura = new Creatura();
@@ -24,6 +24,8 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
     <title>TESTING GROUNDS</title>
 </head>
 <body>
+
+<a href="../index.php"><button>Regresar</button></a>
 
     <div><h1>Listado de Creaturas (Limitado a 20)</h1>
     <table border="1" cellpadding="4" cellspacing="0">
@@ -71,7 +73,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
                     <td><?= $fila['sdef'] ?></td>
                     <td><?= $fila['spe'] ?></td>
                     <td><?= htmlspecialchars($fila['creador']) ?></td>
-                    <td><img src="./imagenes/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='./imagenes/sin_imagen.png';"></td>
+                    <td><img src="../imagenes/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';"></td>
                     <td><?= $fila['publico'] == 1 ? "Sí" : "No" ?></td>
                 </tr>
             <?php endwhile; ?>
@@ -93,7 +95,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
             <?php while ($fila = mysqli_fetch_assoc($usuarios)) : ?>
                 <tr>
                     <td><?= htmlspecialchars($fila['nickname']) ?></td>
-                    <td><img src="./imagenes/<?= htmlspecialchars($fila['foto']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='./imagenes/sin_imagen.png';"></td>
+                    <td><img src="../imagenes/<?= htmlspecialchars($fila['foto']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';"></td>
                     <td><?= $fila['biografia']?></td>
                 </tr>
             <?php endwhile; ?>
@@ -116,7 +118,7 @@ $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($ti
     <div>
     <h1>Información de la Creatura</h1>
     <div style="display: flex; gap: 20px;">
-        <img src="./imagenes/<?= htmlspecialchars($creatura_elegida['imagen']) ?>" alt="Imagen de la creatura" width="200" onerror="this.onerror=null; this.src='./imagenes/sin_imagen.png';">
+        <img src="../imagenes/<?= htmlspecialchars($creatura_elegida['imagen']) ?>" alt="Imagen de la creatura" width="200" onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';">
         <div>
             <h2><?= htmlspecialchars($creatura_elegida['nombre_creatura']) ?></h2>
             <p><strong>Creador:</strong> <?= htmlspecialchars($creatura_elegida['creador']) ?></p>
@@ -243,7 +245,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario("WeirdAnik
 <div>
     <h1>Información de un Usuario</h1>
     <div style="display: flex; gap: 20px;">
-        <img src="./imagenes/<?= htmlspecialchars($usuario_elegido['foto']) ?>" alt="Imagen del Usuario" width="200" onerror="this.onerror=null; this.src='./imagenes/sin_imagen.png';">
+        <img src="../imagenes/<?= htmlspecialchars($usuario_elegido['foto']) ?>" alt="Imagen del Usuario" width="200" onerror="this.onerror=null; this.src='./imagenes/sin_imagen.png';">
         <div>
             <h2><?= htmlspecialchars($usuario_elegido['nickname']) ?></h2>
             <p><strong>Correo:</strong> <?= htmlspecialchars($usuario_elegido['correo']) ?></p>
@@ -273,7 +275,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario("WeirdAnik
                 <!-- Tipo 1 -->
                 <td style="background-color: #<?= $creatura['tipo1']['color'] ?>; color: #fff; text-align: center;">
                     <?php if (!empty($creatura['tipo1']['icono'])): ?>
-                        <img src="./imagenes/<?= htmlspecialchars($creatura['tipo1']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
+                        <img src="../imagenes/<?= htmlspecialchars($creatura['tipo1']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
                     <?php endif; ?>
                     <?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>
                 </td>
@@ -281,7 +283,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario("WeirdAnik
                 <!-- Tipo 2 -->
                 <td style="background-color: #<?= $creatura['tipo2']['color'] ?>; color: #fff; text-align: center;">
                     <?php if (!empty($creatura['tipo2']['icono'])): ?>
-                        <img src="./imagenes/<?= htmlspecialchars($creatura['tipo2']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
+                        <img src="../imagenes/<?= htmlspecialchars($creatura['tipo2']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
                     <?php endif; ?>
                     <?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>
                 </td>
@@ -374,9 +376,9 @@ $habilidades_tipo2 = $controladorTipo->retornar_habilidades_tipo(22, $conexion);
 
     //TO DO
 
-    //Formulario ejemplo de alta de todos los casos posibles
-    //Paginas controlador que reciban tales formularios
-    //Creacion de todas las paginas necesarias para la implementacion real (Al menos crear los .php)
+    //Formulario ejemplo de alta de todos los casos posibles // WIP
+    //Paginas controlador que reciban tales formularios // WIP
+    //Creacion de todas las paginas necesarias para la implementacion real (Al menos crear los .php) // NO WIP
 
     ?>
         

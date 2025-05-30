@@ -1,19 +1,31 @@
 <?php
 
-include_once("./clases/tipo.php");
+include_once("../clases/tipo.php");
 
 class Usuario {
 
 // Para manejar las consultas a la BD relacionadas con Usuarios
 
 function alta_usuario($nickname, $correo, $foto, $biografia, $contraseña, $tipo, $conexion) {
-    $query = "INSERT INTO usuario (
-        nickname, correo, foto, biografia, contraseña, tipo
-    ) VALUES (
-        '$nickname', '$correo', '$foto', '$biografia', '$contraseña', '$tipo'
-    )";
+    // Verificar si ya existe el nickname o el correo
+    $check_query = "SELECT * FROM usuario WHERE nickname = ? OR correo = ?";
+    $stmt = mysqli_prepare($conexion, $check_query);
+    mysqli_stmt_bind_param($stmt, "ss", $nickname, $correo);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
 
-    return mysqli_query($conexion, $query);
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        // Ya existe un usuario con ese nickname o correo
+        return 0;
+    }
+
+    // Insertar nuevo usuario
+    $insert_query = "INSERT INTO usuario (nickname, correo, foto, biografia, contraseña, tipo) 
+                     VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conexion, $insert_query);
+    mysqli_stmt_bind_param($stmt, "ssssss", $nickname, $correo, $foto, $biografia, $contraseña, $tipo);
+
+    return mysqli_stmt_execute($stmt) ? 1 : 0;
 }
 
 function baja_usuario($nickname, $conexion) {

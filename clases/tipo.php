@@ -63,6 +63,11 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador, $conexion) {
     return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
   }
 
+  function listar_tipos($conexion){
+    $resultado = mysqli_query($conexion, "SELECT * from tipo");
+    return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
+  }
+
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////// ABL DE EFECTIVIDAD //////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
