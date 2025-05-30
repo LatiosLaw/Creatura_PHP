@@ -4,13 +4,13 @@ class Tipo {
 // Para manejar las consultas a la BD relacionadas con Tipos
 
 function alta_tipo($nombre_tipo, $color, $icono, $creador, $conexion) {
-    $query = "INSERT INTO tipo (
-        nombre_tipo, color, icono, creador
-    ) VALUES (
-        '$nombre_tipo', '$color', '$icono', '$creador'
-    )";
-
-    return mysqli_query($conexion, $query);
+    $query = "INSERT INTO tipo (nombre_tipo, color, icono, creador) VALUES ('$nombre_tipo', '$color', '$icono', '$creador')";
+    
+    if (mysqli_query($conexion, $query)) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 function baja_tipo($id_tipo, $conexion) {
@@ -58,6 +58,25 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador, $conexion) {
     }
   }
 
+  function retornar_tipo_por_creador($nombre, $creador, $conexion) {
+
+    $query = "SELECT * FROM tipo WHERE creador = '$creador' AND nombre_tipo = '$nombre'";
+    $resultado = mysqli_query($conexion, $query);
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        return mysqli_fetch_assoc($resultado);
+    } else {
+        // En caso de que no se encuentre el tipo (inexistente)
+        return [
+            "id_tipo" => "0",
+            "nombre_tipo" => "-",
+            "color" => "aaaaaa",
+            "icono" => "sin_icono.png",
+            "creador" => "SYSTEM_ERROR"
+        ];
+    }
+  }
+
   function retornar_habilidades_tipo($id_tipo, $conexion){
     $resultado = mysqli_query($conexion, "SELECT * from habilidad WHERE id_tipo_habilidad = $id_tipo");
     return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
@@ -74,7 +93,7 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador, $conexion) {
 
 function alta_efectividad($atacante, $defensor, $multiplicador, $conexion) {
         $query = "INSERT INTO efectividades (
-            id_efectividad, atacante, defensor, multiplicador
+            atacante, defensor, multiplicador
         ) VALUES (
             $atacante, $defensor, $multiplicador
         )";

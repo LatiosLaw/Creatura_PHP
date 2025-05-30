@@ -13,7 +13,7 @@ $categoria = $_POST['categoria'];
 $potencia = $_POST['potencia'];
 $descripcion = $_POST['descripcion'];
 
-session_start(); // ¡Muy importante! Siempre al inicio
+session_start();
 
 $creador = $_SESSION['nickname'];
 

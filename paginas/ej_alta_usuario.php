@@ -8,7 +8,7 @@
 <body>
     <a href="../index.php"><button>Regresar</button></a>
     
-    <p><div>
+    <div>
         <form action="../procesamiento/manejar_altaUsuario.php" method="POST" enctype="multipart/form-data">
             Nickname <input name="nickname" type="text"><br>
             Correo <input name="correo" type="email"><br>
@@ -18,6 +18,6 @@
             Biografia <input name="biografia" type="text"><br><br>
             <input type="submit">
         </form>
-    </div></p>
+    </div>
 </body>
 </html>

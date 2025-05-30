@@ -26,7 +26,6 @@ $lista_tipos = $controladorTipo->listar_tipos($conexion);
     session_start();
 
     if (isset($_SESSION['nickname'])) { ?>
-        <p>
         <div>
             <form action="../procesamiento/manejar_altaHabilidad.php" method="POST">
                 Nombre <input name="nombre" type="text"><br>
@@ -47,11 +46,10 @@ $lista_tipos = $controladorTipo->listar_tipos($conexion);
 
                 Potencia<input name="potencia" type="number" placeholder="70"><br>
 
-                Descripcion <input name="descripcion" type="text"><br><br>
+                Descripcion <input name="descripcion" type="text"><br>
                 <input type="submit">
             </form>
         </div>
-        </p>
     <?php
     } else {
         echo "<p>Necesitas iniciar sesión para utilizar esta función.</p>";

@@ -27,7 +27,6 @@ if($contra == $contra2){
 $verifiacion = $controladorUsuario->alta_usuario($nickname, $correo, $nombreArchivo, $biografia, $contra, "usuario", $conexion);
 if($verifiacion == 1){
 
-    // Por ejemplo, moverlo a una carpeta del servidor
     $destino = "../imagenes/" . basename($nombreArchivo);
     if (move_uploaded_file($tmpArchivo, $destino)) {
         echo "La foto se subió correctamente.";
