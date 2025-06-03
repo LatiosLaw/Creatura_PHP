@@ -51,6 +51,16 @@ $lista_tipos = $controladorTipo->listar_tipos($conexion);
                     <table id="tabla-inmunidad"></table>
                 </div>
 
+                <div>
+                    <label>Interaccion consigo mismo</label>
+                    <select id="self-int" name="self-int">
+                        <option value="1">-</option>
+                        <option value="2">Debil a si mismo</option>
+                        <option value="0.5">Resistente a si mismo</option>
+                        <option value="0">Inmune a si mismo</option>
+                    </select>
+                </div>
+
                 <input type="submit">
             </form>
         </div>

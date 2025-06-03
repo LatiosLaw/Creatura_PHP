@@ -9,6 +9,7 @@ $controladorTipo = new Tipo();
 
 $nombre = $_POST['nombre'];
 $color = $_POST['color'];
+$self_int = $_POST['self-int'];
 $color = ltrim($_POST['color'], '#');
 
 session_start();
@@ -55,6 +56,10 @@ if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador, $cone
     }
     foreach ($inmunidades as $inmu) {
         $controladorTipo->alta_efectividad($inmu, $tipo_creado['id_tipo'], 0, $conexion);
+    }
+
+    if($self_int != 1){
+        $controladorTipo->alta_efectividad($tipo_creado['id_tipo'], $tipo_creado['id_tipo'], $self_int, $conexion);
     }
 
     echo "funca, redirigiendo...";

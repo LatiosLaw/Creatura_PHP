@@ -22,5 +22,6 @@ if (isset($_SESSION['nickname'])) {
     <a href="./procesamiento/manejar_logout.php"><button>EJ Logout</button></a>
     <a href="./paginas/ej_alta_habilidad.php"><button>EJ Alta Habilidad</button></a>
     <a href="./paginas/ej_alta_tipo.php"><button>EJ Alta Tipo</button></a>
+    <a href="./paginas/ej_alta_creatura.php"><button>EJ Alta Creatura</button></a>
 </body>
 </html>
