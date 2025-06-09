@@ -30,7 +30,7 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
 
     if (isset($_SESSION['nickname'])) { ?>
         <div>
-            <form id="formAltaCreatura" action="../procesamiento/manejar_altaCreatura.php" method="POST">
+            <form id="formAltaCreatura" action="../procesamiento/manejar_altaCreatura.php" method="POST" enctype="multipart/form-data">
                 Nombre <input name="nombre" type="text"><br>
                 TIPO 1
                 <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')"></select><br>
@@ -43,28 +43,29 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
                 Imagen <input name="imagen" type="file" accept="image/png, image/jpeg"><br>
 
                 HP
-                <input name="hp" type="range" min="1" max="255" value="70" oninput="actualizarValor(this, 'hp_val')">
-                <span id="hp_val">70</span><br>
+<input name="hp" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'hp_val')">
+<input id="hp_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'hp')"><br>
 
-                ATK
-                <input name="atk" type="range" min="1" max="255" value="70" oninput="actualizarValor(this, 'atk_val')">
-                <span id="atk_val">70</span><br>
+ATK
+<input name="atk" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'atk_val')">
+<input id="atk_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'atk')"><br>
 
-                DEF
-                <input name="def" type="range" min="1" max="255" value="70" oninput="actualizarValor(this, 'def_val')">
-                <span id="def_val">70</span><br>
+DEF
+<input name="def" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'def_val')">
+<input id="def_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'def')"><br>
 
-                SPA
-                <input name="spa" type="range" min="1" max="255" value="70" oninput="actualizarValor(this, 'spa_val')">
-                <span id="spa_val">70</span><br>
+SPA
+<input name="spa" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spa_val')">
+<input id="spa_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spa')"><br>
 
-                SPDEF
-                <input name="spdef" type="range" min="1" max="255" value="70" oninput="actualizarValor(this, 'spdef_val')">
-                <span id="spdef_val">70</span><br>
+SPDEF
+<input name="spdef" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spdef_val')">
+<input id="spdef_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spdef')"><br>
 
-                SPE
-                <input name="spe" type="range" min="1" max="255" value="70" oninput="actualizarValor(this, 'spe_val')">
-                <span id="spe_val">70</span><br>
+SPE
+<input name="spe" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spe_val')">
+<input id="spe_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spe')"><br>
+
 
 
                 Descripcion <input name="descripcion" type="text">
@@ -87,6 +88,7 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
                 <table id="tablaHabilidades" border="1">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Categoría</th>
@@ -100,6 +102,7 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
                 <table id="tablaSeleccionadas" border="1">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Categoría</th>
@@ -124,9 +127,22 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
     <script>
         const tipos = <?= json_encode($lista_tipos) ?>;
 
-        function actualizarValor(slider, spanId) {
-            document.getElementById(spanId).textContent = slider.value;
-        }
+        function sincronizarValor(slider, inputId) {
+    document.getElementById(inputId).value = slider.value;
+}
+
+// Actualiza el slider cuando se cambia manualmente el número
+function sincronizarSlider(input, sliderName) {
+    const slider = document.querySelector(`input[name='${sliderName}']`);
+    let valor = parseInt(input.value);
+
+    if (isNaN(valor)) valor = 1;
+    if (valor < 1) valor = 1;
+    if (valor > 255) valor = 255;
+
+    input.value = valor;
+    slider.value = valor;
+}
 
         function obtenerColorTipo(id_tipo) {
             const tipo = tipos.find(t => t.id_tipo == id_tipo);
@@ -138,7 +154,7 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
         function retornarHabilidades(id_tipo) {
             if (!id_tipo) return;
 
-            fetch(`../procesamiento/obtener_habilidades_tipo.php?id_tipo=${id_tipo}`)
+            fetch(`../procesamiento/dinamico/obtener_habilidades_tipo.php?id_tipo=${id_tipo}`)
                 .then(res => res.json())
                 .then(habilidades => {
                     const tbody = document.querySelector("#tablaHabilidades tbody");
@@ -149,7 +165,8 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
                         const tr = document.createElement("tr");
 
                         tr.innerHTML = `
-        <td style="color: ${color};">${hab.nombre_habilidad}</td>
+        <td>${hab.id_habilidad}</td>
+                        <td style="color: ${color};">${hab.nombre_habilidad}</td>
         <td>${hab.descripcion}</td>
         <td>${hab.categoria_habilidad}</td>
         <td>${hab.potencia}</td>
@@ -194,7 +211,8 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
             habilidadesSeleccionadas.forEach(hab => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-            <td style="color: ${hab.color};">${hab.nombre}</td>
+            <td>${hab.id}</td>
+                <td style="color: ${hab.color};">${hab.nombre}</td>
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>

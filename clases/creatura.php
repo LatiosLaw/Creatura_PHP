@@ -23,12 +23,18 @@ class Creatura
         }
     }
 
-    function alta_creatura($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico, $conexion)
-    {
-        $query = "INSERT INTO creatura (nombre_creatura, id_tipo1, id_tipo2, descripcion, hp, atk, def, spa, sdef, spe, creador, imagen, publico)
-        VALUES ('$nombre_creatura', $id_tipo1, $id_tipo2, '$descripcion',$hp, $atk, $def, $spa, $sdef, $spe, '$creador', '$imagen', $publico)";
-        return mysqli_query($conexion, $query);
+   function alta_creatura($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico, $conexion)
+{
+    $query = "INSERT INTO creatura (nombre_creatura, id_tipo1, id_tipo2, descripcion, hp, atk, def, spa, sdef, spe, creador, imagen, publico)
+              VALUES ('$nombre_creatura', $id_tipo1, $id_tipo2, '$descripcion', $hp, $atk, $def, $spa, $sdef, $spe, '$creador', '$imagen', $publico)";
+    
+    if (mysqli_query($conexion, $query)) {
+        return mysqli_insert_id($conexion); // Retorna el ID del nuevo registro
+    } else {
+        return 0; // Algo falló
     }
+}
+
 
     function baja_creatura($id_creatura, $conexion)
     {
@@ -75,17 +81,55 @@ class Creatura
     }
 
     function retornar_habilidades($id_creatura, $conexion)
-    {
-        $query = "SELECT h.* FROM moveset m INNER JOIN habilidad h ON m.id_habilidad = h.id_habilidad WHERE m.id_creatura = $id_creatura";
-        $resultado = mysqli_query($conexion, $query);
-        $habilidades = [];
-        if ($resultado && mysqli_num_rows($resultado) > 0) {
-            while ($fila = mysqli_fetch_assoc($resultado)) {
-                $habilidades[] = $fila;
-            }
+{
+    $query = "
+        SELECT 
+            h.*, 
+            t.nombre_tipo AS nombre_tipo_habilidad,
+            t.color AS color_tipo_habilidad,
+            t.icono AS icono_tipo_habilidad
+        FROM moveset m
+        INNER JOIN habilidad h ON m.id_habilidad = h.id_habilidad
+        INNER JOIN tipo t ON h.id_tipo_habilidad = t.id_tipo
+        WHERE m.id_creatura = $id_creatura
+    ";
+
+    $resultado = mysqli_query($conexion, $query);
+    $habilidades = [];
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $habilidades[] = $fila;
         }
-        return $habilidades;
     }
+
+    return $habilidades;
+}
+
+   function retornar_tipos_de_creatura($id_creatura, $conexion)
+{
+    // Obtener los IDs de los tipos de la creatura
+    $query = "SELECT id_tipo1, id_tipo2 FROM creatura WHERE id_creatura = ?";
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "i", $id_creatura);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        $fila = mysqli_fetch_assoc($resultado);
+
+        // Consultar detalles de los tipos
+        $tipo1 = mysqli_query($conexion, "SELECT * FROM tipo WHERE id_tipo = {$fila['id_tipo1']}");
+        $tipo2 = mysqli_query($conexion, "SELECT * FROM tipo WHERE id_tipo = {$fila['id_tipo2']}");
+
+        return [
+            'tipo1' => ($tipo1 && mysqli_num_rows($tipo1) > 0) ? mysqli_fetch_assoc($tipo1) : null,
+            'tipo2' => ($tipo2 && mysqli_num_rows($tipo2) > 0) ? mysqli_fetch_assoc($tipo2) : null
+        ];
+    }
+
+    return null; // Creatura no encontrada
+}
 
     function retornar_calculo_de_tipos_defendiendo($id_tipo1, $id_tipo2, $conexion)
     {

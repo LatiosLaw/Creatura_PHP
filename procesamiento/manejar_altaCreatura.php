@@ -1,0 +1,67 @@
+<?php
+session_start();
+
+include_once("../clases/conexion.php");
+$controladorConexion = new Conexion();
+$conexion = $controladorConexion->conectar();
+
+require_once("../clases/creatura.php");
+$controladorCreatura = new Creatura();
+
+if (!isset($_SESSION['nickname'])) {
+    die("No tienes permiso para realizar esta acción.");
+}else{
+    $nickname = $_SESSION['nickname'];
+}
+
+    // Variables básicas
+    $nombre = $_POST['nombre'] ?? '-';
+    $tipo1 = empty($_POST['tipo1']) ? '0' : $_POST['tipo1'];
+    $tipo2 = empty($_POST['tipo2']) ? '0' : $_POST['tipo2'];
+    $descripcion = $_POST['descripcion'] ?? '-';
+
+    // Estadísticas
+    $hp = $_POST['hp'] ?? 70;
+    $atk = $_POST['atk'] ?? 70;
+    $def = $_POST['def'] ?? 70;
+    $spa = $_POST['spa'] ?? 70;
+    $spdef = $_POST['spdef'] ?? 70;
+    $spe = $_POST['spe'] ?? 70;
+
+    // Habilidades (JSON decodificado a array asociativo)
+    $habilidades_json = $_POST['habilidades_json'] ?? '[]';
+    $habilidades = json_decode($habilidades_json, true);
+
+    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+    $imagen = $_FILES['imagen'];
+
+    $nombreArchivo = $imagen['name'];
+    $tipoArchivo = $imagen['type'];
+    $tamanoArchivo = $imagen['size'];
+    $tmpArchivo = $imagen['tmp_name'];
+
+    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, $nombreArchivo, 0, $conexion);
+}else{
+    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, null, 0, $conexion);
+}
+
+    foreach($habilidades as $hab){
+        $controladorCreatura->alta_moveset($id_creatura_nueva, $hab['id'], $conexion);
+    }
+
+    if ($nombreArchivo != null) {
+        $destino = "../imagenes/creaturas/" . basename($nombreArchivo);
+        if (move_uploaded_file($tmpArchivo, $destino)) {
+            echo "La foto se subió correctamente.";
+            echo "<br>";
+        } else {
+            echo "Error al mover el archivo.";
+            echo "<br>";
+        }
+    }
+
+    echo "funca, redirigiendo...";
+    header("refresh:3; url=../paginas/ej_alta_creatura.php");
+
+    // Aquí podrías continuar con lógica de validación, sanitización o inserción en base de datos.
+?>

@@ -1,7 +1,5 @@
 <?php
 
-include_once("../clases/tipo.php");
-
 class Usuario {
 
 // Para manejar las consultas a la BD relacionadas con Usuarios
@@ -55,9 +53,7 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
     return mysqli_fetch_assoc($resultado);
   }
 
-  function listar_creaturas_de_usuario($nickname, $conexion) {
-        
-    $controladorTipo = new Tipo();
+  function listar_creaturas_de_usuario($nickname, $conexion, $controladorTipo) {
         
     // Consulta todas las criaturas del creador
     $query = "SELECT * FROM creatura WHERE creador = ?";

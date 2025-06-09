@@ -1,6 +1,6 @@
 <?php
-include_once("../clases/conexion.php");
-include_once("../clases/tipo.php");
+include_once("../../clases/conexion.php");
+include_once("../../clases/tipo.php");
 
 $conexion = (new Conexion())->conectar();
 $controladorTipo = new Tipo();

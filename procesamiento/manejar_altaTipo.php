@@ -34,7 +34,7 @@ $inmunidades = isset($_POST['inmunidad']) ? $_POST['inmunidad'] : [];
 if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador, $conexion) == 1) {
 
     if ($nombreArchivo != null) {
-        $destino = "../imagenes/" . basename($nombreArchivo);
+        $destino = "../imagenes/tipos/" . basename($nombreArchivo);
         if (move_uploaded_file($tmpArchivo, $destino)) {
             echo "La foto se subió correctamente.";
             echo "<br>";

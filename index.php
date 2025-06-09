@@ -17,6 +17,7 @@ if (isset($_SESSION['nickname'])) {
 }
 ?>
     <a href="./paginas/testin.php"><button>Zona de Testeo</button></a>
+    <a href="./paginas/testin2.php"><button>Zona de Busqueda</button></a>
     <a href="./paginas/ej_alta_usuario.php"><button>EJ Alta Usuario</button></a>
     <a href="./paginas/ej_login.php"><button>EJ Login</button></a>
     <a href="./procesamiento/manejar_logout.php"><button>EJ Logout</button></a>
