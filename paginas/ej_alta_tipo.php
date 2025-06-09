@@ -120,7 +120,7 @@ $lista_tipos = $controladorTipo->listar_tipos($conexion);
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
             <td>
-                <img src="../imagenes/${tipo.icono}" alt="icono" width="24" height="24"
+                <img src="../imagenes/tipos/${tipo.icono}" alt="icono" width="24" height="24"
                      onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';">
             </td>
             <td style="color: #${tipo.color}">${tipo.nombre_tipo}</td>
