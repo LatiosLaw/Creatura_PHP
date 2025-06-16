@@ -78,7 +78,7 @@
   <div class="modal">
     <span class="close-btn" onclick="cerrarModal('loginModal')">&times;</span>
     <h2>Iniciar Sesión</h2>
-    <form action="procesamiento/manejar_login.php" method="POST">
+    <form action="/Creatura_PHP/procesamiento/manejar_login.php" method="POST">
       <input type="text" name="nickname" placeholder="Nickname" required>
       <input type="password" name="contra" placeholder="Contraseña" required>
       <button type="submit">Entrar</button>
