@@ -32,6 +32,12 @@ class Creatura
         }
     }
 
+    function listar_creaturas_usuarios_aleatorios()
+    {
+            $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE creador != 'SYSTEM' AND publico = 1 ORDER BY RAND() LIMIT 30");
+            return $resultado;
+    }
+
    function alta_creatura($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
 {
     $query = "INSERT INTO creatura (nombre_creatura, id_tipo1, id_tipo2, descripcion, hp, atk, def, spa, sdef, spe, creador, imagen, publico)

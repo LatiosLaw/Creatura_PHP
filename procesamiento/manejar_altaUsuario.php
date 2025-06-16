@@ -19,6 +19,8 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
     $tmpArchivo = $foto['tmp_name'];
 }
 
+$paginaAnterior = $_SERVER['HTTP_REFERER'] ?? '../index.php';
+
 if($contra == $contra2){
 $verifiacion = $controladorUsuario->alta_usuario($nickname, $correo, $nombreArchivo, $biografia, $contra, "usuario");
 if($verifiacion == 1){
@@ -33,16 +35,16 @@ if($verifiacion == 1){
     }
 
 echo "funca, redirigiendo...";
-header("refresh:3; url=../paginas/ej_alta_usuario.php");
+header("refresh:3; url=$paginaAnterior");
 
 }else{
 echo "correo o nick repetido, redirigiendo...";
-header("refresh:3; url=../paginas/ej_alta_usuario.php");
+header("refresh:3; url=$paginaAnterior");
 }
 
 }else{
 echo "No funca, contraseñas no coinciden, redirigiendo...";
-header("refresh:3; url=../paginas/ej_alta_usuario.php");
+header("refresh:3; url=$paginaAnterior");
 }
 
 ?>

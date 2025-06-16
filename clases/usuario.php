@@ -60,8 +60,31 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
     return $resultado;
   }
 
+  function listar_usuarios_creadores() {
+    $query = "
+        SELECT u.nickname, u.foto, u.biografia
+        FROM usuario u
+        INNER JOIN creatura c ON u.nickname = c.creador
+        WHERE u.nickname != 'SYSTEM'
+        GROUP BY u.nickname
+    ";
+    
+    $resultado = mysqli_query($this->conexion, $query);
+    return $resultado;
+}
+
+  function listar_usuarios_aleatorios() {
+    $resultado = mysqli_query($this->conexion, "SELECT nickname, foto, biografia from usuario ORDER BY RAND() LIMIT 15");
+    return $resultado;
+  }
+
   function retornar_usuario_personal($nickname){
     $resultado = mysqli_query($this->conexion, "SELECT * from usuario WHERE nickname = '$nickname'");
+    return mysqli_fetch_assoc($resultado);
+  }
+
+  function retornar_informacion_usuario($nickname){
+    $resultado = mysqli_query($this->conexion, "SELECT nickname, correo, biografia, foto from usuario WHERE nickname = '$nickname'");
     return mysqli_fetch_assoc($resultado);
   }
 
@@ -84,6 +107,7 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
         $creaturas[] = [
             'id_creatura' => $fila['id_creatura'],
             'nombre' => $fila['nombre_creatura'],
+            'imagen' => $fila['imagen'],
             'tipo1' => $tipo1,
             'tipo2' => $tipo2
         ];

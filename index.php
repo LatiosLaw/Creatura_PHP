@@ -1,28 +1,99 @@
+<?php
+
+require_once("./clases/creatura.php");
+require_once("./clases/tipo.php");
+require_once("./clases/usuario.php");
+$controladorCreatura = new Creatura();
+$controladorTipo = new Tipo();
+$controladorUsuario = new Usuario();
+
+$lista_creaturas = $controladorCreatura->listar_creaturas_ext(15, "SYSTEM");
+$usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index de Verdad</title>
+    <title>Creatura</title>
 </head>
+
 <body>
 
-    <?php
-session_start(); 
+    <?php include_once("./piezas_html/cabecera.php"); ?>
 
-if (isset($_SESSION['nickname'])) {
-    echo "<p>Nickname: " . htmlspecialchars($_SESSION['nickname']) . "</p>";
-} else {
-    echo "<p>No has iniciado sesión.</p>";
-}
-?>
-    <a href="./paginas/testin.php"><button>Zona de Testeo</button></a>
-    <a href="./paginas/testin2.php"><button>Zona de Busqueda</button></a>
-    <a href="./paginas/ej_alta_usuario.php"><button>EJ Alta Usuario</button></a>
-    <a href="./paginas/ej_login.php"><button>EJ Login</button></a>
-    <a href="./procesamiento/manejar_logout.php"><button>EJ Logout</button></a>
-    <a href="./paginas/ej_alta_habilidad.php"><button>EJ Alta Habilidad</button></a>
-    <a href="./paginas/ej_alta_tipo.php"><button>EJ Alta Tipo</button></a>
-    <a href="./paginas/ej_alta_creatura.php"><button>EJ Alta Creatura</button></a>
+    <a href="./index2.php"><button>Index 2</button></a>
+
+    <div>
+        <h2>CREATURAS</h2>
+        <table border="1" cellpadding="4" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo 1</th>
+                    <th>Tipo 2</th>
+                    <th>Rating</th>
+                    <th>Imagen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($fila = mysqli_fetch_assoc($lista_creaturas)) :
+
+                    $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+                    $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'])
+
+                ?>
+                    <tr>
+                        <td><?= htmlspecialchars($fila['nombre_creatura']) ?></td>
+                        <td>
+                            <?php if ($fila['id_tipo1'] != 0): ?>
+                                <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
+                                    <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                                    <?= $tipo1['nombre_tipo']; ?>
+                                </div>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($fila['id_tipo2'] != 0): ?>
+                                <div style="background-color: #<?= $tipo2['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
+                                    <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                                    <?= $tipo2['nombre_tipo']; ?>
+                                </div>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
+                        <td><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+        <button onclick="location.href='/Creatura_PHP/paginas/creaturas.php'">Ver mas</button>
+    </div>
+
+    <div>
+        <h2>Algunos Usuarios</h2>
+ <table border="1" cellpadding="4" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Nickname</th>
+                    <th>Imagen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($fila = mysqli_fetch_assoc($usuarios_aleatorios)) : ?>
+                    <tr>
+                                                <td><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>"><?= htmlspecialchars($fila['nickname']) ?></a></td>
+                        <td><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>"><img src="/Creatura_PHP/imagenes/usuarios/<?= htmlspecialchars($fila['foto']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+        <button onclick="location.href='/Creatura_PHP/paginas/usuarios.php'">Ver mas</button>
+    </div>
+
+    <?php include_once("./piezas_html/pie_pagina.php"); ?>
 </body>
+
 </html>
