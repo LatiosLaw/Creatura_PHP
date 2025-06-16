@@ -128,7 +128,7 @@
     <button onclick="location.href='/Creatura_PHP/index.php'">Inicio</button>
 
     <form action="/Creatura_PHP/procesamiento/buscar.php" method="post">
-      <input type="text" name="campo_busqueda" placeholder="Placeholder">
+      <input type="text" name="campo_busqueda" placeholder="...">
       <input type="submit" value="Buscar">
     </form>
 
