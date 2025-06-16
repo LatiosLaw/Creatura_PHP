@@ -5,6 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>-</title>
     <style>
+    .cabecera-bar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: darkgray;
+      color: white;
+    }
+
+    .cabecera-bar button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .cabecera-bar button:hover {
+      background-color: gray;
+    }
+
+    .cabecera-bar form {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cabecera-bar input[type="text"] {
+      padding: 8px 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 350px;
+      transition: border-color 0.3s ease;
+    }
+
+    .cabecera-bar input[type="text"]:focus {
+      border-color: lightskyblue;
+      outline: none;
+    }
+
+    .cabecera-bar input[type="submit"] {
+      padding: 8px 15px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .cabecera-bar input[type="submit"]:hover {
+        background-color: gray;
+    }
+
+    .botones-usuario {
+      display: flex;
+      gap: 15px;
+    }
+
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -16,7 +80,7 @@
       z-index: 1000;
     }
 
-    .modal {
+    .modal-registro-usuario, .modal-inicio-sesion{
       background: white;
       padding: 20px;
       border-radius: 8px;
@@ -24,22 +88,22 @@
       max-width: 90%;
     }
 
-    .modal h2 {
+    .modal-registro-usuario h2, .modal-inicio-sesion h2{
       margin-top: 0;
     }
 
-    .modal form {
+    .modal-registro-usuario form, .modal-inicio-sesion form{
       display: flex;
       flex-direction: column;
     }
 
-    .modal form input {
+    .modal-registro-usuario form input, .modal-inicio-sesion form input{
       margin-bottom: 10px;
       padding: 8px;
       font-size: 14px;
     }
 
-    .modal form button {
+    .modal-registro-usuario form button, .modal-inicio-sesion form button{
       padding: 10px;
       background-color: #333;
       color: white;
@@ -52,30 +116,35 @@
       cursor: pointer;
       font-weight: bold;
       font-size: 16px;
+      background-color: red;
+      padding: 5px 15px;
+      color: white;
     }
   </style>
 </head>
 <body>
-   <header>
-  <button onclick="location.href='/Creatura_PHP/index.php'">Inicio</button>
+  <header class="cabecera-bar">
+    <button onclick="location.href='/Creatura_PHP/index.php'">Inicio</button>
 
-  <form action="/Creatura_PHP/procesamiento/buscar.php" method="post">
-    <input type="text" name="campo_busqueda" placeholder="Placeholder">
-    <input type="submit" value="Buscar">
-  </form>
+    <form action="/Creatura_PHP/procesamiento/buscar.php" method="post">
+      <input type="text" name="campo_busqueda" placeholder="Placeholder">
+      <input type="submit" value="Buscar">
+    </form>
 
-  <?php session_start();
-  if (isset($_SESSION['nickname'])) { ?>
-    <button onclick="location.href='/Creatura_PHP/procesamiento/manejar_logout.php'">Logout (<?= $_SESSION['nickname'] ?>)</button>
-  <?php } else { ?>
-    <button onclick="abrirModal('loginModal')">Iniciar Sesión</button>
-    <button onclick="abrirModal('registroModal')">Registrarse</button>
-  <?php } ?>
-</header>
+    <div class="botones-usuario">
+      <?php session_start();
+      if (isset($_SESSION['nickname'])) { ?>
+        <button onclick="location.href='/Creatura_PHP/procesamiento/manejar_logout.php'">Logout (<?= $_SESSION['nickname'] ?>)</button>
+      <?php } else { ?>
+        <button onclick="abrirModal('loginModal')">Iniciar Sesión</button>
+        <button onclick="abrirModal('registroModal')">Registrarse</button>
+      <?php } ?>
+    </div>
+  </header>
 
 <!-- Modal Iniciar Sesión -->
 <div id="loginModal" class="modal-overlay">
-  <div class="modal">
+  <div class="modal-inicio-sesion">
     <span class="close-btn" onclick="cerrarModal('loginModal')">&times;</span>
     <h2>Iniciar Sesión</h2>
     <form action="/Creatura_PHP/procesamiento/manejar_login.php" method="POST">
@@ -88,7 +157,7 @@
 
 <!-- Modal Registro -->
 <div id="registroModal" class="modal-overlay">
-  <div class="modal">
+  <div class="modal-registro-usuario">
     <span class="close-btn" onclick="cerrarModal('registroModal')">&times;</span>
     <h2>Registrarse</h2>
     <form action="/Creatura_PHP/procesamiento/manejar_altaUsuario.php" method="POST" enctype="multipart/form-data">
