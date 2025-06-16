@@ -1,19 +1,16 @@
 <?php
 
-include_once("../clases/conexion.php");
 include_once("../clases/tipo.php");
 include_once("../clases/creatura.php");
 include_once("../clases/usuario.php");
 
-$controladorConexion = new Conexion();
 $controladorCreatura = new Creatura();
 $controladorUsuario = new Usuario();
 $controladorTipo = new Tipo();
-$conexion = $controladorConexion->conectar();
 
-$tipos = $controladorTipo->listar_tipos($conexion);
-$usuarios = $controladorUsuario->listar_usuarios($conexion);
-$creaturas = $controladorCreatura->listar_creaturas($conexion);
+$tipos = $controladorTipo->listar_tipos();
+$usuarios = $controladorUsuario->listar_usuarios();
+$creaturas = $controladorCreatura->listar_creaturas();
 
 ?>
 <!DOCTYPE html>

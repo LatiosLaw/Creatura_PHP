@@ -1,9 +1,5 @@
 <?php
 
-include_once("../clases/conexion.php");
-$controladorConexion = new Conexion();
-$conexion = $controladorConexion->conectar();
-
 require_once("../clases/creatura.php");
 $controladorCreatura = new Creatura();
 
@@ -17,7 +13,7 @@ session_start();
 
 $creador = $_SESSION['nickname'];
 
-if($controladorCreatura->alta_habilidad($nombre, $tipo, $descripcion, $categoria, $potencia, $creador, $conexion) == 1){
+if($controladorCreatura->alta_habilidad($nombre, $tipo, $descripcion, $categoria, $potencia, $creador) == 1){
 echo "Alta de habilidad exitosa, redirigiendo...";
 header("refresh:3; url=../paginas/ej_alta_habilidad.php");
 }else{

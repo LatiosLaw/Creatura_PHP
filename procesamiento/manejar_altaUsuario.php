@@ -1,9 +1,5 @@
 <?php 
 
-include_once("../clases/conexion.php");
-$controladorConexion = new Conexion();
-$conexion = $controladorConexion->conectar();
-
 require_once("../clases/usuario.php");
 $controladorUsuario = new Usuario();
 
@@ -24,7 +20,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
 }
 
 if($contra == $contra2){
-$verifiacion = $controladorUsuario->alta_usuario($nickname, $correo, $nombreArchivo, $biografia, $contra, "usuario", $conexion);
+$verifiacion = $controladorUsuario->alta_usuario($nickname, $correo, $nombreArchivo, $biografia, $contra, "usuario");
 if($verifiacion == 1){
 
     $destino = "../imagenes/usuarios/" . basename($nombreArchivo);

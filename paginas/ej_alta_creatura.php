@@ -1,14 +1,10 @@
 <?php
 
-include_once("../clases/conexion.php");
-$controladorConexion = new Conexion();
-$conexion = $controladorConexion->conectar();
-
 require_once("../clases/tipo.php");
 $controladorTipo = new Tipo();
 
-$lista_tipos = $controladorTipo->listar_tipos($conexion);
-$lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
+$lista_tipos = $controladorTipo->listar_tipos();
+$lista_tipos_habilidad = $controladorTipo->listar_tipos();
 
 ?>
 
@@ -71,7 +67,7 @@ SPE
                 Descripcion <input name="descripcion" type="text">
 
                 <?php
-                $lista_tipos_habilidad = $controladorTipo->listar_tipos($conexion);
+                $lista_tipos_habilidad = $controladorTipo->listar_tipos();
                 ?>
 
                 <h4>Habilidades</h4>

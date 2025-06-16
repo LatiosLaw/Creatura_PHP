@@ -1,7 +1,5 @@
 <?php
 header('Content-Type: application/json');
-
-include_once("../../clases/conexion.php");
 include_once("../../clases/tipo.php");
 include_once("../../clases/creatura.php");
 include_once("../../clases/usuario.php");
@@ -13,15 +11,13 @@ if (!isset($_GET['nickname'])) {
 
 $nickname = $_GET['nickname'];
 
-$controladorConexion = new Conexion();
-$conexion = $controladorConexion->conectar();
 $controladorUsuario = new Usuario();
 
-$usuario = $controladorUsuario->retornar_usuario_personal($nickname, $conexion);
+$usuario = $controladorUsuario->retornar_usuario_personal($nickname);
 
 include_once("../../clases/tipo.php");
 $controladorTipo = new Tipo();
-$creaturas = $controladorUsuario->listar_creaturas_de_usuario($nickname, $conexion, $controladorTipo); // usa función con info de tipos
+$creaturas = $controladorUsuario->listar_creaturas_de_usuario($nickname, $controladorTipo); // usa función con info de tipos
 
 echo json_encode([
     'usuario' => $usuario,

@@ -1,57 +1,66 @@
 <?php
 
+require_once(__DIR__ . "/conexion.php");
+
 class Creatura
 {
+    private $conexionHandler;
+    private $conexion;
 
-    // Para manejar las consultas a la BD relacionadas con Creaturas
-
-    function listar_creaturas($conexion)
+    public function __construct()
     {
-        $resultado = mysqli_query($conexion, "SELECT * from creatura");
+        $this->conexionHandler = new Conexion();
+        // Usa el archivo de conexión para inicializar la propiedad
+        $this->conexion = $this->conexionHandler->conectar(); // Asegurate que `conectar()` devuelve la conexión
+    }
+
+    function listar_creaturas()
+    {
+        $resultado = mysqli_query($this->conexion, "SELECT * from creatura");
         return $resultado;
     }
 
-    function listar_creaturas_ext($conexion, $cantidad, $creador)
+    function listar_creaturas_ext($cantidad, $creador)
     {
 
         if ($creador != null) {
-            $resultado = mysqli_query($conexion, "SELECT * from creatura WHERE creador = '$creador' LIMIT $cantidad");
+            $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE creador = '$creador' LIMIT $cantidad");
             return $resultado;
         } else {
-            $resultado = mysqli_query($conexion, "SELECT * from creatura LIMIT $cantidad");
+            $resultado = mysqli_query($this->conexion, "SELECT * from creatura LIMIT $cantidad");
             return $resultado;
         }
     }
 
-   function alta_creatura($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico, $conexion)
+   function alta_creatura($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
 {
     $query = "INSERT INTO creatura (nombre_creatura, id_tipo1, id_tipo2, descripcion, hp, atk, def, spa, sdef, spe, creador, imagen, publico)
               VALUES ('$nombre_creatura', $id_tipo1, $id_tipo2, '$descripcion', $hp, $atk, $def, $spa, $sdef, $spe, '$creador', '$imagen', $publico)";
     
-    if (mysqli_query($conexion, $query)) {
-        return mysqli_insert_id($conexion); // Retorna el ID del nuevo registro
+    if (mysqli_query($this->conexion, $query)) {
+        return mysqli_insert_id($this->conexion); // Retorna el ID del nuevo registro
     } else {
         return 0; // Algo falló
     }
 }
 
 
-    function baja_creatura($id_creatura, $conexion)
+    function baja_creatura($id_creatura)
     {
         $query = "DELETE FROM creatura WHERE id_creatura = $id_creatura";
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
-    function modificar_creatura($id_creatura, $nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico, $conexion)
+    function modificar_creatura($id_creatura, $nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
     {
         $query = "UPDATE creatura SET nombre_creatura = '$nombre_creatura', id_tipo1 = $id_tipo1, id_tipo2 = $id_tipo2, descripcion = '$descripcion', hp = $hp, atk = $atk, def = $def, spa = $spa, sdef = $sdef, spe = $spe, creador = '$creador', imagen = '$imagen', publico = $publico WHERE id_creatura = $id_creatura";
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
-    function rating_promedio($id_creatura, $conexion)
+    function rating_promedio($id_creatura)
     {
         $query = "SELECT AVG(estrellas) as promedio FROM rating WHERE id_creatura = ?";
-        $stmt = mysqli_prepare($conexion, $query);
+        $stmt = mysqli_prepare($this->conexion, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_creatura);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
@@ -63,24 +72,24 @@ class Creatura
         }
     }
 
-    function retornar_creatura($nombre_creatura, $creador, $conexion)
+    function retornar_creatura($nombre_creatura, $creador)
     {
         $query = "SELECT * FROM creatura WHERE nombre_creatura = ? AND creador = ?";
-        $stmt = mysqli_prepare($conexion, $query);
+        $stmt = mysqli_prepare($this->conexion, $query);
         mysqli_stmt_bind_param($stmt, "ss", $nombre_creatura, $creador);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
 
         if ($resultado && mysqli_num_rows($resultado) > 0) {
             $creatura = mysqli_fetch_assoc($resultado);
-            $creatura['rating_promedio'] = $this->rating_promedio($creatura['id_creatura'], $conexion);
+            $creatura['rating_promedio'] = $this->rating_promedio($creatura['id_creatura']);
             return $creatura;
         } else {
             return false;
         }
     }
 
-    function retornar_habilidades($id_creatura, $conexion)
+    function retornar_habilidades($id_creatura)
 {
     $query = "
         SELECT 
@@ -94,7 +103,7 @@ class Creatura
         WHERE m.id_creatura = $id_creatura
     ";
 
-    $resultado = mysqli_query($conexion, $query);
+    $resultado = mysqli_query($this->conexion, $query);
     $habilidades = [];
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
@@ -106,11 +115,11 @@ class Creatura
     return $habilidades;
 }
 
-   function retornar_tipos_de_creatura($id_creatura, $conexion)
+   function retornar_tipos_de_creatura($id_creatura)
 {
     // Obtener los IDs de los tipos de la creatura
     $query = "SELECT id_tipo1, id_tipo2 FROM creatura WHERE id_creatura = ?";
-    $stmt = mysqli_prepare($conexion, $query);
+    $stmt = mysqli_prepare($this->conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id_creatura);
     mysqli_stmt_execute($stmt);
     $resultado = mysqli_stmt_get_result($stmt);
@@ -119,8 +128,8 @@ class Creatura
         $fila = mysqli_fetch_assoc($resultado);
 
         // Consultar detalles de los tipos
-        $tipo1 = mysqli_query($conexion, "SELECT * FROM tipo WHERE id_tipo = {$fila['id_tipo1']}");
-        $tipo2 = mysqli_query($conexion, "SELECT * FROM tipo WHERE id_tipo = {$fila['id_tipo2']}");
+        $tipo1 = mysqli_query($this->conexion, "SELECT * FROM tipo WHERE id_tipo = {$fila['id_tipo1']}");
+        $tipo2 = mysqli_query($this->conexion, "SELECT * FROM tipo WHERE id_tipo = {$fila['id_tipo2']}");
 
         return [
             'tipo1' => ($tipo1 && mysqli_num_rows($tipo1) > 0) ? mysqli_fetch_assoc($tipo1) : null,
@@ -131,12 +140,12 @@ class Creatura
     return null; // Creatura no encontrada
 }
 
-    function retornar_calculo_de_tipos_defendiendo($id_tipo1, $id_tipo2, $conexion)
+    function retornar_calculo_de_tipos_defendiendo($id_tipo1, $id_tipo2)
     {
 
         // Primero obtenemos todos los tipos atacantes
         $tipos = [];
-        $consulta_tipos = mysqli_query($conexion, "SELECT * FROM tipo");
+        $consulta_tipos = mysqli_query($this->conexion, "SELECT * FROM tipo");
         while ($tipo = mysqli_fetch_assoc($consulta_tipos)) {
             $tipos[$tipo['id_tipo']] = $tipo;
             $tipos[$tipo['id_tipo']]['multiplicador1'] = 1.0;
@@ -144,13 +153,13 @@ class Creatura
         }
 
         // Efectividades sobre el tipo1
-        $ef1 = mysqli_query($conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo1");
+        $ef1 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo1");
         while ($fila = mysqli_fetch_assoc($ef1)) {
             $tipos[$fila['atacante']]['multiplicador1'] = $fila['multiplicador'];
         }
 
         // Efectividades sobre el tipo2
-        $ef2 = mysqli_query($conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo2");
+        $ef2 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo2");
         while ($fila = mysqli_fetch_assoc($ef2)) {
             $tipos[$fila['atacante']]['multiplicador2'] = $fila['multiplicador'];
         }
@@ -186,27 +195,27 @@ class Creatura
     ////////////////////// ABM DE HABILIDAD ////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    function alta_habilidad($nombre_habilidad, $id_tipo_habilidad, $descripcion, $categoria_habilidad, $potencia, $creador, $conexion)
+    function alta_habilidad($nombre_habilidad, $id_tipo_habilidad, $descripcion, $categoria_habilidad, $potencia, $creador)
     {
         $query = "INSERT INTO habilidad (nombre_habilidad, id_tipo_habilidad, descripcion, categoria_habilidad, potencia, creador
     ) VALUES (
         '$nombre_habilidad', $id_tipo_habilidad, '$descripcion', '$categoria_habilidad', $potencia, '$creador'
     )";
 
-        if (mysqli_query($conexion, $query)) {
+        if (mysqli_query($this->conexion, $query)) {
             return 1; // Éxito
         } else {
             return 0; // Error
         }
     }
 
-    function baja_habilidad($id_habilidad, $conexion)
+    function baja_habilidad($id_habilidad)
     {
         $query = "DELETE FROM habilidad WHERE id_habilidad = $id_habilidad";
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
-    function modificar_habilidad($id_habilidad, $nombre_habilidad, $id_tipo_habilidad, $descripcion, $categoria_habilidad, $potencia, $creador, $conexion)
+    function modificar_habilidad($id_habilidad, $nombre_habilidad, $id_tipo_habilidad, $descripcion, $categoria_habilidad, $potencia, $creador)
     {
         $query = "UPDATE habilidad SET
         nombre_habilidad = '$nombre_habilidad',
@@ -217,7 +226,7 @@ class Creatura
         creador = '$creador'
     WHERE id_habilidad = $id_habilidad";
 
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -228,7 +237,7 @@ class Creatura
     ////////////////////// AB DE MOVESET ///////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    function alta_moveset($id_creatura, $id_habilidad, $conexion)
+    function alta_moveset($id_creatura, $id_habilidad)
     {
         $query = "INSERT INTO moveset (
         id_creatura, id_habilidad
@@ -236,13 +245,13 @@ class Creatura
         $id_creatura, $id_habilidad
     )";
 
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
-    function baja_moveset($id_moveset, $conexion)
+    function baja_moveset($id_moveset)
     {
         $query = "DELETE FROM moveset WHERE id_moveset = $id_moveset";
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -253,7 +262,7 @@ class Creatura
     ////////////////////// ABM DE RATING ///////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    function alta_rating($nickname_usuario, $id_creatura, $estrellas, $conexion)
+    function alta_rating($nickname_usuario, $id_creatura, $estrellas)
     {
         $query = "INSERT INTO rating (
         nickname_usuario, id_creatura, estrellas
@@ -261,16 +270,16 @@ class Creatura
         '$nickname_usuario', $id_creatura, $estrellas
     )";
 
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
-    function baja_rating($id_rating, $conexion)
+    function baja_rating($id_rating)
     {
         $query = "DELETE FROM rating WHERE id_rating = $id_rating";
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
-    function modificar_rating($nickname_usuario, $id_creatura, $estrellas, $conexion)
+    function modificar_rating($nickname_usuario, $id_creatura, $estrellas)
     {
         $query = "UPDATE rating SET
         nickname_usuario = '$nickname_usuario',
@@ -278,7 +287,7 @@ class Creatura
         estrellas = $estrellas
     WHERE nickname_usuario = '$nickname_usuario' AND id_creatura = $id_creatura";
 
-        return mysqli_query($conexion, $query);
+        return mysqli_query($this->conexion, $query);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

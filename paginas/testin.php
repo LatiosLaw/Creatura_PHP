@@ -1,18 +1,15 @@
 <?php
 
-include_once("../clases/conexion.php");
 include_once("../clases/tipo.php");
 include_once("../clases/creatura.php");
 include_once("../clases/usuario.php");
 
-$controladorConexion = new Conexion();
 $controladorCreatura = new Creatura();
 $controladorUsuario = new Usuario();
 $controladorTipo = new Tipo();
-$conexion = $controladorConexion->conectar();
 
-$creaturas = $controladorCreatura->listar_creaturas_ext($conexion, 20, null);
-$usuarios = $controladorUsuario->listar_usuarios($conexion);
+$creaturas = $controladorCreatura->listar_creaturas_ext(20, null);
+$usuarios = $controladorUsuario->listar_usuarios();
 
 ?>
 
@@ -54,8 +51,8 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
             <tbody>
                 <?php while ($fila = mysqli_fetch_assoc($creaturas)) :
 
-                    $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1'], $conexion);
-                    $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'], $conexion)
+                    $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+                    $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'])
 
                 ?>
                     <tr>
@@ -67,7 +64,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
                         <td style="background-color: #<?= $tipo2['color']; ?>; color: #fff;">
                             <?= $tipo2['nombre_tipo']; ?>
                         </td>
-                        <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']), $conexion)) ?>/5</td>
+                        <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
                         <td><?= htmlspecialchars($fila['descripcion']) ?></td>
                         <td><?= $fila['hp'] ?></td>
                         <td><?= $fila['atk'] ?></td>
@@ -117,13 +114,13 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
     <hr>
 
     <?php
-    $creatura_elegida = $controladorCreatura->retornar_creatura("Waifumancer", "WeirdAniki", $conexion);
+    $creatura_elegida = $controladorCreatura->retornar_creatura("Waifumancer", "WeirdAniki");
     if ($creatura_elegida != false) {
-        $habilidades = $controladorCreatura->retornar_habilidades($creatura_elegida['id_creatura'], $conexion);
-        $tipo1_elegida = $controladorTipo->retornar_tipo($creatura_elegida['id_tipo1'], $conexion);
-        $tipo2_elegida = $controladorTipo->retornar_tipo($creatura_elegida['id_tipo2'], $conexion);
+        $habilidades = $controladorCreatura->retornar_habilidades($creatura_elegida['id_creatura']);
+        $tipo1_elegida = $controladorTipo->retornar_tipo($creatura_elegida['id_tipo1']);
+        $tipo2_elegida = $controladorTipo->retornar_tipo($creatura_elegida['id_tipo2']);
 
-        $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($tipo1_elegida['id_tipo'], $tipo2_elegida['id_tipo'], $conexion);
+        $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($tipo1_elegida['id_tipo'], $tipo2_elegida['id_tipo']);
     }
     ?>
 
@@ -169,7 +166,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
                 </thead>
                 <tbody>
                     <?php foreach ($habilidades as $habilidad): ?>
-                        <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad'], $conexion); ?>
+                        <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad']); ?>
                         <tr>
                             <td><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></td>
                             <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
@@ -192,7 +189,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
         <h2>Interacciones defensivas</h2>
 
         <?php
-        $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($creatura_elegida['id_tipo1'], $creatura_elegida['id_tipo2'], $conexion);
+        $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($creatura_elegida['id_tipo1'], $creatura_elegida['id_tipo2']);
 
         // CATEGORIAS - basicamente un array para mostrar cosas después
         $categorias = [
@@ -253,8 +250,8 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
 
     <?php
 
-    $usuario_elegido = $controladorUsuario->retornar_usuario_personal("WeirdAniki", $conexion);
-    $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario("WeirdAniki", $conexion, $controladorTipo);
+    $usuario_elegido = $controladorUsuario->retornar_usuario_personal("WeirdAniki");
+    $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario("WeirdAniki", $controladorTipo);
 
     ?>
 
@@ -286,7 +283,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
                     <tr>
                         <td style="text-align:center;"><?= htmlspecialchars($creatura['nombre']) ?></td>
 
-                        <td style="text-align:center;"><?= htmlspecialchars($controladorCreatura->rating_promedio(($creatura['id_creatura']), $conexion)) ?>/5</td>
+                        <td style="text-align:center;"><?= htmlspecialchars($controladorCreatura->rating_promedio(($creatura['id_creatura']))) ?>/5</td>
 
                         <!-- Tipo 1 -->
                         <td style="background-color: #<?= $creatura['tipo1']['color'] ?>; color: #fff; text-align: center;">
@@ -316,7 +313,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
 
     <?php
 
-    $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo(18, $conexion);
+    $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo(18);
 
     ?>
 
@@ -336,7 +333,7 @@ $usuarios = $controladorUsuario->listar_usuarios($conexion);
                 </thead>
                 <tbody>
                     <?php foreach ($habilidades_tipo as $habilidad): ?>
-                        <?php $tipo_habilidad = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad'], $conexion); ?>
+                        <?php $tipo_habilidad = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad']); ?>
                         <tr>
                             <td><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></td>
                             <td style="background-color: #<?= $tipo_habilidad['color'] ?>; color: #fff;">

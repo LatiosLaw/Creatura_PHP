@@ -1,9 +1,5 @@
 <?php
 
-include_once("../clases/conexion.php");
-$controladorConexion = new Conexion();
-$conexion = $controladorConexion->conectar();
-
 require_once("../clases/tipo.php");
 $controladorTipo = new Tipo();
 
@@ -31,7 +27,7 @@ $debilidades = isset($_POST['debilidad']) ? $_POST['debilidad'] : [];
 $resistencias = isset($_POST['resistencia']) ? $_POST['resistencia'] : [];
 $inmunidades = isset($_POST['inmunidad']) ? $_POST['inmunidad'] : [];
 
-if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador, $conexion) == 1) {
+if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador) == 1) {
 
     if ($nombreArchivo != null) {
         $destino = "../imagenes/tipos/" . basename($nombreArchivo);
@@ -44,22 +40,22 @@ if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador, $cone
         }
     }
 
-    $tipo_creado = $controladorTipo->retornar_tipo_por_creador($nombre, $creador, $conexion);
+    $tipo_creado = $controladorTipo->retornar_tipo_por_creador($nombre, $creador);
 
     echo $tipo_creado['id_tipo'];
 
     foreach ($resistencias as $resis) {
-        $controladorTipo->alta_efectividad($resis, $tipo_creado['id_tipo'], 0.5, $conexion);
+        $controladorTipo->alta_efectividad($resis, $tipo_creado['id_tipo'], 0.5);
     }
     foreach ($debilidades as $deb) {
-        $controladorTipo->alta_efectividad($deb, $tipo_creado['id_tipo'], 2, $conexion);
+        $controladorTipo->alta_efectividad($deb, $tipo_creado['id_tipo'], 2);
     }
     foreach ($inmunidades as $inmu) {
-        $controladorTipo->alta_efectividad($inmu, $tipo_creado['id_tipo'], 0, $conexion);
+        $controladorTipo->alta_efectividad($inmu, $tipo_creado['id_tipo'], 0);
     }
 
     if($self_int != 1){
-        $controladorTipo->alta_efectividad($tipo_creado['id_tipo'], $tipo_creado['id_tipo'], $self_int, $conexion);
+        $controladorTipo->alta_efectividad($tipo_creado['id_tipo'], $tipo_creado['id_tipo'], $self_int);
     }
 
     echo "funca, redirigiendo...";

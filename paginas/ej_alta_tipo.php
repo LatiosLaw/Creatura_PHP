@@ -1,13 +1,9 @@
 <?php
 
-include_once("../clases/conexion.php");
-$controladorConexion = new Conexion();
-$conexion = $controladorConexion->conectar();
-
 require_once("../clases/tipo.php");
 $controladorTipo = new Tipo();
 
-$lista_tipos = $controladorTipo->listar_tipos($conexion);
+$lista_tipos = $controladorTipo->listar_tipos();
 
 ?>
 

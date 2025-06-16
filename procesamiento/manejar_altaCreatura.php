@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-include_once("../clases/conexion.php");
-$controladorConexion = new Conexion();
-$conexion = $controladorConexion->conectar();
-
 require_once("../clases/creatura.php");
 $controladorCreatura = new Creatura();
 
@@ -40,13 +36,13 @@ if (!isset($_SESSION['nickname'])) {
     $tamanoArchivo = $imagen['size'];
     $tmpArchivo = $imagen['tmp_name'];
 
-    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, $nombreArchivo, 0, $conexion);
+    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, $nombreArchivo, 0);
 }else{
-    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, null, 0, $conexion);
+    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, null, 0);
 }
 
     foreach($habilidades as $hab){
-        $controladorCreatura->alta_moveset($id_creatura_nueva, $hab['id'], $conexion);
+        $controladorCreatura->alta_moveset($id_creatura_nueva, $hab['id']);
     }
 
     if ($nombreArchivo != null) {
