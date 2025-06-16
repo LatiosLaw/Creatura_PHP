@@ -78,6 +78,25 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
     return $resultado;
   }
 
+  function listar_usuarios_busqueda($parametro) {
+    $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
+
+    $sql = "
+        (SELECT nickname, foto, biografia 
+         FROM usuario 
+         WHERE nickname LIKE '{$param_escaped}%' AND nickname != 'SYSTEM')
+        UNION
+        (SELECT nickname, foto, biografia 
+         FROM usuario 
+         WHERE nickname LIKE '%{$param_escaped}%' 
+         AND nickname NOT LIKE '{$param_escaped}%' 
+         AND nickname != 'SYSTEM')
+    ";
+
+    $resultado = mysqli_query($this->conexion, $sql);
+    return $resultado;
+}
+
   function retornar_usuario_personal($nickname){
     $resultado = mysqli_query($this->conexion, "SELECT * from usuario WHERE nickname = '$nickname'");
     return mysqli_fetch_assoc($resultado);

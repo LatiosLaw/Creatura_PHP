@@ -62,7 +62,7 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
     } else {
         // En caso de que no se encuentre el tipo (inexistente)
         return [
-            "id_tipo" => $id_tipo,
+            "id_tipo" => 0,
             "nombre_tipo" => "-",
             "color" => "aaaaaa",
             "icono" => "sin_icono.png",
@@ -88,6 +88,11 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
             "creador" => "SYSTEM_ERROR"
         ];
     }
+  }
+
+  function retornar_creaturas_tipo($id_tipo){
+$resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE id_tipo1 = $id_tipo OR id_tipo2 = $id_tipo AND publico = 1");
+    return $resultado;
   }
 
   function retornar_habilidades_tipo($id_tipo){

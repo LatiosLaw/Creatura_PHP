@@ -66,7 +66,7 @@
 
   <?php session_start();
   if (isset($_SESSION['nickname'])) { ?>
-    <button onclick="location.href='procesamiento/manejar_logout.php'">Logout (<?= $_SESSION['nickname'] ?>)</button>
+    <button onclick="location.href='/Creatura_PHP/procesamiento/manejar_logout.php'">Logout (<?= $_SESSION['nickname'] ?>)</button>
   <?php } else { ?>
     <button onclick="abrirModal('loginModal')">Iniciar Sesión</button>
     <button onclick="abrirModal('registroModal')">Registrarse</button>
@@ -91,7 +91,7 @@
   <div class="modal">
     <span class="close-btn" onclick="cerrarModal('registroModal')">&times;</span>
     <h2>Registrarse</h2>
-    <form action="procesamiento/manejar_altaUsuario.php" method="POST" enctype="multipart/form-data">
+    <form action="/Creatura_PHP/procesamiento/manejar_altaUsuario.php" method="POST" enctype="multipart/form-data">
       <input type="text" name="nickname" placeholder="Nickname" required>
       <input type="password" name="contra" placeholder="Contraseña" required>
       <input name="ver_contra" type="password" placeholder="Verificar Contraseña" required>

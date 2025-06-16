@@ -38,6 +38,44 @@ class Creatura
             return $resultado;
     }
 
+        function buscar_creaturas_default($parametro)
+{
+    $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
+
+    $sql = "
+        (SELECT * FROM creatura 
+         WHERE creador = 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '{$param_escaped}%')
+        UNION
+        (SELECT * FROM creatura 
+         WHERE creador = 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '%{$param_escaped}%' 
+         AND nombre_creatura NOT LIKE '{$param_escaped}%')
+    ";
+
+    $resultado = mysqli_query($this->conexion, $sql);
+    return $resultado;
+}
+
+function buscar_creaturas($parametro)
+{
+    $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
+
+    $sql = "
+        (SELECT * FROM creatura 
+         WHERE creador != 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '{$param_escaped}% ')
+        UNION
+        (SELECT * FROM creatura 
+         WHERE creador != 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '%{$param_escaped}%' 
+         AND nombre_creatura NOT LIKE '{$param_escaped}% ')
+    ";
+
+    $resultado = mysqli_query($this->conexion, $sql);
+    return $resultado;
+}
+
    function alta_creatura($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
 {
     $query = "INSERT INTO creatura (nombre_creatura, id_tipo1, id_tipo2, descripcion, hp, atk, def, spa, sdef, spe, creador, imagen, publico)

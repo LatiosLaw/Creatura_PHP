@@ -1,5 +1,7 @@
 <?php
 
+$nickname_sesion = "";
+
 require_once("../clases/usuario.php");
 $controladorUsuario = new Usuario();
 
@@ -44,13 +46,16 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
 <div>
         <h1>Información de un Usuario</h1>
         <div style="display: flex; gap: 20px;">
-            <img src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" width="200" onerror="this.onerror=null; this.src='./imagenes/sin_imagen.png';">
+            <img src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" width="200" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
             <div>
                 <h2><?= htmlspecialchars($informacion['nickname']) ?></h2>
                 <p><strong>Correo:</strong> <?= htmlspecialchars($informacion['correo']) ?></p>
                 <p><strong>Biografia:</strong> <?= htmlspecialchars($informacion['biografia']) ?></p>
             </div>
         </div>
+        <?php if(strcmp($nickname_sesion, $nickname_usuario)==1){ ?>
+<button onclick="window.location.href='/Creatura_PHP/procesamiento/manejar_baja_usuario.php'">Eliminar Perfil</button>
+            <?php } ?>
     </div>
 
     <div>
