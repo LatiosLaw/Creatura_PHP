@@ -185,55 +185,53 @@ function buscar_creaturas($parametro)
 }
 
     function retornar_calculo_de_tipos_defendiendo($id_tipo1, $id_tipo2)
-    {
+{
+    // Primero obtenemos todos los tipos atacantes
+    $tipos = [];
+    $consulta_tipos = mysqli_query($this->conexion, "SELECT * FROM tipo");
+    while ($tipo = mysqli_fetch_assoc($consulta_tipos)) {
+        $tipos[$tipo['id_tipo']] = $tipo;
+        $tipos[$tipo['id_tipo']]['multiplicador1'] = 1.0;
+        $tipos[$tipo['id_tipo']]['multiplicador2'] = 1.0;
+    }
 
-        // Primero obtenemos todos los tipos atacantes
-        $tipos = [];
-        $consulta_tipos = mysqli_query($this->conexion, "SELECT * FROM tipo");
-        while ($tipo = mysqli_fetch_assoc($consulta_tipos)) {
-            $tipos[$tipo['id_tipo']] = $tipo;
-            $tipos[$tipo['id_tipo']]['multiplicador1'] = 1.0;
-            $tipos[$tipo['id_tipo']]['multiplicador2'] = 1.0;
-        }
-
-        // Efectividades sobre el tipo1
-        $ef1 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo1");
-        while ($fila = mysqli_fetch_assoc($ef1)) {
+    // Efectividades sobre el tipo1
+    $ef1 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo1");
+    while ($fila = mysqli_fetch_assoc($ef1)) {
+        if (isset($tipos[$fila['atacante']])) {
             $tipos[$fila['atacante']]['multiplicador1'] = $fila['multiplicador'];
         }
+    }
 
-        // Efectividades sobre el tipo2
-        $ef2 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo2");
-        while ($fila = mysqli_fetch_assoc($ef2)) {
+    // Efectividades sobre el tipo2
+    $ef2 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo2");
+    while ($fila = mysqli_fetch_assoc($ef2)) {
+        if (isset($tipos[$fila['atacante']])) {
             $tipos[$fila['atacante']]['multiplicador2'] = $fila['multiplicador'];
         }
-
-        // Resultado final
-        $resultado = [];
-
-        foreach ($tipos as $id => $tipo) {
-            // Multiplicador final
-            $m1 = $tipo['multiplicador1'];
-            $m2 = $tipo['multiplicador2'];
-
-            // Inmunidad prevalece
-            if ($m1 == 0 || $m2 == 0) {
-                $total = 0;
-            } else {
-                $total = $m1 * $m2;
-            }
-
-            $resultado[] = [
-                'id_tipo' => $id,
-                'nombre_tipo' => $tipo['nombre_tipo'],
-                'color' => $tipo['color'],
-                'icono' => $tipo['icono'],
-                'multiplicador' => $total
-            ];
-        }
-
-        return $resultado;
     }
+
+    // Resultado final
+    $resultado = [];
+
+    foreach ($tipos as $id => $tipo) {
+        $m1 = $tipo['multiplicador1'];
+        $m2 = $tipo['multiplicador2'];
+
+        // Inmunidad prevalece
+        $total = ($m1 == 0 || $m2 == 0) ? 0 : $m1 * $m2;
+
+        $resultado[] = [
+            'id_tipo' => $id,
+            'nombre_tipo' => $tipo['nombre_tipo'],
+            'color' => $tipo['color'],
+            'icono' => $tipo['icono'],
+            'multiplicador' => $total
+        ];
+    }
+
+    return $resultado;
+}
 
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////// ABM DE HABILIDAD ////////////////////////////////////////////
@@ -331,6 +329,12 @@ function buscar_creaturas($parametro)
         estrellas = $estrellas
     WHERE nickname_usuario = '$nickname_usuario' AND id_creatura = $id_creatura";
 
+        return mysqli_query($this->conexion, $query);
+    }
+
+    function listar_ratings_usuario($usuario)
+    {
+        $query = "SELECT * FROM rating WHERE nickname_usuario = $usuario";
         return mysqli_query($this->conexion, $query);
     }
 

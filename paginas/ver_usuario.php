@@ -1,6 +1,5 @@
 <?php
-
-$nickname_sesion = "";
+include_once("../piezas_html/cabecera.php");
 
 require_once("../clases/usuario.php");
 $controladorUsuario = new Usuario();
@@ -17,14 +16,12 @@ if (isset($_GET['usuario'])) {
 
 if (isset($_SESSION['nickname'])) {
     $nickname_sesion = $_SESSION['nickname'];
-if(strcmp($nickname_sesion, $nickname_usuario)){
-$informacion = $controladorUsuario->retornar_usuario_personal($nickname_usuario);
 }else{
-    $informacion = $controladorUsuario->retornar_informacion_usuario($nickname_usuario);
+    $nickname_sesion = "";
 }
-}else{
+
 $informacion = $controladorUsuario->retornar_informacion_usuario($nickname_usuario);
-}
+
 
 $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_usuario, $controladorTipo);
 
@@ -39,8 +36,6 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
 </head>
 <body>
 
-    <?php include_once("../piezas_html/cabecera.php"); ?>
-
 <button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
 
 <div>
@@ -53,8 +48,8 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
                 <p><strong>Biografia:</strong> <?= htmlspecialchars($informacion['biografia']) ?></p>
             </div>
         </div>
-        <?php if(strcmp($nickname_sesion, $nickname_usuario)==1){ ?>
-<button onclick="window.location.href='/Creatura_PHP/procesamiento/manejar_baja_usuario.php'">Eliminar Perfil</button>
+        <?php if(strcmp($nickname_sesion, $nickname_usuario)==0){ ?>
+<button onclick="window.location.href='/Creatura_PHP/procesamiento/manejar_bajaUsuario.php'">Eliminar Perfil</button>
             <?php } ?>
     </div>
 

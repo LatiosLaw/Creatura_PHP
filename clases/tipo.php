@@ -105,6 +105,11 @@ $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE id_tipo
     return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
   }
 
+  function listar_tipos_creador($creador){
+    $resultado = mysqli_query($this->conexion, "SELECT * from tipo where creador = '$creador'");
+    return $resultado;
+  }
+
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////// ABL DE EFECTIVIDAD //////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +126,11 @@ function alta_efectividad($atacante, $defensor, $multiplicador) {
 
     function baja_efectividad($id_efectividad) {
     $query = "DELETE FROM efectividades WHERE id_efectividad = $id_efectividad";
+    return mysqli_query($this->conexion, $query);
+}
+
+function eliminar_efectividades($id_tipo) {
+    $query = "DELETE FROM efectividades WHERE atacante = $id_tipo OR defensor = $id_tipo";
     return mysqli_query($this->conexion, $query);
 }
 
