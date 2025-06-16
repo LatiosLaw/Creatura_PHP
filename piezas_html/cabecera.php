@@ -12,6 +12,7 @@
       padding: 10px 20px;
       background-color: darkgray;
       color: white;
+      margin-bottom: 20px;
     }
 
     .cabecera-bar button {
