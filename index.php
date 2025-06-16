@@ -46,7 +46,7 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
 
                 ?>
                     <tr>
-                        <td><?= htmlspecialchars($fila['nombre_creatura']) ?></td>
+                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
                         <td>
                             <?php if ($fila['id_tipo1'] != 0): ?>
                                 <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
@@ -64,12 +64,12 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
-                        <td><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></td>
+                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM"><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
         </table>
-        <button onclick="location.href='/Creatura_PHP/paginas/creaturas.php'">Ver mas</button>
+        <button onclick="location.href='/Creatura_PHP/paginas/todas_las_creaturas.php'">Ver mas</button>
     </div>
 
     <div>
@@ -90,7 +90,7 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
                 <?php endwhile; ?>
             </tbody>
         </table>
-        <button onclick="location.href='/Creatura_PHP/paginas/usuarios.php'">Ver mas</button>
+        <button onclick="location.href='/Creatura_PHP/paginas/todos_los_usuarios.php'">Ver mas</button>
     </div>
 
     <?php include_once("./piezas_html/pie_pagina.php"); ?>

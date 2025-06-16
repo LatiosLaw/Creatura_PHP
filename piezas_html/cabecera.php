@@ -59,6 +59,11 @@
    <header>
   <button onclick="location.href='/Creatura_PHP/index.php'">Inicio</button>
 
+  <form action="/Creatura_PHP/procesamiento/buscar.php">
+    <input type="text" placeholder="Placeholder">
+    <input type="submit" value="Buscar">
+  </form>
+
   <?php session_start();
   if (isset($_SESSION['nickname'])) { ?>
     <button onclick="location.href='procesamiento/manejar_logout.php'">Logout (<?= $_SESSION['nickname'] ?>)</button>

@@ -42,7 +42,7 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
 
                 ?>
                     <tr>
-                        <td><?= htmlspecialchars($fila['nombre_creatura']) ?></td>
+                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
                         <td>
                             <?php if ($fila['id_tipo1'] != 0): ?>
                                 <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
@@ -60,7 +60,7 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
-                        <td><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></td>
+                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM"><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -87,7 +87,7 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
 
                 ?>
                     <tr>
-                        <td><?= htmlspecialchars($fila['nombre_creatura']) ?></td>
+                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=<?= urlencode($fila['creador']) ?>"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
                         <td>
                             <?php if ($fila['id_tipo1'] != 0): ?>
                                 <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
@@ -105,7 +105,7 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
-                        <td><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></td>
+                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=<?= urlencode($fila['creador']) ?>"><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>

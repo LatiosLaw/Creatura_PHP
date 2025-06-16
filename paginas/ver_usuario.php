@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 require_once("../clases/usuario.php");
 $controladorUsuario = new Usuario();
 
@@ -39,6 +37,8 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
 </head>
 <body>
 
+    <?php include_once("../piezas_html/cabecera.php"); ?>
+
 <button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
 
 <div>
@@ -68,8 +68,8 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
             <tbody>
                 <?php foreach ($creaturas_usuario as $creatura): ?>
                     <tr>
-                        <td style="text-align:center;"><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= htmlspecialchars($creatura['nombre']) ?>&usuario=<?= htmlspecialchars($nickname_usuario) ?>"><?= htmlspecialchars($creatura['nombre']) ?></a></td>
-<td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= htmlspecialchars($creatura['nombre']) ?>&usuario=<?= htmlspecialchars($nickname_usuario) ?>"><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($creatura['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
+                        <td style="text-align:center;"><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($creatura['nombre']) ?>&creador=<?= urlencode($nickname_usuario) ?>"><?= htmlspecialchars($creatura['nombre']) ?></a></td>
+<td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($creatura['nombre']) ?>&creador=<?= urlencode($nickname_usuario) ?>"><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($creatura['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
                         <td style="text-align:center;"><?= htmlspecialchars($controladorCreatura->rating_promedio(($creatura['id_creatura']))) ?>/5</td>
 
                         
@@ -95,5 +95,6 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
         </table>
     </div>
     
+            <?php include_once("../piezas_html/pie_pagina.php"); ?>
 </body>
 </html>

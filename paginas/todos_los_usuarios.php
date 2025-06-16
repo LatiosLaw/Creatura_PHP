@@ -16,6 +16,8 @@ $lista_usuarios = $controladorUsuario->listar_usuarios_creadores();
 </head>
 <body>
 
+    <?php include_once("../piezas_html/cabecera.php"); ?>
+
 <div>
     <button onclick="location.href='/Creatura_PHP/index.php'">volver</button>
     
@@ -37,5 +39,7 @@ $lista_usuarios = $controladorUsuario->listar_usuarios_creadores();
             </tbody>
         </table>
     </div>    
+
+            <?php include_once("../piezas_html/pie_pagina.php"); ?>
 </body>
 </html>
