@@ -76,27 +76,28 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
         <?php endwhile; ?>
     </div>
 
-    <div>
-        <h2>Algunos Usuarios</h2>
- <table border="1" cellpadding="4" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Nickname</th>
-                    <th>Imagen</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($fila = mysqli_fetch_assoc($usuarios_aleatorios)) : ?>
-                    <tr>
-                                                <td><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>"><?= htmlspecialchars($fila['nickname']) ?></a></td>
-                        <td><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>"><img src="/Creatura_PHP/imagenes/usuarios/<?= htmlspecialchars($fila['foto']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-        <button onclick="location.href='/Creatura_PHP/paginas/todos_los_usuarios.php'">Ver mas</button>
+    <div class="cont-titular"> 
+        <div class="titular">
+            <div>Algunos Usuarios</div>
+            <button onclick="location.href='/Creatura_PHP/paginas/todos_los_usuarios.php'">Ver Mas</button>
+        </div>
     </div>
 
+    <div class="contenedor-usuarios">
+        <?php while ($fila = mysqli_fetch_assoc($usuarios_aleatorios)) : ?>
+        <div class="contenido-usuario">
+            <a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>">
+                <div class="imagen-usuario">
+                    <img src="/Creatura_PHP/imagenes/usuarios/<?= htmlspecialchars($fila['foto']) ?>" alt="Imagen" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                </div>
+                <div class="nombre-usuario">
+                    <?= htmlspecialchars($fila['nickname']) ?>
+                </div>
+            </a>
+        </div>
+        <?php endwhile; ?>
+    </div>
+    
     <?php include_once("./piezas_html/pie_pagina.php"); ?>
 </body>
 
