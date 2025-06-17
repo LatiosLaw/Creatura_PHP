@@ -334,7 +334,7 @@ function buscar_creaturas($parametro)
 
     function listar_ratings_usuario($usuario)
     {
-        $query = "SELECT * FROM rating WHERE nickname_usuario = $usuario";
+        $query = "SELECT * FROM rating WHERE nickname_usuario = '$usuario'";
         return mysqli_query($this->conexion, $query);
     }
 

@@ -1,14 +1,27 @@
+<?php
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>-</title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\cabecera.css">
 </head>
 <body>
   <header class="cabecera-bar">
     <button onclick="location.href='/Creatura_PHP/index.php'">Inicio</button>
+
+    <div class="botones-usuario">
+    <?php if (isset($_SESSION['nickname'])) { ?>
+        <button onclick="location.href='/Creatura_PHP/paginas/gestor_creatura.php'">Tus Creaturas</button>
+        <button onclick="location.href='/Creatura_PHP/paginas/gestor_habilidad.php'">Tus Tipos</button>
+        <button onclick="location.href='/Creatura_PHP/paginas/gestor_tipo.php'">Tus Habilidades</button>
+      <?php } ?>
+      </div>
 
     <form action="/Creatura_PHP/procesamiento/buscar.php" method="post">
       <input type="text" name="campo_busqueda" placeholder="...">
@@ -16,9 +29,10 @@
     </form>
 
     <div class="botones-usuario">
-      <?php session_start();
+      <?php 
       if (isset($_SESSION['nickname'])) { ?>
-        <button onclick="location.href='/Creatura_PHP/procesamiento/manejar_logout.php'">Logout (<?= $_SESSION['nickname'] ?>)</button>
+      <button onclick="location.href='/Creatura_PHP/paginas/ver_usuario.php?usuario=<?php echo $_SESSION['nickname']?>'">Mi Perfil</button>
+        <button onclick="location.href='/Creatura_PHP/procesamiento/manejar_logout.php'">Logout</button>
       <?php } else { ?>
         <button onclick="abrirModal('loginModal')">Iniciar Sesión</button>
         <button onclick="abrirModal('registroModal')">Registrarse</button>

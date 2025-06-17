@@ -76,7 +76,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
                         <!-- Tipo 1 -->
                         <td style="background-color: #<?= $creatura['tipo1']['color'] ?>; color: #fff; text-align: center;">
                             <?php if (!empty($creatura['tipo1']['icono'])): ?>
-                                <img src="../imagenes/tipos/<?= htmlspecialchars($creatura['tipo1']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
+                                <img src="/Creatura_PHP/imagenes/tipos/<?= htmlspecialchars($creatura['tipo1']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                             <?php endif; ?>
                             <?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>
                         </td>
@@ -84,7 +84,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
                         <!-- Tipo 2 -->
                         <td style="background-color: #<?= $creatura['tipo2']['color'] ?>; color: #fff; text-align: center;">
                             <?php if (!empty($creatura['tipo2']['icono'])): ?>
-                                <img src="../imagenes/tipos/<?= htmlspecialchars($creatura['tipo2']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;">
+                                <img src="/Creatura_PHP/imagenes/tipos/<?= htmlspecialchars($creatura['tipo2']['icono']) ?>" alt="<?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>" width="32" style="vertical-align: middle;" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                             <?php endif; ?>
                             <?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>
                         </td>
