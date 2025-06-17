@@ -1,16 +1,17 @@
 <?php
 
+if (isset($_GET['id_tipo'])) {
+    $id_tipo = urldecode($_GET['id_tipo']);
+}
+
 require_once("../clases/tipo.php");
 $controladorTipo = new Tipo();
 
 $nombre = $_POST['nombre'];
 $color = $_POST['color'];
-$self_int = $_POST['self-int'];
 $color = ltrim($_POST['color'], '#');
 
 session_start();
-
-$creador = $_SESSION['nickname'];
 
 $nombreArchivo = null;
 
@@ -27,9 +28,12 @@ $debilidades = isset($_POST['debilidad']) ? $_POST['debilidad'] : [];
 $resistencias = isset($_POST['resistencia']) ? $_POST['resistencia'] : [];
 $inmunidades = isset($_POST['inmunidad']) ? $_POST['inmunidad'] : [];
 
-if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador) == 1) {
+$tipo_viejo = $controladorTipo->retornar_tipo($id_tipo);
 
-    if ($nombreArchivo != null) {
+if($nombreArchivo!=null){
+
+$controladorTipo->modificar_tipo($nombre, $color, $nombreArchivo, $tipo_viejo['creador']);
+
         $destino = "../imagenes/tipos/" . basename($nombreArchivo);
         if (move_uploaded_file($tmpArchivo, $destino)) {
             echo "La foto se subió correctamente.";
@@ -38,29 +42,26 @@ if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador) == 1)
             echo "Error al mover el archivo.";
             echo "<br>";
         }
-    }
 
-    $tipo_creado = $controladorTipo->retornar_tipo_por_creador($nombre, $creador);
+}else{
 
-    echo $tipo_creado['id_tipo'];
+$controladorTipo->modificar_tipo($nombre, $color, $tipo_viejo['icono'], $tipo_viejo['creador']);
+
+}
+
+    $controladorTipo->eliminar_efectividades($id_tipo);
 
     foreach ($resistencias as $resis) {
-        $controladorTipo->alta_efectividad($resis, $tipo_creado['id_tipo'], 0.5);
+        $controladorTipo->alta_efectividad($resis, $id_tipo, 0.5);
     }
     foreach ($debilidades as $deb) {
-        $controladorTipo->alta_efectividad($deb, $tipo_creado['id_tipo'], 2);
+        $controladorTipo->alta_efectividad($deb, $id_tipo, 2);
     }
     foreach ($inmunidades as $inmu) {
-        $controladorTipo->alta_efectividad($inmu, $tipo_creado['id_tipo'], 0);
-    }
-
-    if($self_int != 1){
-        $controladorTipo->alta_efectividad($tipo_creado['id_tipo'], $tipo_creado['id_tipo'], $self_int);
+        $controladorTipo->alta_efectividad($inmu, $id_tipo, 0);
     }
 
     echo "funca, redirigiendo...";
     header("refresh:3; url=/Creatura_PHP/paginas/gestor_tipo.php");
-} else {
-    echo "no funca, redirigiendo...";
-    header("refresh:3; url=/Creatura_PHP/paginas/gestor_tipo.php");
-}
+
+?>

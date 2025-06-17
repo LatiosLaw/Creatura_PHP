@@ -88,12 +88,31 @@ function buscar_creaturas($parametro)
     }
 }
 
-
     function baja_creatura($id_creatura)
-    {
-        $query = "DELETE FROM creatura WHERE id_creatura = $id_creatura";
-        return mysqli_query($this->conexion, $query);
+{
+    // Obtener todos los registros del moveset relacionados
+    $query_moves = "SELECT id_moveset FROM moveset WHERE id_creatura = $id_creatura";
+    $result = mysqli_query($this->conexion, $query_moves);
+
+    // Guardar los ids en un array
+    $ids_moveset = [];
+    while ($fila = mysqli_fetch_assoc($result)) {
+        $ids_moveset[] = $fila['id_moveset'];
     }
+
+    // Eliminar registros si hay alguno
+    if (!empty($ids_moveset)) {
+        // Escapar y unir los ids para el query
+        $ids_escapados = array_map('intval', $ids_moveset);
+        $ids_str = implode(',', $ids_escapados);
+        $delete_moves = "DELETE FROM moveset WHERE id_moveset IN ($ids_str)";
+        mysqli_query($this->conexion, $delete_moves);
+    }
+
+    // Finalmente eliminar la creatura
+    $query = "DELETE FROM creatura WHERE id_creatura = $id_creatura";
+    return mysqli_query($this->conexion, $query);
+}
 
     function modificar_creatura($id_creatura, $nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
     {

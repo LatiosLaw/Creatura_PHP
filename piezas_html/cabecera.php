@@ -18,8 +18,8 @@ session_start();
     <div class="botones-usuario">
     <?php if (isset($_SESSION['nickname'])) { ?>
         <button onclick="location.href='/Creatura_PHP/paginas/gestor_creatura.php'">Tus Creaturas</button>
-        <button onclick="location.href='/Creatura_PHP/paginas/gestor_habilidad.php'">Tus Tipos</button>
-        <button onclick="location.href='/Creatura_PHP/paginas/gestor_tipo.php'">Tus Habilidades</button>
+        <button onclick="location.href='/Creatura_PHP/paginas/gestor_tipo.php'">Tus Tipos</button>
+        <button onclick="location.href='/Creatura_PHP/paginas/gestor_habilidad.php'">Tus Habilidades</button>
       <?php } ?>
       </div>
 

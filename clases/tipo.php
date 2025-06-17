@@ -39,8 +39,13 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
         creador = '$creador'
     WHERE nombre_tipo = '$nombre_tipo' AND creador = '$creador'";
 
-    return mysqli_query($this->conexion, $query);
+    if (mysqli_query($this->conexion, $query)) {
+        return 1;
+    } else { 
+        return 0;
+    }
 }
+
 
   function retornar_tipo($id_tipo) {
 

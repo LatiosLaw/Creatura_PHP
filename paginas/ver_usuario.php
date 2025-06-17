@@ -49,7 +49,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
             </div>
         </div>
         <?php if(strcmp($nickname_sesion, $nickname_usuario)==0){ ?>
-<button onclick="window.location.href='/Creatura_PHP/procesamiento/manejar_bajaUsuario.php'">Eliminar Perfil</button>
+<button onclick="confirmarEliminacion()">Eliminar Perfil</button>
             <?php } ?>
     </div>
 
@@ -96,5 +96,15 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     </div>
     
             <?php include_once("../piezas_html/pie_pagina.php"); ?>
+            
+            <script>
+
+                function confirmarEliminacion() {
+      if (confirm('¿Estás seguro de que quieres eliminar tu perfil? Esta acción no se puede deshacer.')) {
+        window.location.href = '/Creatura_PHP/procesamiento/manejar_bajaUsuario.php';
+      }
+    }
+    
+            </script>
 </body>
 </html>
