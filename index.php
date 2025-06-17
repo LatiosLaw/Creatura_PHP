@@ -18,6 +18,7 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creatura</title>
+    <link rel="stylesheet" href="\Creatura_PHP\styles\inicio.css">
 </head>
 
 <body>
@@ -26,50 +27,51 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
 
     <a href="./index2.php"><button>Index 2</button></a>
 
-    <div>
-        <h2>CREATURAS</h2>
-        <table border="1" cellpadding="4" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Tipo 1</th>
-                    <th>Tipo 2</th>
-                    <th>Rating</th>
-                    <th>Imagen</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($fila = mysqli_fetch_assoc($lista_creaturas)) :
+    <div class="cont-titular"> 
+        <div class="titular">
+            <div>Creaturas del Sistema</div>
+            <button onclick="location.href='/Creatura_PHP/paginas/todas_las_creaturas.php'">Ver Mas</button>
+        </div>
+    </div>
 
-                    $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
-                    $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'])
-
-                ?>
-                    <tr>
-                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
-                        <td>
-                            <?php if ($fila['id_tipo1'] != 0): ?>
-                                <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
-                                    <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
-                                    <?= $tipo1['nombre_tipo']; ?>
-                                </div>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <?php if ($fila['id_tipo2'] != 0): ?>
-                                <div style="background-color: #<?= $tipo2['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
-                                    <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
-                                    <?= $tipo2['nombre_tipo']; ?>
-                                </div>
-                            <?php endif; ?>
-                        </td>
-                        <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
-                        <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM"><img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-        <button onclick="location.href='/Creatura_PHP/paginas/todas_las_creaturas.php'">Ver mas</button>
+    <div class="contenedor-creaturas">
+        <?php  while ($fila = mysqli_fetch_assoc($lista_creaturas)) :
+            $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+            $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'])
+        ?>
+        <div class="contenido-creatura">
+            <a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM">
+                <div class="imagen-creatura">
+                    <img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                </div>
+                <div class="nombre-creatura">
+                    <?= htmlspecialchars($fila['nombre_creatura']) ?>
+                </div>
+                <div class="tipos">
+                    <?php if ($fila['id_tipo1'] != 0): ?>
+                        <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>"
+                        <?php if($tipo1['icono'] == "sin_icono.png"): ?>
+                            style="background-color: #<?= $tipo1['color']; ?>
+                        <?php endif; ?>
+                        ;" alt="<?= $tipo1['nombre_tipo']; ?>" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                    <?php endif; ?>
+                    <?php if ($fila['id_tipo2'] != 0): ?>
+                        <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" 
+                        <?php if($tipo2['icono'] == "sin_icono.png"): ?>
+                            style="background-color: #<?= $tipo2['color']; ?>
+                        <?php endif; ?>
+                        ;" alt="<?= $tipo2['nombre_tipo']; ?>" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                    <?php endif; ?>
+                </div>
+                <div class="rating">
+                    <?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5 de puntuacion
+                </div>
+                <div class="creador-creatura">
+                    <?= htmlspecialchars($fila['creador']) ?>
+                </div>
+            </a>
+        </div>
+        <?php endwhile; ?>
     </div>
 
     <div>
