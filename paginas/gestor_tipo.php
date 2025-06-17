@@ -22,7 +22,8 @@ $tipos_del_usuario = $controladorTipo->listar_tipos_creador($_SESSION['nickname'
 </head>
 <body>
 
-<button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+<button onclick="history.back();">Volver</button>
+
 <div>
         <h1>Tus Tipos</h1>
         <button onclick="window.location.href = '/Creatura_PHP/paginas/alta_tipo.php';">Crear TIpo</button>

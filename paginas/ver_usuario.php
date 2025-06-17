@@ -36,7 +36,8 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
 </head>
 <body>
 
-<button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+<button onclick="history.back();">Volver</button>
+
 
 <div>
         <h1>Información de un Usuario</h1>

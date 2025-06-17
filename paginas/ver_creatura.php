@@ -33,7 +33,8 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
 
     <?php include_once("../piezas_html/cabecera.php"); ?>
 
-    <button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+    <button onclick="history.back();">Volver</button>
+
     <div>
         <h1>Información de la Creatura</h1>
         <div style="display: flex; gap: 20px;">
@@ -78,7 +79,7 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
                     <?php foreach ($habilidades as $habilidad): ?>
                         <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad']); ?>
                         <tr>
-                            <td><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></td>
+                            <td><a href="/Creatura_PHP/paginas/ver_habilidad.php?nombre_habilidad=<?= urlencode($habilidad['nombre_habilidad'])?>&creador=<?= urlencode($habilidad['creador'])?>&id_habilidad=<?= urlencode($habilidad['id_habilidad'])?>"><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></a></td>
                             <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
                                 <?= htmlspecialchars($tipo['nombre_tipo']) ?>
                             </td>

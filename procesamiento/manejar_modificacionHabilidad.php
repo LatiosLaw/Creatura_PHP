@@ -1,5 +1,10 @@
 <?php
 
+if (isset($_GET['creador']) && isset($_GET['id_habilidad'])) {
+    $creador = urldecode($_GET['creador']);
+    $id_habilidad = urldecode($_GET['id_habilidad']);
+}
+
 require_once("../clases/creatura.php");
 $controladorCreatura = new Creatura();
 
@@ -9,12 +14,8 @@ $categoria = $_POST['categoria'];
 $potencia = $_POST['potencia'];
 $descripcion = $_POST['descripcion'];
 
-session_start();
-
-$creador = $_SESSION['nickname'];
-
-if($controladorCreatura->alta_habilidad($nombre, $tipo, $descripcion, $categoria, $potencia, $creador) == 1){
-echo "Alta de habilidad exitosa, redirigiendo...";
+if($controladorCreatura->modificar_habilidad($id_habilidad, $nombre, $tipo, $descripcion, $categoria, $potencia, $creador) == 1){
+echo "Modificacion de habilidad exitosa, redirigiendo...";
 header("refresh:3; url=/Creatura_PHP/paginas/gestor_habilidad.php");
 }else{
 echo "no funca, algo valio vrga, redirigiendo...";

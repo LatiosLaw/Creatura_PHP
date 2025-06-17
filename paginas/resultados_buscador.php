@@ -35,7 +35,8 @@ $usuarios_encontrados = $controladorUsuario->listar_usuarios_busqueda($parametro
 
 <?php include_once("../piezas_html/cabecera.php"); ?>
 
-    <button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+    <button onclick="history.back();">Volver</button>
+
     
 <h2>Busqueda - <?php echo $parametro_busqueda ?></h2>
 

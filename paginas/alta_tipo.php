@@ -23,7 +23,8 @@ $lista_tipos = $controladorTipo->listar_tipos();
 
     <?php include_once("../piezas_html/cabecera.php"); ?>
 
-<button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+<button onclick="history.back();">Volver</button>
+
     
 <div>
             <form action="../procesamiento/manejar_altaTipo.php" method="POST" enctype="multipart/form-data">

@@ -29,7 +29,8 @@ $lista_tipos = $controladorTipo->listar_tipos();
 </head>
 <body>
     <?php include_once("../piezas_html/cabecera.php"); ?>
-    <button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+    <button onclick="history.back();">Volver</button>
+
 
     <div>
             <form action="/Creatura_PHP/procesamiento/manejar_modificacionTipo.php?id_tipo=<?php echo $id_tipo ?>" method="POST" enctype="multipart/form-data">

@@ -29,14 +29,16 @@ $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
     
 <?php include_once("../piezas_html/cabecera.php"); ?>
 
-<button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+<button onclick="history.back();">Volver</button>
+
+
 <div>
         <h1>Información del Tipo</h1>
         <div style="display: flex; gap: 20px;">
             <img src="/Creatura_PHP/imagenes/tipos/<?= htmlspecialchars($informacion_tipo['icono']) ?>" alt="Imagen del Tipo" width="200" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
             <div>
                 <h2><?= htmlspecialchars($informacion_tipo['nombre_tipo']) ?></h2>
-                <p style="color: #<?php echo $informacion_tipo['color']?>;"><strong>Color:</strong><?= htmlspecialchars($informacion_tipo['color']) ?></p>
+                <p style="color: #<?php echo $informacion_tipo['color']?>;"><strong>Color: </strong><?= htmlspecialchars($informacion_tipo['color']) ?></p>
                 <p><strong>Creador:</strong> <?= htmlspecialchars($informacion_tipo['creador']) ?></p>
             </div>
         </div>

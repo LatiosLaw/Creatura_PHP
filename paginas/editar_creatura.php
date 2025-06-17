@@ -22,7 +22,8 @@ if (isset($_GET['nombre_creatura']) && isset($_GET['creador'])) {
 </head>
 <body>
     <?php include_once("../piezas_html/cabecera.php"); ?>
-    <button onclick="window.location.href = document.referrer || '/Creatura_PHP/index.php';">Volver</button>
+    <button onclick="history.back();">Volver</button>
+
 <?php include_once("../piezas_html/pie_pagina.php"); ?>
 </body>
 </html>

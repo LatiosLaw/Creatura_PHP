@@ -76,6 +76,22 @@ function buscar_creaturas($parametro)
     return $resultado;
 }
 
+function retornar_creaturas_habilidad($id_habilidad)
+{
+    $id_habilidad = mysqli_real_escape_string($this->conexion, $id_habilidad);
+
+    $sql = "
+        SELECT c.* 
+        FROM creatura c
+        INNER JOIN moveset m ON c.id_creatura = m.id_creatura
+        WHERE m.id_habilidad = '$id_habilidad'
+    ";
+
+    $resultado = mysqli_query($this->conexion, $sql);
+
+    return $resultado;
+}
+
    function alta_creatura($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
 {
     $query = "INSERT INTO creatura (nombre_creatura, id_tipo1, id_tipo2, descripcion, hp, atk, def, spa, sdef, spe, creador, imagen, publico)
@@ -164,6 +180,60 @@ function buscar_creaturas($parametro)
         INNER JOIN habilidad h ON m.id_habilidad = h.id_habilidad
         INNER JOIN tipo t ON h.id_tipo_habilidad = t.id_tipo
         WHERE m.id_creatura = $id_creatura
+    ";
+
+    $resultado = mysqli_query($this->conexion, $query);
+    $habilidades = [];
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $habilidades[] = $fila;
+        }
+    }
+
+    return $habilidades;
+}
+
+public function retornar_habilidad($nombre_habilidad, $creador)
+{
+    // Prepara la consulta para mayor seguridad
+    $sql = "SELECT * 
+            FROM habilidad 
+            WHERE nombre_habilidad = ? 
+              AND creador = ? 
+            LIMIT 1";
+    $stmt = $this->conexion->prepare($sql);
+    if (!$stmt) {
+        throw new Exception("Error al preparar la consulta: " . $this->conexion->error);
+    }
+
+    // Enlaza parámetros y ejecuta
+    $stmt->bind_param("ss", $nombre_habilidad, $creador);
+    if (!$stmt->execute()) {
+        throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+    }
+
+    // Obtiene el resultado y el primer registro
+    $res = $stmt->get_result();
+    $fila = $res->fetch_assoc();
+
+    $stmt->close();
+
+    // Devuelve el array asociativo o null si no existe
+    return $fila ?: null;
+}
+
+function retornar_habilidades_creador($nickname)
+{
+    $nickname = mysqli_real_escape_string($this->conexion, $nickname);
+
+    $query = "
+        SELECT 
+            h.*, 
+            t.id_tipo AS id_tipo_habilidad
+        FROM habilidad h
+        INNER JOIN tipo t ON h.id_tipo_habilidad = t.id_tipo
+        WHERE h.creador = '$nickname'
     ";
 
     $resultado = mysqli_query($this->conexion, $query);
