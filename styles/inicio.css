@@ -43,6 +43,7 @@
 
 .contenido-creatura{
     background-color: lightgray;
+    cursor: pointer;
     margin: 20px;
     min-width: 300px;
     min-height: 450px;
