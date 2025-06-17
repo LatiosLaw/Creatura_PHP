@@ -1,4 +1,11 @@
 <?php
+
+if (isset($_GET['id_creatura'])) {
+    $id_creatura = urldecode($_GET['id_creatura']);
+    $creador = urldecode($_GET['creador']);
+    $nombre_creatura = urldecode($_GET['nombre_creatura']);
+}
+
 session_start();
 
 require_once("../clases/creatura.php");
@@ -24,9 +31,15 @@ if (!isset($_SESSION['nickname'])) {
     $spdef = $_POST['spdef'] ?? 70;
     $spe = $_POST['spe'] ?? 70;
 
+    $controladorCreatura->borrar_moveset_por_creatura($id_creatura);
+
+    $creatura_vieja = $controladorCreatura->retornar_creatura($nombre_creatura, $creador);
+
     // Habilidades (JSON decodificado a array asociativo)
     $habilidades_json = $_POST['habilidades_json'] ?? '[]';
     $habilidades = json_decode($habilidades_json, true);
+
+    $nombreArchivo = null;
 
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
     $imagen = $_FILES['imagen'];
@@ -36,13 +49,13 @@ if (!isset($_SESSION['nickname'])) {
     $tamanoArchivo = $imagen['size'];
     $tmpArchivo = $imagen['tmp_name'];
 
-    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, $nombreArchivo, 0);
+    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $nombreArchivo, 0);
 }else{
-    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, null, 0);
+    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $creatura_vieja['imagen'], 0);
 }
 
     foreach($habilidades as $hab){
-        $controladorCreatura->alta_moveset($id_creatura_nueva, $hab['id']);
+        $controladorCreatura->alta_moveset($id_creatura, $hab['id']);
     }
 
     if ($nombreArchivo != null) {
@@ -57,7 +70,6 @@ if (!isset($_SESSION['nickname'])) {
     }
 
     echo "funca, redirigiendo...";
-    header("refresh:3; url=/Creatura_PHP/paginas/gestor_creatura.php");
+    header("refresh:3; url=../paginas/gestor_creatura.php");
 
-    // Aquí podrías continuar con lógica de validación, sanitización o inserción en base de datos.
 ?>
