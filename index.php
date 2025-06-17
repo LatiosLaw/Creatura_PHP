@@ -25,8 +25,6 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
 
     <?php include_once("./piezas_html/cabecera.php"); ?>
 
-    <a href="./index2.php"><button>Index 2</button></a>
-
     <div class="cont-titular"> 
         <div class="titular">
             <div>Creaturas del Sistema</div>
@@ -40,27 +38,32 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
             $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'])
         ?>
         <div class="contenido-creatura">
-            <a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM">
                 <div class="imagen-creatura">
+                    <a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM">
                     <img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                    </a>
                 </div>
                 <div class="nombre-creatura">
                     <?= htmlspecialchars($fila['nombre_creatura']) ?>
                 </div>
                 <div class="tipos">
                     <?php if ($fila['id_tipo1'] != 0): ?>
+                        <a href="/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1['nombre_tipo']) ?>&creador=<?= urlencode($tipo1['creador'])?>&id_tipo=<?= urlencode($tipo1['id_tipo'])?>">
                         <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>"
                         <?php if($tipo1['icono'] == "sin_icono.png"): ?>
                             style="background-color: #<?= $tipo1['color']; ?>
                         <?php endif; ?>
                         ;" alt="<?= $tipo1['nombre_tipo']; ?>" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                        </a>
                     <?php endif; ?>
                     <?php if ($fila['id_tipo2'] != 0): ?>
+                        <a href="/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2['nombre_tipo']) ?>&creador=<?= urlencode($tipo2['creador'])?>&id_tipo=<?= urlencode($tipo2['id_tipo'])?>">
                         <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" 
                         <?php if($tipo2['icono'] == "sin_icono.png"): ?>
                             style="background-color: #<?= $tipo2['color']; ?>
                         <?php endif; ?>
                         ;" alt="<?= $tipo2['nombre_tipo']; ?>" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+                        </a>
                     <?php endif; ?>
                 </div>
                 <div class="rating">
@@ -69,7 +72,6 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
                 <div class="creador-creatura">
                     <?= htmlspecialchars($fila['creador']) ?>
                 </div>
-            </a>
         </div>
         <?php endwhile; ?>
     </div>
