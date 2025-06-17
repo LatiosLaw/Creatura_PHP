@@ -1,0 +1,112 @@
+.cont-titular{
+    background-color: lightslategray;
+    display: flex;
+}
+
+.titular{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    font-size: x-large;
+    font-weight: 500;
+    margin-right: 5px;
+    align-items: center;
+}
+
+.titular div{
+    display: inline;
+
+}
+
+.titular button{
+    margin-inline-start: auto;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.titular button:hover{
+    background-color: #333;
+}
+
+.contenedor-creaturas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.contenido-creatura{
+    background-color: lightgray;
+    margin: 20px;
+    min-width: 300px;
+    min-height: 450px;
+    max-width: 300px;
+    max-height: 450px;
+}
+
+.contenido-creatura a{
+    text-decoration: none;
+    color: black;
+}
+
+.imagen-creatura{
+    text-align: center;
+}
+
+.imagen-creatura img{
+    background-color: white;
+    margin-top: 10px; 
+    margin-bottom: 5px;
+    user-select: none;
+    border: 1px solid black;
+    min-width: 280px;
+    min-height: 280px;
+    max-width: 280px;
+    max-height: 280px;
+}
+
+.nombre-creatura, .creador-creatura{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nombre-creatura{
+    text-align: center;
+    font-size: 22px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.creador-creatura{
+    text-align: center;
+    margin-top: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 6.5px;
+}
+
+.tipos{
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+.tipos img{
+    user-select: none;
+    min-width: 35px;
+    min-height: 35px;
+    max-width: 35px;
+    max-height: 35px;
+}
+
+.rating{
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+}
