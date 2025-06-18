@@ -323,6 +323,7 @@ function retornar_habilidades_creador($nickname)
             'nombre_tipo' => $tipo['nombre_tipo'],
             'color' => $tipo['color'],
             'icono' => $tipo['icono'],
+            'creador' => $tipo['creador'],
             'multiplicador' => $total
         ];
     }

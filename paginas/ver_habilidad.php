@@ -35,8 +35,8 @@ $info_tipo = $controladorTipo->retornar_tipo($informacion_habilidad['id_tipo_hab
         <div style="display: flex; gap: 20px;">
             <div>
                 <p><strong>Nombre:</strong> <?= htmlspecialchars($informacion_habilidad['nombre_habilidad']) ?></p>
-                <p><strong>Creador:</strong> <?= htmlspecialchars($informacion_habilidad['creador']) ?></p>
-                <p style="color: #<?php echo $info_tipo['color'] ?>;"><strong>Tipo:</strong><?= htmlspecialchars($info_tipo['nombre_tipo']) ?></p>
+                <p><strong>Creador:</strong><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($info_tipo['creador'])?>"><?= htmlspecialchars($info_tipo['creador']) ?></a></p>
+                <p style="color: #<?php echo $info_tipo['color'] ?>;"><strong><a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($info_tipo['nombre_tipo']) ?>&creador=<?= urlencode($info_tipo['creador']) ?>&id_tipo=<?= urlencode($info_tipo['id_tipo']) ?>'>Tipo:</strong><?= htmlspecialchars($info_tipo['nombre_tipo']) ?></a></p>
                 <p><strong>Categoria:</strong> <?= htmlspecialchars($informacion_habilidad['categoria_habilidad']) ?></p>
                 <p><strong>Potencia:</strong> <?= htmlspecialchars($informacion_habilidad['potencia']) ?></p>
                 <p><strong>Descripcion :</strong> <p><?= htmlspecialchars($informacion_habilidad['descripcion']) ?></p></p>
@@ -67,18 +67,22 @@ $info_tipo = $controladorTipo->retornar_tipo($informacion_habilidad['id_tipo_hab
                         <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=<?= urlencode($fila['creador']) ?>"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
                         <td>
                             <?php if ($fila['id_tipo1'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1['nombre_tipo']) ?>&creador=<?= urlencode($tipo1['creador']) ?>&id_tipo=<?= urlencode($tipo1['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo1['nombre_tipo']; ?>
                                 </div>
+                            </a>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($fila['id_tipo2'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2['nombre_tipo']) ?>&creador=<?= urlencode($tipo2['creador']) ?>&id_tipo=<?= urlencode($tipo2['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo2['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo2['nombre_tipo']; ?>
                                 </div>
+                                 </a>
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>

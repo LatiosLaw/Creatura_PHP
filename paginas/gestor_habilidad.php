@@ -48,8 +48,9 @@ $habilidades_usuario = $controladorCreatura->retornar_habilidades_creador($nickn
                         <tr>
                             <td><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></td>
                             <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo['nombre_tipo']) ?>&creador=<?= urlencode($tipo['creador']) ?>&id_tipo=<?= urlencode($tipo['id_tipo']) ?>'>
                                 <?= htmlspecialchars($tipo['nombre_tipo']) ?>
-                            </td>
+                            </a></td>
                             <td><?= htmlspecialchars($habilidad['categoria_habilidad']) ?></td>
                             <td><?= $habilidad['potencia'] ?></td>
                             <td><?= htmlspecialchars($habilidad['descripcion']) ?></td>

@@ -44,9 +44,13 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
                 <p><strong>Creador:</strong><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= urlencode($creatura_elegida['creador'])?>"> <?= htmlspecialchars($creatura_elegida['creador']) ?></a></p>
                 <p><strong>Rating:</strong> <?= htmlspecialchars($creatura_elegida['rating_promedio']) ?>/5</p>
                 <p>
+                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo1_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo1_elegida['id_tipo']) ?>'>
                 <div style="background-color: #<?= $tipo1_elegida['color']; ?>; color: #fff;"><?= $tipo1_elegida['nombre_tipo']; ?></div>
+                </a>
+                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo2_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo2_elegida['id_tipo']) ?>'>
                 <div style="background-color: #<?= $tipo2_elegida['color']; ?>; color: #fff;"><?= $tipo2_elegida['nombre_tipo']; ?></div>
-                </p>
+                </a>
+            </p>
 
                 <p><strong>Descripción:</strong> <?= htmlspecialchars($creatura_elegida['descripcion']) ?></p>
                 <p><strong>Stats:</strong><br>
@@ -81,8 +85,9 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
                         <tr>
                             <td><a href="/Creatura_PHP/paginas/ver_habilidad.php?nombre_habilidad=<?= urlencode($habilidad['nombre_habilidad'])?>&creador=<?= urlencode($habilidad['creador'])?>&id_habilidad=<?= urlencode($habilidad['id_habilidad'])?>"><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></a></td>
                             <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo['nombre_tipo']) ?>&creador=<?= urlencode($tipo['creador']) ?>&id_tipo=<?= urlencode($tipo['id_tipo']) ?>'>
                                 <?= htmlspecialchars($tipo['nombre_tipo']) ?>
-                            </td>
+                            </a></td>
                             <td><?= htmlspecialchars($habilidad['categoria_habilidad']) ?></td>
                             <td><?= $habilidad['potencia'] ?></td>
                             <td><?= htmlspecialchars($habilidad['descripcion']) ?></td>
@@ -144,10 +149,19 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
             echo "<h3>$titulo</h3><div style='display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1em;'>";
 
             foreach ($tipos as $tipo) {
-                echo "<div style='padding: 8px; background-color: #{$tipo['color']}; border-radius: 5px; color: white; min-width: 100px; text-align: center;'>
-                    {$tipo['nombre_tipo']}<br>x{$tipo['multiplicador']}
-                </div>";
-            }
+    $nombre_tipo = urlencode($tipo['nombre_tipo']);
+    $creador = urlencode($tipo['creador']);
+    $id_tipo = urlencode($tipo['id_tipo']);
+    $color = htmlspecialchars($tipo['color']);
+    $nombre_mostrar = htmlspecialchars($tipo['nombre_tipo']);
+    $multiplicador = htmlspecialchars($tipo['multiplicador']);
+
+    echo "<a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=$nombre_tipo&creador=$creador&id_tipo=$id_tipo'>
+        <div style='padding: 8px; background-color: #$color; border-radius: 5px; color: white; min-width: 100px; text-align: center;'>
+            $nombre_mostrar<br>x$multiplicador
+        </div>
+    </a>";
+}
 
             echo "</div>";
         }

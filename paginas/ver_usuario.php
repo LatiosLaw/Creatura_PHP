@@ -72,6 +72,8 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
             <?= htmlspecialchars($creatura['nombre']) ?>
         </div>
         <div class="tipos">
+
+        <?php if ($creatura['tipo1']['id_tipo'] != 0): ?>
             <?php if (!empty($creatura['tipo1']['icono'])): ?>
                 <a href="/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($creatura['tipo1']['nombre_tipo']) ?>&creador=<?= urlencode($creatura['tipo1']['creador'])?>&id_tipo=<?= urlencode($creatura['tipo1']['id_tipo'])?>">
                     <img src="/Creatura_PHP/imagenes/tipos/<?= htmlspecialchars($creatura['tipo1']['icono']) ?>"
@@ -81,6 +83,9 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
                     ;" alt="<?= htmlspecialchars($creatura['tipo1']['nombre_tipo']) ?>" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                 </a>
             <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ($creatura['tipo2']['id_tipo'] != 0): ?>
             <?php if (!empty($creatura['tipo2']['icono'])): ?>
                 <a href="/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($creatura['tipo2']['nombre_tipo']) ?>&creador=<?= urlencode($creatura['tipo2']['creador'])?>&id_tipo=<?= urlencode($creatura['tipo2']['id_tipo'])?>">
                     <img src="/Creatura_PHP/imagenes/tipos/<?= htmlspecialchars($creatura['tipo2']['icono']) ?>"
@@ -90,6 +95,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
                     ;" alt="<?= htmlspecialchars($creatura['tipo2']['nombre_tipo']) ?>" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                 </a>
             <?php endif; ?>
+        <?php endif; ?>
         </div>
         <div class="rating">
             <?= htmlspecialchars($controladorCreatura->rating_promedio(($creatura['id_creatura']))) ?>/5 de puntuación

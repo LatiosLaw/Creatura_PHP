@@ -39,7 +39,7 @@ $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
             <div>
                 <h2><?= htmlspecialchars($informacion_tipo['nombre_tipo']) ?></h2>
                 <p style="color: #<?php echo $informacion_tipo['color']?>;"><strong>Color: </strong><?= htmlspecialchars($informacion_tipo['color']) ?></p>
-                <p><strong>Creador:</strong> <?= htmlspecialchars($informacion_tipo['creador']) ?></p>
+                <p><strong>Creador:</strong><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($informacion_tipo['creador'])?>"><?= htmlspecialchars($informacion_tipo['creador']) ?></a></p>
             </div>
         </div>
     </div>
@@ -69,18 +69,22 @@ $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
                         <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=<?= urlencode($fila['creador']) ?>"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
                         <td>
                             <?php if ($fila['id_tipo1'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1['nombre_tipo']) ?>&creador=<?= urlencode($tipo1['creador']) ?>&id_tipo=<?= urlencode($tipo1['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo1['nombre_tipo']; ?>
                                 </div>
+                            </a>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($fila['id_tipo2'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2['nombre_tipo']) ?>&creador=<?= urlencode($tipo2['creador']) ?>&id_tipo=<?= urlencode($tipo2['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo2['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo2['nombre_tipo']; ?>
                                 </div>
+                                 </a>
                             <?php endif; ?>
                         </td>
                         <td><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= urlencode($fila['creador'])?>"> <?= htmlspecialchars($fila['creador']) ?></a></td>
@@ -111,7 +115,7 @@ $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
                     <?php foreach ($habilidades_tipo as $habilidad): ?>
                         <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad']); ?>
                         <tr>
-                            <td><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></td>
+                            <td><a href="/Creatura_PHP/paginas/ver_habilidad.php?nombre_habilidad=<?= urlencode($habilidad['nombre_habilidad'])?>&creador=<?= urlencode($habilidad['creador'])?>&id_habilidad=<?= urlencode($habilidad['id_habilidad'])?>"><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></a></td>
                             <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
                                 <?= htmlspecialchars($tipo['nombre_tipo']) ?>
                             </td>
@@ -176,10 +180,19 @@ $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
             echo "<h3>$titulo</h3><div style='display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1em;'>";
 
             foreach ($tipos as $tipo) {
-                echo "<div style='padding: 8px; background-color: #{$tipo['color']}; border-radius: 5px; color: white; min-width: 100px; text-align: center;'>
-                    {$tipo['nombre_tipo']}<br>x{$tipo['multiplicador']}
-                </div>";
-            }
+    $nombre_tipo = urlencode($tipo['nombre_tipo']);
+    $creador = urlencode($tipo['creador']);
+    $id_tipo = urlencode($tipo['id_tipo']);
+    $color = htmlspecialchars($tipo['color']);
+    $nombre_mostrar = htmlspecialchars($tipo['nombre_tipo']);
+    $multiplicador = htmlspecialchars($tipo['multiplicador']);
+
+    echo "<a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=$nombre_tipo&creador=$creador&id_tipo=$id_tipo'>
+        <div style='padding: 8px; background-color: #$color; border-radius: 5px; color: white; min-width: 100px; text-align: center;'>
+            $nombre_mostrar<br>x$multiplicador
+        </div>
+    </a>";
+}
 
             echo "</div>";
         }
