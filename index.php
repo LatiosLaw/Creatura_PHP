@@ -65,7 +65,7 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
                 <?php endif; ?>
             </div>
             <div class="rating">
-                <?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5 de puntuacion
+                <?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5 de puntuación
             </div>
             <div class="creador-creatura">
                 <?= htmlspecialchars($fila['creador']) ?>

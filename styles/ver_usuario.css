@@ -1,3 +1,41 @@
+.contenido-usuario{
+    display: flex;
+    gap: 100px;
+    padding: 40px;
+}
+
+.contenido-usuario img{
+    min-width: 500px;
+    min-height: 500px;
+    max-width: 500px;
+    max-height: 500px;
+    border: 1px solid black;
+}
+
+.info-personal{
+    font-size: large;
+}
+
+.info-personal h2, .info-personal p{
+    margin-bottom: 20px;
+}
+
+.info-personal button{
+    margin-inline-start: auto;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.info-personal button:hover{
+    background-color: #333;
+}
+
 .contenedor-creaturas, .contenedor-usuarios{
     display: flex;
     flex-wrap: wrap;
@@ -9,9 +47,9 @@
     cursor: pointer;
     margin: 20px;
     min-width: 300px;
-    min-height: 450px;
+    min-height: 420px;
     max-width: 300px;
-    max-height: 450px;
+    max-height: 420px;
     transition: background-color 0.3s ease;
 }
 
@@ -40,7 +78,7 @@
     max-height: 280px;
 }
 
-.nombre-creatura, .creador-creatura, .nombre-usuario{
+.nombre-creatura{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -51,14 +89,6 @@
     font-size: 22px;
     padding-left: 5px;
     padding-right: 5px;
-}
-
-.creador-creatura{
-    text-align: center;
-    margin-top: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 6px;
 }
 
 .tipos{
@@ -77,48 +107,5 @@
 
 .rating{
     text-align: center;
-    border-bottom: 1px solid black;
     padding-bottom: 20px;
-}
-
-.contenido-usuario{
-    background-color: lightgray;
-    margin: 20px;
-    min-width: 200px;
-    min-height: 235px;
-    max-width: 200px;
-    max-height: 235px;
-    transition: background-color 0.3s ease;
-}
-
-.contenido-usuario:hover{
-    background-color: ghostwhite;
-}
-
-.contenido-usuario a{
-    text-decoration: none;
-    color: black;
-}
-
-.imagen-usuario{
-    text-align: center;
-}
-
-.imagen-usuario img{
-    user-select: none;
-    background-color: white;
-    margin-top: 7px;
-    margin-bottom: 5px;
-    border: 1px solid black;
-    min-width: 185px;
-    min-height: 185px;
-    max-width: 185px;
-    max-height: 185px;
-}
-
-.nombre-usuario{
-    text-align: center;
-    font-size: 18px;
-    padding-left: 5px;
-    padding-right: 5px;
 }
