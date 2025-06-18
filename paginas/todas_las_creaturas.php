@@ -45,18 +45,22 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
                         <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
                         <td>
                             <?php if ($fila['id_tipo1'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1['nombre_tipo']) ?>&creador=<?= urlencode($tipo1['creador']) ?>&id_tipo=<?= urlencode($tipo1['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo1['nombre_tipo']; ?>
                                 </div>
+                            </a>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($fila['id_tipo2'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2['nombre_tipo']) ?>&creador=<?= urlencode($tipo2['creador']) ?>&id_tipo=<?= urlencode($tipo2['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo2['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo2['nombre_tipo']; ?>
                                 </div>
+                                 </a>
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
@@ -90,18 +94,22 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
                         <td><a href="/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=<?= urlencode($fila['creador']) ?>"><?= htmlspecialchars($fila['nombre_creatura']) ?></a></td>
                         <td>
                             <?php if ($fila['id_tipo1'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1['nombre_tipo']) ?>&creador=<?= urlencode($tipo1['creador']) ?>&id_tipo=<?= urlencode($tipo1['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo1['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo1['nombre_tipo']; ?>
                                 </div>
+                            </a>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($fila['id_tipo2'] != 0): ?>
+                                <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2['nombre_tipo']) ?>&creador=<?= urlencode($tipo2['creador']) ?>&id_tipo=<?= urlencode($tipo2['id_tipo']) ?>'>
                                 <div style="background-color: #<?= $tipo2['color']; ?>; color: #fff; padding: 5px; display: flex; align-items: center; gap: 5px;">
                                     <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2['icono']; ?>" alt="" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
                                     <?= $tipo2['nombre_tipo']; ?>
                                 </div>
+                                 </a>
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($controladorCreatura->rating_promedio(($fila['id_creatura']))) ?>/5</td>
