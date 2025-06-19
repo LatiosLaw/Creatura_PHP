@@ -38,7 +38,34 @@ function alta_usuario($nickname, $correo, $foto, $biografia, $contraseña, $tipo
     return mysqli_stmt_execute($stmt) ? 1 : 0;
 }
 
+function alta_usuario_API($nickname, $correo, $foto, $biografia, $contraseña, $tipo) {
+    // Verificar si ya existe el nickname o el correo
+    $check_query = "SELECT * FROM usuario WHERE nickname = ? OR correo = ?";
+    $stmt = mysqli_prepare($this->conexion, $check_query);
+    mysqli_stmt_bind_param($stmt, "ss", $nickname, $correo);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        // Ya existe un usuario con ese nickname o correo
+        return 0;
+    }
+
+    // Insertar nuevo usuario
+    $insert_query = "INSERT INTO usuario (nickname, correo, foto, biografia, contraseña, tipo) 
+                     VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($this->conexion, $insert_query);
+    mysqli_stmt_bind_param($stmt, "ssssss", $nickname, $correo, $foto, $biografia, $contraseña, $tipo);
+
+    return mysqli_stmt_execute($stmt) ? 1 : 0;
+}
+
 function baja_usuario($nickname) {
+    $query = "DELETE FROM usuario WHERE nickname = '$nickname'";
+    return mysqli_query($this->conexion, $query);
+}
+
+function baja_usuario_API($nickname) {
     $query = "DELETE FROM usuario WHERE nickname = '$nickname'";
     return mysqli_query($this->conexion, $query);
 }
@@ -102,6 +129,11 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
     return mysqli_fetch_assoc($resultado);
   }
 
+  function retornar_usuario_personal_API($nickname){
+    $resultado = mysqli_query($this->conexion, "SELECT * from usuario WHERE nickname = '$nickname'");
+    return mysqli_fetch_assoc($resultado);
+  }
+
   function retornar_informacion_usuario($nickname){
     $resultado = mysqli_query($this->conexion, "SELECT nickname, correo, biografia, foto from usuario WHERE nickname = '$nickname'");
     return mysqli_fetch_assoc($resultado);
@@ -134,5 +166,34 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
 
     return $creaturas;
 }
+
+function listar_creaturas_de_usuario_API($nickname, $controladorTipo) {
+        
+    // Consulta todas las criaturas del creador
+    $query = "SELECT * FROM creatura WHERE creador = ?";
+    $stmt = mysqli_prepare($this->conexion, $query);
+    mysqli_stmt_bind_param($stmt, "s", $nickname);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    $creaturas = [];
+
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Obtener datos del tipo1
+        $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+        $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
+
+        $creaturas[] = [
+            'id_creatura' => $fila['id_creatura'],
+            'nombre' => $fila['nombre_creatura'],
+            'imagen' => $fila['imagen'],
+            'tipo1' => $tipo1,
+            'tipo2' => $tipo2
+        ];
+    }
+
+    return $creaturas;
+}
+
 }
 ?>

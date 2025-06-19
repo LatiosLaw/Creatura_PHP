@@ -76,6 +76,35 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
     }
   }
 
+  function retornar_tipo_API($id_tipo) {
+
+    if ($id_tipo == 0) {
+        return [
+            "id_tipo" => 0,
+            "nombre_tipo" => "-",
+            "color" => "aaaaaa",
+            "icono" => "sin_icono.png",
+            "creador" => "SYSTEM"
+        ];
+    }
+
+    $query = "SELECT * FROM tipo WHERE id_tipo = $id_tipo";
+    $resultado = mysqli_query($this->conexion, $query);
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        return mysqli_fetch_assoc($resultado);
+    } else {
+        // En caso de que no se encuentre el tipo (inexistente)
+        return [
+            "id_tipo" => 0,
+            "nombre_tipo" => "-",
+            "color" => "aaaaaa",
+            "icono" => "sin_icono.png",
+            "creador" => "SYSTEM_ERROR"
+        ];
+    }
+  }
+
   function retornar_tipo_por_creador($nombre, $creador) {
 
     $query = "SELECT * FROM tipo WHERE creador = '$creador' AND nombre_tipo = '$nombre'";

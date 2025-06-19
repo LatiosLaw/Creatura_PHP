@@ -20,6 +20,27 @@ class Creatura
         return $resultado;
     }
 
+    public function listar_creaturas_con_tipos_API() {
+    require_once("tipo.php");
+    $controladorTipo = new Tipo();
+
+    $resultado = mysqli_query($this->conexion, "SELECT * FROM creatura");
+    $creaturas = [];
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+            $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
+
+            $fila['tipo1'] = $tipo1;
+            $fila['tipo2'] = $tipo2;
+
+            $creaturas[] = $fila;
+        }
+    }
+    return $creaturas;
+}
+
     function listar_creaturas_ext($cantidad, $creador)
     {
 
@@ -104,7 +125,43 @@ function retornar_creaturas_habilidad($id_habilidad)
     }
 }
 
+function alta_creatura_API($nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
+{
+    $query = "INSERT INTO creatura (nombre_creatura, id_tipo1, id_tipo2, descripcion, hp, atk, def, spa, sdef, spe, creador, imagen, publico)
+              VALUES ('$nombre_creatura', $id_tipo1, $id_tipo2, '$descripcion', $hp, $atk, $def, $spa, $sdef, $spe, '$creador', '$imagen', $publico)";
+    
+    if (mysqli_query($this->conexion, $query)) {
+        return mysqli_insert_id($this->conexion); // Retorna el ID del nuevo registro
+    } else {
+        return 0; // Algo falló
+    }
+}
+
     function borrar_moveset_por_creatura($id_creatura)
+{
+    // Obtener todos los registros del moveset relacionados
+    $query_moves = "SELECT id_moveset FROM moveset WHERE id_creatura = $id_creatura";
+    $result = mysqli_query($this->conexion, $query_moves);
+
+    if (!$result) return false;
+
+    // Guardar los ids en un array
+    $ids_moveset = [];
+    while ($fila = mysqli_fetch_assoc($result)) {
+        $ids_moveset[] = intval($fila['id_moveset']);
+    }
+
+    // Eliminar registros si hay alguno
+    if (!empty($ids_moveset)) {
+        $ids_str = implode(',', $ids_moveset);
+        $delete_moves = "DELETE FROM moveset WHERE id_moveset IN ($ids_str)";
+        return mysqli_query($this->conexion, $delete_moves);
+    }
+
+    return true; // No había moveset, pero no es un error
+}
+
+function borrar_moveset_por_creatura_API($id_creatura)
 {
     // Obtener todos los registros del moveset relacionados
     $query_moves = "SELECT id_moveset FROM moveset WHERE id_creatura = $id_creatura";
@@ -137,8 +194,22 @@ function baja_creatura($id_creatura)
     return mysqli_query($this->conexion, $query);
 }
 
+function baja_creatura_API($id_creatura)
+{
+    $this->borrar_moveset_por_creatura($id_creatura); // Llamada a la función separada
+
+    // Finalmente eliminar la creatura
+    $query = "DELETE FROM creatura WHERE id_creatura = $id_creatura";
+    return mysqli_query($this->conexion, $query);
+}
 
     function modificar_creatura($id_creatura, $nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
+    {
+        $query = "UPDATE creatura SET nombre_creatura = '$nombre_creatura', id_tipo1 = $id_tipo1, id_tipo2 = $id_tipo2, descripcion = '$descripcion', hp = $hp, atk = $atk, def = $def, spa = $spa, sdef = $sdef, spe = $spe, creador = '$creador', imagen = '$imagen', publico = $publico WHERE id_creatura = $id_creatura";
+        return mysqli_query($this->conexion, $query);
+    }
+
+    function modificar_creatura_API($id_creatura, $nombre_creatura, $id_tipo1, $id_tipo2, $descripcion, $hp, $atk, $def, $spa, $sdef, $spe, $creador, $imagen, $publico)
     {
         $query = "UPDATE creatura SET nombre_creatura = '$nombre_creatura', id_tipo1 = $id_tipo1, id_tipo2 = $id_tipo2, descripcion = '$descripcion', hp = $hp, atk = $atk, def = $def, spa = $spa, sdef = $sdef, spe = $spe, creador = '$creador', imagen = '$imagen', publico = $publico WHERE id_creatura = $id_creatura";
         return mysqli_query($this->conexion, $query);
@@ -176,7 +247,50 @@ function baja_creatura($id_creatura)
         }
     }
 
+    function retornar_creatura_API($nombre_creatura, $creador)
+    {
+        $query = "SELECT * FROM creatura WHERE nombre_creatura = ? AND creador = ?";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "ss", $nombre_creatura, $creador);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
+
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            $creatura = mysqli_fetch_assoc($resultado);
+            $creatura['rating_promedio'] = $this->rating_promedio($creatura['id_creatura']);
+            return $creatura;
+        } else {
+            return false;
+        }
+    }
+
     function retornar_habilidades($id_creatura)
+{
+    $query = "
+        SELECT 
+            h.*, 
+            t.nombre_tipo AS nombre_tipo_habilidad,
+            t.color AS color_tipo_habilidad,
+            t.icono AS icono_tipo_habilidad
+        FROM moveset m
+        INNER JOIN habilidad h ON m.id_habilidad = h.id_habilidad
+        INNER JOIN tipo t ON h.id_tipo_habilidad = t.id_tipo
+        WHERE m.id_creatura = $id_creatura
+    ";
+
+    $resultado = mysqli_query($this->conexion, $query);
+    $habilidades = [];
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $habilidades[] = $fila;
+        }
+    }
+
+    return $habilidades;
+}
+
+function retornar_habilidades_API($id_creatura)
 {
     $query = "
         SELECT 
@@ -331,6 +445,56 @@ function retornar_habilidades_creador($nickname)
     return $resultado;
 }
 
+function retornar_calculo_de_tipos_defendiendo_API($id_tipo1, $id_tipo2)
+{
+    // Primero obtenemos todos los tipos atacantes
+    $tipos = [];
+    $consulta_tipos = mysqli_query($this->conexion, "SELECT * FROM tipo");
+    while ($tipo = mysqli_fetch_assoc($consulta_tipos)) {
+        $tipos[$tipo['id_tipo']] = $tipo;
+        $tipos[$tipo['id_tipo']]['multiplicador1'] = 1.0;
+        $tipos[$tipo['id_tipo']]['multiplicador2'] = 1.0;
+    }
+
+    // Efectividades sobre el tipo1
+    $ef1 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo1");
+    while ($fila = mysqli_fetch_assoc($ef1)) {
+        if (isset($tipos[$fila['atacante']])) {
+            $tipos[$fila['atacante']]['multiplicador1'] = $fila['multiplicador'];
+        }
+    }
+
+    // Efectividades sobre el tipo2
+    $ef2 = mysqli_query($this->conexion, "SELECT * FROM efectividades WHERE defensor = $id_tipo2");
+    while ($fila = mysqli_fetch_assoc($ef2)) {
+        if (isset($tipos[$fila['atacante']])) {
+            $tipos[$fila['atacante']]['multiplicador2'] = $fila['multiplicador'];
+        }
+    }
+
+    // Resultado final
+    $resultado = [];
+
+    foreach ($tipos as $id => $tipo) {
+        $m1 = $tipo['multiplicador1'];
+        $m2 = $tipo['multiplicador2'];
+
+        // Inmunidad prevalece
+        $total = ($m1 == 0 || $m2 == 0) ? 0 : $m1 * $m2;
+
+        $resultado[] = [
+            'id_tipo' => $id,
+            'nombre_tipo' => $tipo['nombre_tipo'],
+            'color' => $tipo['color'],
+            'icono' => $tipo['icono'],
+            'creador' => $tipo['creador'],
+            'multiplicador' => $total
+        ];
+    }
+
+    return $resultado;
+}
+
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////// ABM DE HABILIDAD ////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
@@ -378,6 +542,17 @@ function retornar_habilidades_creador($nickname)
     ////////////////////////////////////////////////////////////////////////////////////
 
     function alta_moveset($id_creatura, $id_habilidad)
+    {
+        $query = "INSERT INTO moveset (
+        id_creatura, id_habilidad
+    ) VALUES (
+        $id_creatura, $id_habilidad
+    )";
+
+        return mysqli_query($this->conexion, $query);
+    }
+
+    function alta_moveset_API($id_creatura, $id_habilidad)
     {
         $query = "INSERT INTO moveset (
         id_creatura, id_habilidad
