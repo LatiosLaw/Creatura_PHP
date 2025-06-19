@@ -1,22 +1,66 @@
-.contenido-creatura{
-    display: flex;
-    gap: 100px;
-    padding: 40px;
-    align-items: center;
+/* Pantalla chica */
+@media (max-width: 991.5px){
+    .contenido-creatura{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .contenido-creatura img{
+        margin-top: 10px;
+        min-width: 300px;
+        min-height: 300px;
+        max-width: 300px;
+        max-height: 300px;
+    }
+
+    .info-creatura{
+        width: 80%;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stats{
+        text-align: left;
+    }
+}
+
+/* Pantalla grande */
+@media (min-width: 991.5px){
+    .contenido-creatura{
+        display: flex;
+        gap: 100px;
+        padding: 40px;
+        align-items: center;
+    }
+
+    .info-creatura{
+        width: 50%;
+    }
+
+    .contenido-creatura img{
+        min-width: 500px;
+        min-height: 500px;
+        max-width: 500px;
+        max-height: 500px;
+    }
+
+    .tipos-creatura{
+        display: flex;
+        justify-content: space-around;
+        width: 40%;
+    }
 }
 
 .contenido-creatura img{
-    min-width: 500px;
-    min-height: 500px;
-    max-width: 500px;
-    max-height: 500px;
     border: 1px solid black;
 }
 
 .info-creatura{
     display: flex;
     flex-direction: column;
-    width: 50%;
     font-size: large;
 }
 
@@ -46,9 +90,6 @@
 
 .tipos-creatura{
     margin-bottom: 20px;
-    display: flex;
-    justify-content: space-around;
-    width: 40%;
 }
 
 .tipos-creatura a{
@@ -103,8 +144,49 @@
     margin-left: 15px;
 }
 
+.defensas{
+    background-color: #ebebeb;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.defensas .multiplicador, .multiplicador div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.defensas h3{
+    margin: 0 0 5px 15px;
+}
+
+.defensas a{
+    padding: 15px;
+    border-radius: 15px;
+    color: white;
+    min-width: 100px;
+    text-align: center;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+}
+
+.defensas a img{
+    min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+    margin-right: 10px;
+}
+
+.defensas a div{
+    margin: 0 0 30px 5px;
+    font-size: small;
+}
+
 .habilidades{
-    padding: 40px 10px;
+    border-radius: 10px;
 }
 
 table{
@@ -114,7 +196,7 @@ table{
 
 table a{
     display: flex;
-    width: 100%;
+    padding: 0 10px;
     height: 100%;
     color: inherit;
     font-weight: bold;
@@ -136,7 +218,7 @@ th{
     color: black;
     padding: 8px;
     text-align: left;
-    font-size: 12px;
+    font-size: 16px;
     text-align: center;
     position: sticky;
     top: 0;
@@ -146,7 +228,7 @@ th{
 td{
     text-align: left;
     border-bottom: 1px solid #ddd;
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
     height: 40px;
 }
@@ -156,49 +238,16 @@ td[style]{
     font-weight: bold;
 }
 
+tr:nth-child(odd){
+    background-color: white;
+}
+
 tr:nth-child(even){
     background-color: #ebebeb;
 }
 
-.defensas{
-    padding: 40px;
-}
-
-.defensas div{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.defensas h3{
-    margin: 0 0 5px 15px;
-}
-
-.defensas a{
-    padding: 15px;
-    border-radius: 25px;
-    color: white;
-    min-width: 100px;
-    text-align: center;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-}
-
-.defensas a img{
-    min-width: 25px;
-    min-height: 25px;
-    max-width: 25px;
-    max-height: 25px;
-    margin-right: 10px;
-}
-
-.defensas a div{
-    margin-bottom: 30px;
-    font-size: small;
-}
-
-@media (max-width: 991.5px){
-    
+.habilidades, .defensas{
+    margin: 40px 100px;
+    max-height: 400px;
+    overflow-y: auto;
 }

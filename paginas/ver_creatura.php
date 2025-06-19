@@ -97,53 +97,10 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
 
 <div class="cont-titular"> 
     <div class="titular">
-        <div>Habilidades que puede aprender</div>
-    </div>
-</div>
-
-<div class="habilidades">
-    <?php if (count($habilidades) > 0): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Categoría</th>
-                    <th>Potencia</th>
-                    <th>Descripción</th>
-                    <th>Creador</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($habilidades as $habilidad): ?>
-                    <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad']); ?>
-                    <tr>
-                        <td><a href="/Creatura_PHP/paginas/ver_habilidad.php?nombre_habilidad=<?= urlencode($habilidad['nombre_habilidad'])?>&creador=<?= urlencode($habilidad['creador'])?>&id_habilidad=<?= urlencode($habilidad['id_habilidad'])?>"><div><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></div></a></td>
-                        <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
-                            <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo['nombre_tipo']) ?>&creador=<?= urlencode($tipo['creador']) ?>&id_tipo=<?= urlencode($tipo['id_tipo']) ?>'>
-                            <div><?= htmlspecialchars($tipo['nombre_tipo']) ?></div>
-                        </a></td>
-                        <td><?= htmlspecialchars($habilidad['categoria_habilidad']) ?></td>
-                        <td><?= $habilidad['potencia'] ?></td>
-                        <td><?= htmlspecialchars($habilidad['descripcion']) ?></td>
-                        <td><?= htmlspecialchars($habilidad['creador']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p>Esta creatura aún no tiene habilidades registradas.</p>
-    <?php endif; ?>
-</div>
-
-<div class="cont-titular"> 
-    <div class="titular">
         <div>Interacciones defensivas</div>
     </div>
 </div>
-
 <div class="defensas">
-
     <?php
     $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($creatura_elegida['id_tipo1'], $creatura_elegida['id_tipo2']);
 
@@ -187,7 +144,7 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
         if (count($tipos) === 0) continue;
 
         echo "<h3>$titulo</h3>
-        <div>";
+        <div class='multiplicador'>";
 
         foreach ($tipos as $tipo) {
         $nombre_tipo = urlencode($tipo['nombre_tipo']);
@@ -207,22 +164,62 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
     ?>
 </div>
 
+<div class="cont-titular"> 
+    <div class="titular">
+        <div>Habilidades que puede aprender</div>
+    </div>
+</div>
+<div class="habilidades">
+    <?php if (count($habilidades) > 0): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Categoría</th>
+                    <th>Potencia</th>
+                    <th>Descripción</th>
+                    <th>Creador</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($habilidades as $habilidad): ?>
+                    <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad']); ?>
+                    <tr>
+                        <td><a href="/Creatura_PHP/paginas/ver_habilidad.php?nombre_habilidad=<?= urlencode($habilidad['nombre_habilidad'])?>&creador=<?= urlencode($habilidad['creador'])?>&id_habilidad=<?= urlencode($habilidad['id_habilidad'])?>"><div><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></div></a></td>
+                        <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
+                            <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo['nombre_tipo']) ?>&creador=<?= urlencode($tipo['creador']) ?>&id_tipo=<?= urlencode($tipo['id_tipo']) ?>'>
+                            <div><?= htmlspecialchars($tipo['nombre_tipo']) ?></div>
+                        </a></td>
+                        <td><?= htmlspecialchars($habilidad['categoria_habilidad']) ?></td>
+                        <td><?= $habilidad['potencia'] ?></td>
+                        <td><?= htmlspecialchars($habilidad['descripcion']) ?></td>
+                        <td><?= htmlspecialchars($habilidad['creador']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Esta creatura aún no tiene habilidades registradas.</p>
+    <?php endif; ?>
+</div>
+
     <?php include_once("../piezas_html/pie_pagina.php"); ?>
 
-    <script>
-        window.onload = function() {
-            var barras = document.querySelectorAll('.barra');
+<script>
+    window.onload = function() {
+        var barras = document.querySelectorAll('.barra');
+        
+        barras.forEach(function(barra) {
+            var value = parseInt(barra.getAttribute('data-value'));
+            var maxValue = parseInt(barra.getAttribute('data-max-value'));
             
-            barras.forEach(function(barra) {
-                var value = parseInt(barra.getAttribute('data-value'));
-                var maxValue = parseInt(barra.getAttribute('data-max-value'));
-                
-                var porcentaje = (value / maxValue) * 100;
-                
-                var barraInner = barra.querySelector('.barra-inner');
-                barraInner.style.width = porcentaje + '%';
-            });
-        }
-    </script>
+            var porcentaje = (value / maxValue) * 100;
+            
+            var barraInner = barra.querySelector('.barra-inner');
+            barraInner.style.width = porcentaje + '%';
+        });
+    }
+</script>
 </body>
 </html>
