@@ -31,6 +31,8 @@ if (!isset($_SESSION['nickname'])) {
     $spdef = $_POST['spdef'] ?? 70;
     $spe = $_POST['spe'] ?? 70;
 
+    $publico = $_POST['publico'] ?? '0';
+
     $controladorCreatura->borrar_moveset_por_creatura($id_creatura);
 
     $creatura_vieja = $controladorCreatura->retornar_creatura($nombre_creatura, $creador);
@@ -49,9 +51,9 @@ if (!isset($_SESSION['nickname'])) {
     $tamanoArchivo = $imagen['size'];
     $tmpArchivo = $imagen['tmp_name'];
 
-    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $nombreArchivo, 0);
+    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $nombreArchivo, $publico);
 }else{
-    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $creatura_vieja['imagen'], 0);
+    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $creatura_vieja['imagen'], $publico);
 }
 
     foreach($habilidades as $hab){

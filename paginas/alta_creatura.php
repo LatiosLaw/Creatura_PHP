@@ -23,14 +23,12 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos();
 
 <div>
             <form id="formAltaCreatura" action="../procesamiento/manejar_altaCreatura.php" method="POST" enctype="multipart/form-data">
-                Nombre <input name="nombre" type="text"><br>
+                Nombre <input name="nombre" type="text" required><br>
                 TIPO 1
-                <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')"></select><br>
-
+                <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')" required></select><br>
 
                 TIPO 2
                 <select name="tipo2" id="tipo2" onchange="reconstruirSelects('tipo2')"></select><br>
-
 
                 Imagen <input name="imagen" type="file" accept="image/png, image/jpeg"><br>
 
@@ -60,11 +58,18 @@ SPE
 
 
 
-                Descripcion <input name="descripcion" type="text">
+                Descripcion <input name="descripcion" type="text"><br>
 
                 <?php
                 $lista_tipos_habilidad = $controladorTipo->listar_tipos();
                 ?>
+
+Visibilidad 
+                <select id="publico" required>
+    <option value="">-- Selecciona Visiblidad --</option>
+                    <option value="1">Publica</option>
+                    <option value="0">Privada</option>
+                </select><br>
 
                 <h4>Habilidades</h4>
                 Disponibles : <br>

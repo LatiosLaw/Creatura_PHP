@@ -16,6 +16,8 @@ if (!isset($_SESSION['nickname'])) {
     $tipo2 = empty($_POST['tipo2']) ? '0' : $_POST['tipo2'];
     $descripcion = $_POST['descripcion'] ?? '-';
 
+    $publico = $_POST['publico'] ?? '0';
+
     // Estadísticas
     $hp = $_POST['hp'] ?? 70;
     $atk = $_POST['atk'] ?? 70;
@@ -36,9 +38,9 @@ if (!isset($_SESSION['nickname'])) {
     $tamanoArchivo = $imagen['size'];
     $tmpArchivo = $imagen['tmp_name'];
 
-    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, $nombreArchivo, 0);
+    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, $nombreArchivo, $publico);
 }else{
-    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, null, 0);
+    $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, null, $publico);
 }
 
     foreach($habilidades as $hab){

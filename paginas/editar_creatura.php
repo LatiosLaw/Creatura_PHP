@@ -81,11 +81,19 @@ SPE
 <input name="spe" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['spe'] ?>" oninput="sincronizarValor(this, 'spe_val')">
 <input id="spe_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['spe'] ?>" oninput="sincronizarSlider(this, 'spe')"><br>
 
-                Descripcion <input name="descripcion" type="text" value="<?= htmlspecialchars($informacion_creatura['descripcion']) ?>">
+                Descripcion <input name="descripcion" type="text" value="<?= htmlspecialchars($informacion_creatura['descripcion']) ?>"><br>
 
                 <?php
                 $lista_tipos_habilidad = $controladorTipo->listar_tipos();
                 ?>
+
+Visibilidad 
+                <select id="publico" name="publico" required>
+    <option value="">-- Selecciona Visiblidad --</option>
+    <option value="1" <?= ($informacion_creatura['publico'] == 1) ? 'selected' : '' ?>>Pública</option>
+    <option value="0" <?= ($informacion_creatura['publico'] == 0) ? 'selected' : '' ?>>Privada</option>
+</select><br>
+
 
                 <h4>Habilidades</h4>
                 Disponibles : <br>
