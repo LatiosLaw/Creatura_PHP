@@ -166,7 +166,7 @@ $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
         $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
         $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'])
     ?>
-    <div class="contenido-creatura" onclick="window.location.href='/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM'">
+    <div class="contenido-creatura" onclick="window.location.href='/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=<?= urlencode($fila['creador']) ?>'">
         <div class="imagen-creatura">
             <img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
         </div>
