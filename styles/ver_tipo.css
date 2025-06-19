@@ -1,0 +1,254 @@
+/* Pantalla chica */
+@media (max-width: 991.5px){
+    .contenido-tipo{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .contenido-tipo img{
+        margin-top: 10px;
+        min-width: 300px;
+        min-height: 300px;
+        max-width: 300px;
+        max-height: 300px;
+    }
+
+    .info-tipo{
+        width: 80%;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* Pantalla grande */
+@media (min-width: 991.5px){
+    .contenido-tipo{
+        display: flex;
+        gap: 100px;
+        padding: 40px;
+        align-items: center;
+    }
+
+    .info-tipo{
+        width: 50%;
+    }
+
+    .contenido-tipo img{
+        min-width: 200px;
+        min-height: 200px;
+        max-width: 200px;
+        max-height: 200px;
+    }
+}
+
+.contenido-tipo img{
+    border: 1px solid black;
+}
+
+.info-tipo{
+    font-size: large;
+}
+
+.info-tipo h2, .info-tipo p{
+    margin-bottom: 20px;
+}
+
+.info-tipo a{
+    color: black;
+}
+
+.defensas{
+    background-color: #ebebeb;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.defensas .multiplicador, .multiplicador div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.defensas h3{
+    margin: 0 0 5px 15px;
+}
+
+.defensas a{
+    padding: 15px;
+    border-radius: 15px;
+    color: white;
+    min-width: 100px;
+    text-align: center;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+}
+
+.defensas a img{
+    min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+    margin-right: 10px;
+}
+
+.defensas a div{
+    margin: 0 0 30px 5px;
+    font-size: small;
+}
+
+.habilidades{
+    border-radius: 10px;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table a{
+    display: flex;
+    padding: 0 10px;
+    height: 100%;
+    color: inherit;
+    font-weight: bold;
+    justify-content: center;
+}
+
+table a div{
+    display: flex;
+    text-align: center;
+    align-self: center;
+}
+
+table a:hover{
+    background-color: #4caf50;
+}
+
+th{
+    background-color: darkgray;
+    color: black;
+    padding: 8px;
+    text-align: left;
+    font-size: 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+td{
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    text-align: center;
+    height: 40px;
+}
+
+td[style]{
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(odd){
+    background-color: white;
+}
+
+tr:nth-child(even){
+    background-color: #ebebeb;
+}
+
+.contenedor-creaturas{
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-radius: 10px;
+}
+
+.contenido-creatura{
+    background-color: lightgrey;
+    cursor: pointer;
+    margin: 20px;
+    min-width: 300px;
+    min-height: 450px;
+    max-width: 300px;
+    max-height: 450px;
+    transition: background-color 0.3s ease;
+}
+
+.contenido-creatura:hover{
+    background-color: ghostwhite;
+}
+
+.contenido-creatura a{
+    text-decoration: none;
+    color: black;
+}
+
+.imagen-creatura{
+    text-align: center;
+}
+
+.imagen-creatura img{
+    background-color: white;
+    margin-top: 10px; 
+    margin-bottom: 5px;
+    user-select: none;
+    border: 1px solid black;
+    min-width: 280px;
+    min-height: 280px;
+    max-width: 280px;
+    max-height: 280px;
+}
+
+.nombre-creatura, .creador-creatura{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nombre-creatura{
+    text-align: center;
+    font-size: 22px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.creador-creatura{
+    text-align: center;
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 6px;
+}
+
+.tipos{
+    user-select: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+.tipos img{
+    min-width: 35px;
+    min-height: 35px;
+    max-width: 35px;
+    max-height: 35px;
+}
+
+.rating{
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+}
+
+.contenedor-creaturas, .defensas, .habilidades{
+    margin: 40px 100px;
+    max-height: 600px;
+    overflow-y: auto;
+}

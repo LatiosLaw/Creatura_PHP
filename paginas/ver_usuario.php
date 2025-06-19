@@ -48,7 +48,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     <img src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
     <div class="info-personal">
         <h2><?= htmlspecialchars($informacion['nickname']) ?></h2>
-        <p><strong>Correo:</strong> <?= htmlspecialchars($informacion['correo']) ?></p>
+        <p><?= htmlspecialchars($informacion['correo']) ?></p>
         <p><strong>Biografia:</strong> <?= htmlspecialchars($informacion['biografia']) ?></p>
         <?php if(strcmp($nickname_sesion, $nickname_usuario)==0){ ?>
             <button onclick="confirmarEliminacion()">Eliminar Cuenta</button>
