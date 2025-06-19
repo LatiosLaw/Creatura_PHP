@@ -5,6 +5,10 @@
     font-family: Arial, sans-serif;
 }
 
+a{
+    text-decoration: none;
+}
+
 .cont-titular{
     background-color: lightslategray;
     display: flex;

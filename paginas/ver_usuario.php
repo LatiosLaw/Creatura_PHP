@@ -51,7 +51,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
         <p><strong>Correo:</strong> <?= htmlspecialchars($informacion['correo']) ?></p>
         <p><strong>Biografia:</strong> <?= htmlspecialchars($informacion['biografia']) ?></p>
         <?php if(strcmp($nickname_sesion, $nickname_usuario)==0){ ?>
-            <button onclick="confirmarEliminacion()">Elimina la Cuenta 😈</button>
+            <button onclick="confirmarEliminacion()">Eliminar Cuenta</button>
         <?php } ?>
     </div>
 </div>
