@@ -54,10 +54,6 @@
     }
 }
 
-.contenido-creatura img{
-    border: 1px solid black;
-}
-
 .info-creatura{
     display: flex;
     flex-direction: column;
@@ -200,6 +196,7 @@ table a{
     color: inherit;
     font-weight: bold;
     justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 table a div{
@@ -209,7 +206,8 @@ table a div{
 }
 
 table a:hover{
-    background-color: #4caf50;
+    background-color: ghostwhite;
+    color: black;
 }
 
 th{

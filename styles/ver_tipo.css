@@ -44,10 +44,6 @@
     }
 }
 
-.contenido-tipo img{
-    border: 1px solid black;
-}
-
 .info-tipo{
     font-size: large;
 }
@@ -117,6 +113,7 @@ table a{
     color: inherit;
     font-weight: bold;
     justify-content: center;
+    transition: background-color 0.3s ease;
 }
 
 table a div{
@@ -126,7 +123,8 @@ table a div{
 }
 
 table a:hover{
-    background-color: #4caf50;
+    background-color: ghostwhite;
+    color: black;
 }
 
 th{
