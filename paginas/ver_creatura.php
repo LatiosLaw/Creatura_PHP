@@ -207,19 +207,49 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
     <?php include_once("../piezas_html/pie_pagina.php"); ?>
 
 <script>
-    window.onload = function() {
-        var barras = document.querySelectorAll('.barra');
-        
-        barras.forEach(function(barra) {
-            var value = parseInt(barra.getAttribute('data-value'));
-            var maxValue = parseInt(barra.getAttribute('data-max-value'));
-            
-            var porcentaje = (value / maxValue) * 100;
-            
-            var barraInner = barra.querySelector('.barra-inner');
-            barraInner.style.width = porcentaje + '%';
-        });
+    function getColor(valor) {
+    let r, g, b;
+
+    if (valor <= 50) {
+        const factor = valor / 50;
+        r = 255;
+        g = Math.round(165 * factor);
+        b = 0;
+    } else if (valor <= 80) {
+        const factor = (valor - 40) / 40;
+        r = 255;
+        g = Math.round(175 + (90 * factor));
+        b = 0;
+    } else if (valor <= 110) {
+        const factor = (valor - 80) / 30;
+        r = Math.round(255 * (1 - factor));
+        g = 255;
+        b = 0;
+    } else {
+        const factor = (valor - 110) / 145;
+        r = Math.round(0 + (100 * factor));
+        g = Math.round(255 - (35 * factor));
+        b = Math.round(0 + (255 * factor));
     }
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+    window.onload = function () {
+        const barras = document.querySelectorAll('.barra');
+
+        barras.forEach(function (barra) {
+            const value = parseInt(barra.getAttribute('data-value'));
+            const maxValue = parseInt(barra.getAttribute('data-max-value'));
+
+            const porcentaje = (value / maxValue) * 100;
+
+            const barraInner = barra.querySelector('.barra-inner');
+            barraInner.style.width = porcentaje + '%';
+            barraInner.style.backgroundColor = getColor(value);
+        });
+    };
 </script>
+
 </body>
 </html>
