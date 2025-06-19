@@ -81,7 +81,7 @@ session_start();
 
   // Cierra el modal si se hace clic fuera del contenido
   document.querySelectorAll('.modal-overlay').forEach(modal => {
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('mousedown', function(e) {
       if (e.target === modal) {
         modal.style.display = 'none';
       }
