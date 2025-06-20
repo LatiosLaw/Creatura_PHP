@@ -1,5 +1,7 @@
 <?php
 
+ob_start();
+
 require_once("../clases/usuario.php");
 $controladorUsuario = new Usuario();
 
@@ -85,5 +87,8 @@ session_destroy();
 
 // Mostrar mensaje y redirigir
 echo "ELIMINAR EXITOSO! Redirigiendo...";
+
+ob_end_flush();
+
 header("refresh:3; url=/Creatura_PHP/index.php");
 ?>

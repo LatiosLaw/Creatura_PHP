@@ -708,7 +708,8 @@ INSERT INTO `usuario` (`nickname`, `correo`, `foto`, `biografia`, `contraseña`,
 ('LatiosLaw', 'latios.law@gmail.com', 'SillyModernia.jpg', 'Mi yo de 10 años se encuentra feliz.', 'SakuraBestoWaifu', 'usuario'),
 ('The Silent One', 'void@gmail.com', 'Monster.png', '...', 'secondtonone', 'usuario'),
 ('Amee', 'the.ame.way@gmail.com', 'funny_smolame.png', 'The Sanest fan of the Number One Detective!', 'n1Detective', 'usuario'),
-('WeirdAniki', 'straw.hat.franky@gmail.com', 'Aniki.png', 'The SUPERRRRRRR Aniki everyone NEEDS.', 'eithercolaornothing', 'usuario');
+('WeirdAniki', 'straw.hat.franky@gmail.com', 'Aniki.png', 'The SUPERRRRRRR Aniki everyone NEEDS.', 'eithercolaornothing', 'usuario'),
+('T.R.O.N.N.Y.', 'darkhero.returns@gmail.com', 'tronni.png', 'Just me. On my room. As always.', 'eleggIsBest', 'usuario');
 
 --
 -- Índices para tablas volcadas
