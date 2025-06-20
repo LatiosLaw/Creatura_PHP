@@ -73,7 +73,6 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
 <div class="cont-titular"> 
     <div class="titular">
         <div>Algunas Creaturas de Otros Usuarios</div>
-        <button onclick="history.back();">Volver</button>
     </div>
 </div>
 <div class="contenedor-creaturas">
