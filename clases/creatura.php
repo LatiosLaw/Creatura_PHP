@@ -616,31 +616,19 @@ function retornar_calculo_de_tipos_defendiendo_API($id_tipo1, $id_tipo2)
     ////////////////////// ABM DE RATING ///////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    function alta_rating($nickname_usuario, $id_creatura, $estrellas)
-    {
-        $query = "INSERT INTO rating (
-        nickname_usuario, id_creatura, estrellas
-    ) VALUES (
-        '$nickname_usuario', $id_creatura, $estrellas
-    )";
-
-        return mysqli_query($this->conexion, $query);
-    }
+public function guardar_o_actualizar_rating($usuario, $id_creatura, $puntaje) {
+    // $puntaje es float
+    $query = "INSERT INTO rating (nickname_usuario, id_creatura, estrellas) VALUES (?, ?, ?)
+              ON DUPLICATE KEY UPDATE estrellas = ?";
+    $stmt = mysqli_prepare($this->conexion, $query);
+    mysqli_stmt_bind_param($stmt, "sidd", $usuario, $id_creatura, $puntaje, $puntaje);
+    $ok = mysqli_stmt_execute($stmt);
+    return $ok;
+}
 
     function baja_rating($id_rating)
     {
         $query = "DELETE FROM rating WHERE id_rating = $id_rating";
-        return mysqli_query($this->conexion, $query);
-    }
-
-    function modificar_rating($nickname_usuario, $id_creatura, $estrellas)
-    {
-        $query = "UPDATE rating SET
-        nickname_usuario = '$nickname_usuario',
-        id_creatura = $id_creatura,
-        estrellas = $estrellas
-    WHERE nickname_usuario = '$nickname_usuario' AND id_creatura = $id_creatura";
-
         return mysqli_query($this->conexion, $query);
     }
 
@@ -649,6 +637,21 @@ function retornar_calculo_de_tipos_defendiendo_API($id_tipo1, $id_tipo2)
         $query = "SELECT * FROM rating WHERE nickname_usuario = '$usuario'";
         return mysqli_query($this->conexion, $query);
     }
+
+public function retornar_rating($nickname, $id_creatura) {
+    $query = "SELECT estrellas FROM rating WHERE nickname_usuario = ? AND id_creatura = ?";
+    $stmt = mysqli_prepare($this->conexion, $query);
+    mysqli_stmt_bind_param($stmt, "si", $nickname, $id_creatura);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    if ($fila = mysqli_fetch_assoc($resultado)) {
+        return $fila; // <-- clave
+    }
+    return 0;
+}
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////

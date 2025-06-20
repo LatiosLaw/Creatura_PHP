@@ -582,6 +582,18 @@ CREATE TABLE `rating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Indices de la tabla `rating`
+--
+ALTER TABLE `rating`
+ADD PRIMARY KEY (`id_rating`);
+
+-- AUTO_INCREMENT para la tabla `rating`
+ALTER TABLE `rating`
+MODIFY `id_rating` INT(5) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE rating ADD UNIQUE KEY unique_usuario_creatura (nickname_usuario, id_creatura);
+
+--
 -- Volcado de datos para la tabla `rating`
 --
 
@@ -789,16 +801,6 @@ INSERT INTO `usuario` (`nickname`, `correo`, `foto`, `biografia`, `contraseña`,
 --
 -- Índices para tablas volcadas
 --
-
---
--- Indices de la tabla `rating`
---
-ALTER TABLE `rating`
-  ADD PRIMARY KEY (`id_rating`);
-
--- AUTO_INCREMENT para la tabla `rating`
-ALTER TABLE `rating`
-  MODIFY `id_rating` INT(5) NOT NULL AUTO_INCREMENT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
