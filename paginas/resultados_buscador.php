@@ -46,7 +46,7 @@ $usuarios_encontrados = $controladorUsuario->listar_usuarios_busqueda($parametro
 <?php if (mysqli_num_rows($creaturas_usuarios_encontradas) > 0): ?>
     <div class="cont-mini-titular"> 
         <div class="mini-titular">
-            <div>Creaturas del Sistema Relacionadas con: <?php echo $parametro_busqueda ?></div>
+            <div>Creaturas de Usuarios Relacionadas con: <?php echo $parametro_busqueda ?></div>
         </div>
     </div>
     <div class="contenedor-creaturas">
@@ -54,7 +54,7 @@ $usuarios_encontrados = $controladorUsuario->listar_usuarios_busqueda($parametro
             $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
             $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2'])
         ?>
-        <div class="contenido-creatura" onclick="window.location.href='/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=SYSTEM'">
+        <div class="contenido-creatura" onclick="window.location.href='/Creatura_PHP/paginas/ver_creatura.php?creatura=<?= urlencode($fila['nombre_creatura']) ?>&creador=<?= urlencode($fila['creador']) ?>'">
             <div class="imagen-creatura">
                 <img src="/Creatura_PHP/imagenes/creaturas/<?= htmlspecialchars($fila['imagen']) ?>" alt="Imagen" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
             </div>
