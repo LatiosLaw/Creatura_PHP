@@ -14,13 +14,12 @@ if (isset($_GET['tipo'])) {
 $id_tipo = $_GET['tipo'];
 
 $tipo = $controladorTipo->retornar_tipo($id_tipo);
-$id = $tipo['id_tipo'];
 $nombre_tipo = $tipo['nombre_tipo'];
 $color = $tipo['color'];
 $icono = $tipo['icono'];
 $creador = $tipo['creador'];
 
-echo "($id, '$nombre_tipo', '$color', '$icono', '$creador')" . "<br>";
+echo "('$nombre_tipo', '$color', '$icono', '$creador')" . "<br>";
 
 echo "Efectividades : " . "<br>";
 
