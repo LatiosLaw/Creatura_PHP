@@ -31,7 +31,6 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_creadores_aleatorios
             <button onclick="location.href='/Creatura_PHP/paginas/todas_las_creaturas.php'">Ver Mas</button>
         </div>
     </div>
-
     <div class="contenedor-creaturas">
         <?php  while ($fila = mysqli_fetch_assoc($lista_creaturas)) :
             $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
@@ -80,7 +79,6 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_creadores_aleatorios
             <button onclick="location.href='/Creatura_PHP/paginas/todos_los_usuarios.php'">Ver Mas</button>
         </div>
     </div>
-
     <div class="contenedor-usuarios">
         <?php while ($fila = mysqli_fetch_assoc($usuarios_aleatorios)) : ?>
         <div class="contenido-usuario">

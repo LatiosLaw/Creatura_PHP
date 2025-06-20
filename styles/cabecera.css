@@ -15,10 +15,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      overflow-x: auto;
+    }
+    .btn-usr-medio{
+        margin: 0 10px 0 10px;
+    }
+    .btn-usr-derecha{
+        margin: 0 0 0 10px;
     }
 }
 .cabecera-bar{
-    padding: 40px 20px;
+    padding: 25px 20px;
     background-color: darkgray;
     color: white;
 }
@@ -27,7 +34,7 @@
     background-color: black;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 15px 30px;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
@@ -45,7 +52,7 @@
 }
 
 .cabecera-bar input[type="text"] {
-    padding: 8px 12px;
+    padding: 15px 2px 2px 2px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -59,7 +66,7 @@
 }
 
 .cabecera-bar input[type="submit"] {
-    padding: 8px 15px;
+    padding: 10px 30px;
     background-color: black;
     color: white;
     border: none;
