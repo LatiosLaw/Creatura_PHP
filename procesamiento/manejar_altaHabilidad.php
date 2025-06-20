@@ -13,6 +13,8 @@ session_start();
 
 $creador = $_SESSION['nickname'];
 
+$descripcion = empty($descripcion) ? "" : $descripcion;
+
 if($controladorCreatura->alta_habilidad($nombre, $tipo, $descripcion, $categoria, $potencia, $creador) == 1){
 echo "Alta de habilidad exitosa, redirigiendo...";
 header("refresh:3; url=/Creatura_PHP/paginas/gestor_habilidad.php");

@@ -122,10 +122,18 @@ function verificar_disponibilidad($nickname, $correo, $nick_viejo, $correo_viejo
     return $resultado;
 }
 
-  function listar_usuarios_aleatorios() {
-    $resultado = mysqli_query($this->conexion, "SELECT nickname, foto, biografia from usuario ORDER BY RAND() LIMIT 15");
+function listar_usuarios_creadores_aleatorios() {
+    $query = "
+        SELECT u.nickname, u.foto, u.biografia
+        FROM usuario u
+        INNER JOIN creatura c ON u.nickname = c.creador
+        WHERE u.nickname != 'SYSTEM'
+        GROUP BY u.nickname ORDER BY RAND() LIMIT 10
+    ";
+    
+    $resultado = mysqli_query($this->conexion, $query);
     return $resultado;
-  }
+}
 
   function listar_usuarios_busqueda($parametro) {
     $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
