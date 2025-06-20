@@ -1,12 +1,15 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Solo para desarrollo
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Origin: *"); // O específica tu frontend: http://localhost:4200
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
 
 require_once("../../clases/creatura.php");
 $controladorCreatura = new Creatura();
-
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(["resultado" => "error", "mensaje" => "Método no permitido"]);
@@ -53,7 +56,7 @@ $nombreArchivo = null;
 if ($imagenBase64 && preg_match('/^data:image\/(\w+);base64,/', $imagenBase64, $tipoImagen)) {
     $extension = strtolower($tipoImagen[1]) === 'jpeg' ? 'jpg' : $tipoImagen[1];
     $nombreArchivo = uniqid("creatura_") . "." . $extension;
-    $rutaDestino = "../imagenes/creaturas/" . $nombreArchivo;
+$rutaDestino = __DIR__ . "/../../imagenes/creaturas/" . $nombreArchivo;
 
     $imagenBinaria = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imagenBase64));
     if ($imagenBinaria === false || file_put_contents($rutaDestino, $imagenBinaria) === false) {

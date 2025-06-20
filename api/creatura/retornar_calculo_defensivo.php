@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *"); // Solo para desarrollo local
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type");
 
-require_once("../,,/clases/creatura.php");
+require_once("../../clases/creatura.php");
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
