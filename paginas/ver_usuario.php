@@ -51,6 +51,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
         <p><?= htmlspecialchars($informacion['correo']) ?></p>
         <p><strong>Biografia:</strong> <?= htmlspecialchars($informacion['biografia']) ?></p>
         <?php if(strcmp($nickname_sesion, $nickname_usuario)==0){ ?>
+            <button onclick="window.location.href='/Creatura_PHP/paginas/modificar_perfil.php?usuario=<?= urlencode($nickname_sesion)?>'">Modificar Perfil</button>
             <button onclick="confirmarEliminacion()">Eliminar Cuenta</button>
         <?php } ?>
     </div>

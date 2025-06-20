@@ -50,10 +50,10 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
         <p>Puntuación de la Creatura: <strong><?= htmlspecialchars($creatura_elegida['rating_promedio']) ?>/5</strong></p>
         <div class="tipos-creatura">
             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo1_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo1_elegida['id_tipo']) ?>' style="background-color: #<?= $tipo1_elegida['color']; ?>;">
-                <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1_elegida['icono']; ?>"><?=$tipo1_elegida['nombre_tipo']; ?>
+                <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo1_elegida['nombre_tipo']; ?>
             </a>
             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo2_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo2_elegida['id_tipo']) ?>' style="background-color: #<?= $tipo2_elegida['color']; ?>;">
-                <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2_elegida['icono']; ?>"><?=$tipo2_elegida['nombre_tipo']; ?>
+               <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo2_elegida['nombre_tipo']; ?>
             </a>
         </div>
 

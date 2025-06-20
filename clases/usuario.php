@@ -79,7 +79,29 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
         tipo = '$tipo'
     WHERE nickname = '$nickname'";
 
-    return mysqli_query($this->conexion, $query);
+    $resultado = mysqli_query($this->conexion, $query);
+
+    return $resultado ? 1 : 0;
+}
+
+function verificar_disponibilidad($nickname, $correo, $nick_viejo, $correo_viejo) {
+    $query = "SELECT nickname, correo FROM usuario WHERE (nickname = ? OR correo = ?)";
+    $stmt = mysqli_prepare($this->conexion, $query);
+    mysqli_stmt_bind_param($stmt, "ss", $nickname, $correo);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Si el nickname o correo encontrados no coinciden con los anteriores, entonces están en uso por otro usuario
+        if (
+            ($fila['nickname'] !== $nick_viejo) &&
+            ($fila['correo'] !== $correo_viejo)
+        ) {
+            return 0; // No disponible
+        }
+    }
+
+    return 1; // Disponible
 }
 
   function listar_usuarios() {

@@ -53,7 +53,7 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
         return [
             "id_tipo" => 0,
             "nombre_tipo" => "-",
-            "color" => "aaaaaa",
+            "color" => "AAAAAA",
             "icono" => "sin_icono.png",
             "creador" => "SYSTEM"
         ];
@@ -69,7 +69,7 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
         return [
             "id_tipo" => 0,
             "nombre_tipo" => "-",
-            "color" => "aaaaaa",
+            "color" => "AAAAAA",
             "icono" => "sin_icono.png",
             "creador" => "SYSTEM_ERROR"
         ];
