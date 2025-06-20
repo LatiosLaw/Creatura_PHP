@@ -17,6 +17,12 @@
       align-items: center;
       overflow-x: auto;
     }
+    .btn-usr-medio{
+        margin: 0 10px 0 10px;
+    }
+    .btn-usr-derecha{
+        margin: 0 0 0 10px;
+    }
 }
 .cabecera-bar{
     padding: 25px 20px;

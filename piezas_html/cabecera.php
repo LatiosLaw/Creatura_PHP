@@ -15,7 +15,7 @@ session_start();
   <header class="cabecera-bar">
     <button onclick="location.href='/Creatura_PHP/index.php'">Inicio</button>
 
-    <div class="botones-usuario">
+    <div class="botones-usuario btn-usr-medio">
     <?php if (isset($_SESSION['nickname'])) { ?>
         <button onclick="location.href='/Creatura_PHP/paginas/gestor_creatura.php'">Tus Creaturas</button>
         <button onclick="location.href='/Creatura_PHP/paginas/gestor_tipo.php'">Tus Tipos</button>
@@ -28,7 +28,7 @@ session_start();
       <input type="submit" value="Buscar">
     </form>
 
-    <div class="botones-usuario">
+    <div class="botones-usuario btn-usr-derecha">
       <?php 
       if (isset($_SESSION['nickname'])) { ?>
       <button onclick="location.href='/Creatura_PHP/paginas/ver_usuario.php?usuario=<?php echo $_SESSION['nickname']?>'">Mi Perfil</button>
