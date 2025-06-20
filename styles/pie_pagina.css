@@ -63,6 +63,7 @@ a{
 /* Pantalla grande */
 @media (min-width: 991.5px){
     .div-foot{
+        padding-top: 20px;
         padding-left: 30px;
     }
 }
