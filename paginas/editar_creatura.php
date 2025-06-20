@@ -33,9 +33,9 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos();
 
 <div>
             <form id="formAltaCreatura" action="/Creatura_PHP/procesamiento/manejar_modificacionCreatura.php?id_creatura=<?php echo $informacion_creatura['id_creatura']?>&creador=<?php echo $informacion_creatura['creador']?>&nombre_creatura=<?php echo $informacion_creatura['nombre_creatura']?>" method="POST" enctype="multipart/form-data">
-                Nombre <input name="nombre" type="text" value="<?= htmlspecialchars($informacion_creatura['nombre_creatura']) ?>"><br>
+                Nombre <input name="nombre" type="text" value="<?= htmlspecialchars($informacion_creatura['nombre_creatura']) ?>" required><br>
                 TIPO 1
-                <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')">
+                <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')" required>
             <?php foreach ($lista_tipos as $tipo): ?>
                 <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo1'] ? 'selected' : '' ?> style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
                     <?= htmlspecialchars($tipo['nombre_tipo']) ?>
