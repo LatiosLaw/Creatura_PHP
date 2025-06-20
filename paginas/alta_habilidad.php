@@ -27,8 +27,8 @@ $lista_tipos = $controladorTipo->listar_tipos();
 
  <div>
             <form action="/Creatura_PHP/procesamiento/manejar_altaHabilidad.php" method="POST">
-                Nombre <input name="nombre" type="text"><br>
-                TIPO<select name="tipo" id="tipo">
+                Nombre <input name="nombre" type="text" required><br>
+                TIPO<select name="tipo" id="tipo" required>
                     <option value="">Selecciona un tipo</option>
                     <?php foreach ($lista_tipos as $tipo): ?>
                         <option value="<?= $tipo['id_tipo'] ?>" style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
@@ -36,14 +36,14 @@ $lista_tipos = $controladorTipo->listar_tipos();
                         </option>
                     <?php endforeach; ?>
                 </select><br>
-                Categoria del ataque<select name="categoria" id="categoria">
+                Categoria del ataque<select name="categoria" id="categoria" required>
                     <option value="">Selecciona una categoría</option>
                     <option value="FISICO">FISICO</option>
                     <option value="ESPECIAL">ESPECIAL</option>
                     <option value="ESTADO">ESTADO</option>
                 </select><br>
 
-                Potencia<input name="potencia" type="number" placeholder="70"><br>
+                Potencia<input name="potencia" type="number" placeholder="70" required><br>
 
                 Descripcion <input name="descripcion" type="text"><br>
                 <input type="submit">

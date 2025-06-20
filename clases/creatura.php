@@ -96,14 +96,18 @@ function buscar_creaturas($parametro)
     $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
 
     $sql = "
-        (SELECT * FROM creatura 
+        (SELECT *, 1 AS orden_prioridad FROM creatura 
          WHERE creador != 'SYSTEM' AND publico = 1
-         AND nombre_creatura LIKE '{$param_escaped}% ')
+         AND nombre_creatura LIKE '{$param_escaped}%' )
+
         UNION
-        (SELECT * FROM creatura 
+
+        (SELECT *, 2 AS orden_prioridad FROM creatura 
          WHERE creador != 'SYSTEM' AND publico = 1
          AND nombre_creatura LIKE '%{$param_escaped}%' 
-         AND nombre_creatura NOT LIKE '{$param_escaped}% ')
+         AND nombre_creatura NOT LIKE '{$param_escaped}%' )
+
+        ORDER BY orden_prioridad, nombre_creatura ASC
     ";
 
     $resultado = mysqli_query($this->conexion, $sql);

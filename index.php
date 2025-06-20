@@ -8,7 +8,7 @@ $controladorTipo = new Tipo();
 $controladorUsuario = new Usuario();
 
 $lista_creaturas = $controladorCreatura->listar_creaturas_ext(15, "SYSTEM");
-$usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
+$usuarios_aleatorios = $controladorUsuario->listar_usuarios_creadores_aleatorios();
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +76,7 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_aleatorios();
 
     <div class="cont-titular"> 
         <div class="titular">
-            <div>Algunos Usuarios</div>
+            <div>Algunos Creadores de Creaturas</div>
             <button onclick="location.href='/Creatura_PHP/paginas/todos_los_usuarios.php'">Ver Mas</button>
         </div>
     </div>

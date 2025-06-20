@@ -7,6 +7,8 @@ if (isset($_GET['id_tipo'])) {
 require_once("../clases/tipo.php");
 $controladorTipo = new Tipo();
 
+$nombre_original = $_POST['nombre_original'];
+
 $nombre = $_POST['nombre'];
 $color = $_POST['color'];
 $color = ltrim($_POST['color'], '#');
@@ -32,7 +34,7 @@ $tipo_viejo = $controladorTipo->retornar_tipo($id_tipo);
 
 if($nombreArchivo!=null){
 
-$controladorTipo->modificar_tipo($nombre, $color, $nombreArchivo, $tipo_viejo['creador']);
+$controladorTipo->modificar_tipo($nombre_original, $nombre, $color, $nombreArchivo, $tipo_viejo['creador']);
 
         $destino = "../imagenes/tipos/" . basename($nombreArchivo);
         if (move_uploaded_file($tmpArchivo, $destino)) {
@@ -45,7 +47,7 @@ $controladorTipo->modificar_tipo($nombre, $color, $nombreArchivo, $tipo_viejo['c
 
 }else{
 
-$controladorTipo->modificar_tipo($nombre, $color, $tipo_viejo['icono'], $tipo_viejo['creador']);
+$controladorTipo->modificar_tipo($nombre_original, $nombre, $color, $tipo_viejo['icono'], $tipo_viejo['creador']);
 
 }
 

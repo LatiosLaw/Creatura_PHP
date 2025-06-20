@@ -58,19 +58,43 @@ session_start();
   <div class="modal-registro-usuario">
     <span class="close-btn" onclick="cerrarModal('registroModal')">&times;</span>
     <h2>Registrarse</h2>
-    <form action="/Creatura_PHP/procesamiento/manejar_altaUsuario.php" method="POST" enctype="multipart/form-data">
+    <form  id="formRegistro_USUARIO" method="POST" enctype="multipart/form-data">
       <input type="text" name="nickname" placeholder="Nickname" required>
       <input type="password" name="contra" placeholder="Contraseña" required>
       <input name="ver_contra" type="password" placeholder="Verificar Contraseña" required>
       <input type="email" name="correo" placeholder="Email" required>
-       Foto de Perfil <input name="foto" type="file" accept="image/png, image/jpeg">
-    Biografia <input name="biografia" type="text">
+       Foto de Perfil (Opcional) <input name="foto" type="file" accept="image/png, image/jpeg">
+    Biografia (Opcional)<input name="biografia" type="text">
       <button type="submit">Registrar</button>
     </form>
   </div>
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById('formRegistro_USUARIO');
+
+  form.addEventListener('submit', function (e) {
+    const password = form.querySelector('input[name="contra"]').value;
+    const confirmPassword = form.querySelector('input[name="ver_contra"]').value;
+
+    if (password.length < 8) {
+      alert('La contraseña debe tener al menos 8 caracteres.');
+      e.preventDefault();
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Las contraseñas no coinciden.');
+      e.preventDefault();
+      return;
+    }
+
+    // Asigna la acción del formulario
+    form.action = "/Creatura_PHP/procesamiento/manejar_altaUsuario.php";
+  });
+});
+
   function abrirModal(id) {
     document.getElementById(id).style.display = 'flex';
   }
@@ -81,7 +105,7 @@ session_start();
 
   // Cierra el modal si se hace clic fuera del contenido
   document.querySelectorAll('.modal-overlay').forEach(modal => {
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('mousedown', function(e) {
       if (e.target === modal) {
         modal.style.display = 'none';
       }

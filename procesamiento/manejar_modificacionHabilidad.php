@@ -14,6 +14,8 @@ $categoria = $_POST['categoria'];
 $potencia = $_POST['potencia'];
 $descripcion = $_POST['descripcion'];
 
+$descripcion = empty($descripcion) ? "" : $descripcion;
+
 if($controladorCreatura->modificar_habilidad($id_habilidad, $nombre, $tipo, $descripcion, $categoria, $potencia, $creador) == 1){
 echo "Modificacion de habilidad exitosa, redirigiendo...";
 header("refresh:3; url=/Creatura_PHP/paginas/gestor_habilidad.php");

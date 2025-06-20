@@ -11,16 +11,17 @@
         <img class="img-footer" src="\Creatura_PHP\imagenes\UTEC_logo.png" alt="Logo UTEC">
         <div class="division-footer div-foot">
             <ul class="listado-footer">
-                <li>Tecnologo en Informatica</li>
-                <li>Taller de Sistemas de Informacion PHP</li>
+                <li><strong>Tecnologo en Informatica</strong></li>
+                <li><strong>Taller de Sistemas de Informacion PHP</strong></li>
+                <li>Docente: <strong>Gualberto Hernandez</strong></li>
             </ul>
         </div>
         <div class="division-footer">
             <h3>Integrantes</h3>
             <ul class="listado-footer">
-                <li>Andres Ferreira - 5.529.445-0</li>
-                <li>Facundo Guerra - 5.619.400-1</li>
-                <li>Martin Mainentti - 5.488.144-0</li>
+                <li><strong>Andres Ferreira</strong> - 5.529.445-0</li>
+                <li><strong>Facundo Guerra</strong> - 5.619.400-1</li>
+                <li><strong>Martin Mainentti</strong> - 5.488.144-0</li>
             </ul>
         </div>
     </footer>

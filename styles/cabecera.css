@@ -18,10 +18,9 @@
     }
 }
 .cabecera-bar{
-    padding: 10px 20px;
+    padding: 40px 20px;
     background-color: darkgray;
     color: white;
-    margin-bottom: 20px;
 }
 
 .cabecera-bar button {
@@ -103,8 +102,10 @@
 }
 
 .modal-registro-usuario form, .modal-inicio-sesion form{
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
+    padding: 15px;
 }
 
 .modal-registro-usuario form input, .modal-inicio-sesion form input{
@@ -115,13 +116,18 @@
 
 .modal-registro-usuario form button, .modal-inicio-sesion form button{
     padding: 10px;
-    background-color: #333;
+    background-color: black;
     color: white;
-    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    border: none;
 }
 
-.close-btn {
+.modal-inicio-sesion form button:hover, .modal-registro-usuario form button:hover{
+    background-color: #333;
+}
+
+.close-btn{
     float: right;
     cursor: pointer;
     font-weight: bold;
@@ -129,4 +135,9 @@
     background-color: red;
     padding: 5px 15px;
     color: white;
+    border-radius: 5px;
+}
+
+.close-btn:hover{
+    background-color: lightcoral;
 }

@@ -31,8 +31,8 @@ $lista_tipos = $controladorTipo->listar_tipos();
 
 <div>
             <form action="../procesamiento/manejar_modificacionHabilidad.php?id_habilidad=<?php echo $informacion_habilidad['id_habilidad']?>&creador=<?php echo $informacion_habilidad['creador']?>" method="POST">
-                Nombre <input name="nombre" type="text" value="<?php echo $informacion_habilidad['nombre_habilidad'] ?>"><br>
-                TIPO<select name="tipo" id="tipo">
+                Nombre <input name="nombre" type="text" value="<?php echo $informacion_habilidad['nombre_habilidad'] ?>" required><br>
+                TIPO<select name="tipo" id="tipo" required>
     <option value="">Selecciona un tipo</option>
     <?php foreach ($lista_tipos as $tipo): ?>
         <option value="<?= $tipo['id_tipo'] ?>" 
@@ -43,7 +43,7 @@ $lista_tipos = $controladorTipo->listar_tipos();
     <?php endforeach; ?>
 </select>
 <br>
-                Categoria del ataque<select name="categoria" id="categoria">
+                Categoria del ataque<select name="categoria" id="categoria" required>
     <option value="">Selecciona una categoría</option>
     <option value="FISICO" <?= $informacion_habilidad['categoria_habilidad'] == 'FISICO' ? 'selected' : '' ?>>FISICO</option>
     <option value="ESPECIAL" <?= $informacion_habilidad['categoria_habilidad'] == 'ESPECIAL' ? 'selected' : '' ?>>ESPECIAL</option>
@@ -51,7 +51,7 @@ $lista_tipos = $controladorTipo->listar_tipos();
 </select>
 <br>
 
-                Potencia<input name="potencia" type="number" placeholder="70" value="<?php echo $informacion_habilidad['potencia'] ?>"><br>
+                Potencia<input name="potencia" type="number" placeholder="70" value="<?php echo $informacion_habilidad['potencia'] ?>" required><br>
 
                 Descripcion <input name="descripcion" type="text" value="<?php echo $informacion_habilidad['descripcion'] ?>"><br>
                 <input type="submit">

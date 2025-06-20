@@ -13,33 +13,33 @@ $lista_usuarios = $controladorUsuario->listar_usuarios_creadores();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
+    <link rel="stylesheet" href="\Creatura_PHP\styles\todos_los_usuarios.css">
 </head>
 <body>
 
-    <?php include_once("../piezas_html/cabecera.php"); ?>
+<?php include_once("../piezas_html/cabecera.php"); ?>
 
-<div>
-    <button onclick="location.href='/Creatura_PHP/index.php'">volver</button>
-    
-        <h2>Otros Creadores de Creaturas</h2>
- <table border="1" cellpadding="4" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Nickname</th>
-                    <th>Imagen</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($fila = mysqli_fetch_assoc($lista_usuarios)) : ?>
-                    <tr>
-                        <td><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>"><?= htmlspecialchars($fila['nickname']) ?></a></td>
-                        <td><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>"><img src="/Creatura_PHP/imagenes/usuarios/<?= htmlspecialchars($fila['foto']) ?>" alt="Imagen" width="50" height="50" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"></a></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    </div>    
+<div class="cont-titular"> 
+    <div class="titular">
+        <div>Otros Creadores de Creaturas</div>
+        <button onclick="history.back();">Volver</button>
+    </div>
+</div>
+<div class="contenedor-usuarios">
+    <?php while ($fila = mysqli_fetch_assoc($lista_usuarios)) : ?>
+    <div class="contenido-usuario">
+        <a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= htmlspecialchars($fila['nickname']) ?>">
+            <div class="imagen-usuario">
+                <img src="/Creatura_PHP/imagenes/usuarios/<?= htmlspecialchars($fila['foto']) ?>" alt="Imagen" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+            </div>
+            <div class="nombre-usuario">
+                <?= htmlspecialchars($fila['nickname']) ?>
+            </div>
+        </a>
+    </div>
+    <?php endwhile; ?>
+</div>
 
-            <?php include_once("../piezas_html/pie_pagina.php"); ?>
+<?php include_once("../piezas_html/pie_pagina.php"); ?>
 </body>
 </html>

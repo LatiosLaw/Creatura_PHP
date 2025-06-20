@@ -22,8 +22,11 @@ if (isset($_SESSION['nickname'])) {
 
 $informacion = $controladorUsuario->retornar_informacion_usuario($nickname_usuario);
 
-
-$creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_usuario, $controladorTipo);
+if($nickname_sesion==$nickname_usuario){
+    $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_usuario, $controladorTipo);
+}else{
+    $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario_solo_pub($nickname_usuario, $controladorTipo);
+}
 
 ?>
 
@@ -48,14 +51,16 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     <img src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
     <div class="info-personal">
         <h2><?= htmlspecialchars($informacion['nickname']) ?></h2>
-        <p><strong>Correo:</strong> <?= htmlspecialchars($informacion['correo']) ?></p>
+        <p><?= htmlspecialchars($informacion['correo']) ?></p>
         <p><strong>Biografia:</strong> <?= htmlspecialchars($informacion['biografia']) ?></p>
         <?php if(strcmp($nickname_sesion, $nickname_usuario)==0){ ?>
+            <button onclick="window.location.href='/Creatura_PHP/paginas/modificar_perfil.php?usuario=<?= urlencode($nickname_sesion)?>'">Modificar Perfil</button>
             <button onclick="confirmarEliminacion()">Eliminar Cuenta</button>
         <?php } ?>
     </div>
 </div>
 
+<?php if (isset($creaturas_usuario) && count($creaturas_usuario) > 0): ?>
 <div class="cont-titular"> 
     <div class="titular">
         <div>Creaturas del Usuario</div>
@@ -103,6 +108,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     </div>
     <?php endforeach; ?>
 </div>
+<?php endif; ?>
 
 <?php include_once("../piezas_html/pie_pagina.php"); ?>
             

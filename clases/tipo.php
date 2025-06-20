@@ -31,13 +31,13 @@ function baja_tipo($id_tipo) {
     return mysqli_query($this->conexion, $query);
 }
 
-function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
+function modificar_tipo($nombre_original, $nombre_tipo, $color, $icono, $creador) {
     $query = "UPDATE tipo SET
         nombre_tipo = '$nombre_tipo',
         color = '$color',
         icono = '$icono',
         creador = '$creador'
-    WHERE nombre_tipo = '$nombre_tipo' AND creador = '$creador'";
+    WHERE nombre_tipo = '$nombre_original' AND creador = '$creador'";
 
     if (mysqli_query($this->conexion, $query)) {
         return 1;
@@ -53,7 +53,7 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
         return [
             "id_tipo" => 0,
             "nombre_tipo" => "-",
-            "color" => "aaaaaa",
+            "color" => "AAAAAA",
             "icono" => "sin_icono.png",
             "creador" => "SYSTEM"
         ];
@@ -69,7 +69,7 @@ function modificar_tipo($nombre_tipo, $color, $icono, $creador) {
         return [
             "id_tipo" => 0,
             "nombre_tipo" => "-",
-            "color" => "aaaaaa",
+            "color" => "AAAAAA",
             "icono" => "sin_icono.png",
             "creador" => "SYSTEM_ERROR"
         ];

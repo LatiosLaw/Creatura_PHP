@@ -9,6 +9,8 @@ $contra = $_POST['contra'];
 $contra2 = $_POST['ver_contra'];
 $biografia = $_POST['biografia'];
 
+$nombreArchivo = null;
+
 // Verificar si se recibió el archivo
 if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
     $foto = $_FILES['foto'];
@@ -22,10 +24,13 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
 $paginaAnterior = $_SERVER['HTTP_REFERER'] ?? '../index.php';
 
 if($contra == $contra2){
+$biografia = empty($biografia) ? "" : $biografia;
+$nombreArchivo = empty($nombreArchivo) ? "" : $nombreArchivo;
 $verifiacion = $controladorUsuario->alta_usuario($nickname, $correo, $nombreArchivo, $biografia, $contra, "usuario");
 if($verifiacion == 1){
 
-    $destino = "../imagenes/usuarios/" . basename($nombreArchivo);
+    if($nombreArchivo != ""){
+$destino = "../imagenes/usuarios/" . basename($nombreArchivo);
     if (move_uploaded_file($tmpArchivo, $destino)) {
         echo "La foto se subió correctamente.";
         echo "<br>";
@@ -33,6 +38,8 @@ if($verifiacion == 1){
         echo "Error al mover el archivo.";
         echo "<br>";
     }
+    }
+    
 
 echo "funca, redirigiendo...";
 header("refresh:3; url=$paginaAnterior");

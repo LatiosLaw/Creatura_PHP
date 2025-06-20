@@ -40,7 +40,6 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
         <button onclick="history.back();">Volver</button>
     </div>
 </div>
-
 <div class="contenido-creatura">
     <img src="../imagenes/creaturas/<?= htmlspecialchars($creatura_elegida['imagen']) ?>" alt="Imagen de la creatura" width="200" onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';">
     <div class="info-creatura">
@@ -51,10 +50,10 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
         <p>Puntuación de la Creatura: <strong><?= htmlspecialchars($creatura_elegida['rating_promedio']) ?>/5</strong></p>
         <div class="tipos-creatura">
             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo1_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo1_elegida['id_tipo']) ?>' style="background-color: #<?= $tipo1_elegida['color']; ?>;">
-                <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1_elegida['icono']; ?>"><?=$tipo1_elegida['nombre_tipo']; ?>
+                <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo1_elegida['nombre_tipo']; ?>
             </a>
             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo2_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo2_elegida['id_tipo']) ?>' style="background-color: #<?= $tipo2_elegida['color']; ?>;">
-                <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2_elegida['icono']; ?>"><?=$tipo2_elegida['nombre_tipo']; ?>
+               <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo2_elegida['nombre_tipo']; ?>
             </a>
         </div>
 
@@ -147,24 +146,24 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
         <div class='multiplicador'>";
 
         foreach ($tipos as $tipo) {
-        $nombre_tipo = urlencode($tipo['nombre_tipo']);
-        $creador = urlencode($tipo['creador']);
-        $id_tipo = urlencode($tipo['id_tipo']);
-        $color = htmlspecialchars($tipo['color']);
-        $icono = htmlspecialchars($tipo['icono']);
-        $nombre_mostrar = htmlspecialchars($tipo['nombre_tipo']);
-        $multiplicador = htmlspecialchars($tipo['multiplicador']);
+            $nombre_tipo = urlencode($tipo['nombre_tipo']);
+            $creador = urlencode($tipo['creador']);
+            $id_tipo = urlencode($tipo['id_tipo']);
+            $color = htmlspecialchars($tipo['color']);
+            $icono = htmlspecialchars($tipo['icono']);
+            $nombre_mostrar = htmlspecialchars($tipo['nombre_tipo']);
+            $multiplicador = htmlspecialchars($tipo['multiplicador']);
 
-        echo "<a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=$nombre_tipo&creador=$creador&id_tipo=$id_tipo' style='background-color: #$color;'>
-            <img src='/Creatura_PHP/imagenes/tipos/$icono'> $nombre_mostrar <div>x$multiplicador</div>
-        </a>";
+            echo "<a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=$nombre_tipo&creador=$creador&id_tipo=$id_tipo' style='background-color: #$color;'>
+                <img src='/Creatura_PHP/imagenes/tipos/$icono'> $nombre_mostrar <div>x$multiplicador</div>
+            </a>";
         }
         echo "</div>";
     }
     ?>
 </div>
 
-<div class="cont-titular"> 
+<div class="cont-titular">
     <div class="titular">
         <div>Habilidades que puede aprender</div>
     </div>
@@ -187,7 +186,7 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
                     <?php $tipo = $controladorTipo->retornar_tipo($habilidad['id_tipo_habilidad']); ?>
                     <tr>
                         <td><a href="/Creatura_PHP/paginas/ver_habilidad.php?nombre_habilidad=<?= urlencode($habilidad['nombre_habilidad'])?>&creador=<?= urlencode($habilidad['creador'])?>&id_habilidad=<?= urlencode($habilidad['id_habilidad'])?>"><div><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></div></a></td>
-                        <td style="background-color: #<?= $tipo['color'] ?>; color: #fff;">
+                        <td style="background-color: #<?= $tipo['color'] ?>;">
                             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo['nombre_tipo']) ?>&creador=<?= urlencode($tipo['creador']) ?>&id_tipo=<?= urlencode($tipo['id_tipo']) ?>'>
                             <div><?= htmlspecialchars($tipo['nombre_tipo']) ?></div>
                         </a></td>

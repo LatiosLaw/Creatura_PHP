@@ -79,7 +79,29 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
         tipo = '$tipo'
     WHERE nickname = '$nickname'";
 
-    return mysqli_query($this->conexion, $query);
+    $resultado = mysqli_query($this->conexion, $query);
+
+    return $resultado ? 1 : 0;
+}
+
+function verificar_disponibilidad($nickname, $correo, $nick_viejo, $correo_viejo) {
+    $query = "SELECT nickname, correo FROM usuario WHERE (nickname = ? OR correo = ?)";
+    $stmt = mysqli_prepare($this->conexion, $query);
+    mysqli_stmt_bind_param($stmt, "ss", $nickname, $correo);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Si el nickname o correo encontrados no coinciden con los anteriores, entonces están en uso por otro usuario
+        if (
+            ($fila['nickname'] !== $nick_viejo) &&
+            ($fila['correo'] !== $correo_viejo)
+        ) {
+            return 0; // No disponible
+        }
+    }
+
+    return 1; // Disponible
 }
 
   function listar_usuarios() {
@@ -100,10 +122,18 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
     return $resultado;
 }
 
-  function listar_usuarios_aleatorios() {
-    $resultado = mysqli_query($this->conexion, "SELECT nickname, foto, biografia from usuario ORDER BY RAND() LIMIT 15");
+function listar_usuarios_creadores_aleatorios() {
+    $query = "
+        SELECT u.nickname, u.foto, u.biografia
+        FROM usuario u
+        INNER JOIN creatura c ON u.nickname = c.creador
+        WHERE u.nickname != 'SYSTEM'
+        GROUP BY u.nickname ORDER BY RAND() LIMIT 10
+    ";
+    
+    $resultado = mysqli_query($this->conexion, $query);
     return $resultado;
-  }
+}
 
   function listar_usuarios_busqueda($parametro) {
     $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
@@ -143,6 +173,34 @@ function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, 
         
     // Consulta todas las criaturas del creador
     $query = "SELECT * FROM creatura WHERE creador = ?";
+    $stmt = mysqli_prepare($this->conexion, $query);
+    mysqli_stmt_bind_param($stmt, "s", $nickname);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    $creaturas = [];
+
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Obtener datos del tipo1
+        $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+        $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
+
+        $creaturas[] = [
+            'id_creatura' => $fila['id_creatura'],
+            'nombre' => $fila['nombre_creatura'],
+            'imagen' => $fila['imagen'],
+            'tipo1' => $tipo1,
+            'tipo2' => $tipo2
+        ];
+    }
+
+    return $creaturas;
+}
+
+function listar_creaturas_de_usuario_solo_pub($nickname, $controladorTipo) {
+        
+    // Consulta todas las criaturas del creador
+    $query = "SELECT * FROM creatura WHERE creador = ? AND publico = 1";
     $stmt = mysqli_prepare($this->conexion, $query);
     mysqli_stmt_bind_param($stmt, "s", $nickname);
     mysqli_stmt_execute($stmt);
