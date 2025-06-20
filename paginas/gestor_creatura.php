@@ -24,6 +24,7 @@ $creaturas_usuario = $controladorCreatura->listar_creaturas_ext(1000, $nickname_
 </head>
 <body>
 
+    <button onclick="history.back();">Volver</button>
     <div>
         <h2>Tus Creaturas</h2>
         <button onclick="window.location.href = '/Creatura_PHP/paginas/alta_creatura.php';">Crear Creatura</button>

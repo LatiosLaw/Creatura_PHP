@@ -57,6 +57,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     </div>
 </div>
 
+<?php if (isset($creaturas_usuario) && count($creaturas_usuario) > 0): ?>
 <div class="cont-titular"> 
     <div class="titular">
         <div>Creaturas del Usuario</div>
@@ -104,6 +105,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     </div>
     <?php endforeach; ?>
 </div>
+<?php endif; ?>
 
 <?php include_once("../piezas_html/pie_pagina.php"); ?>
             

@@ -32,25 +32,25 @@ $lista_tipos = $controladorTipo->listar_tipos();
                 Color <input name="color" type="color"><br>
                 Icono del Tipo <input name="icono" type="file" accept="image/png, image/jpeg"><br>
                 <div>
-                    <label>Debilidades</label>
+                    <label>Debilidades (Opcional) </label>
                     <select id="select-debilidad"></select>
                     <table id="tabla-debilidad"></table>
                 </div>
 
                 <div>
-                    <label>Resistencias</label>
+                    <label>Resistencias (Opcional) </label>
                     <select id="select-resistencia"></select>
                     <table id="tabla-resistencia"></table>
                 </div>
 
                 <div>
-                    <label>Inmunidades</label>
+                    <label>Inmunidades (Opcional) </label>
                     <select id="select-inmunidad"></select>
                     <table id="tabla-inmunidad"></table>
                 </div>
 
                 <div>
-                    <label>Interaccion consigo mismo</label>
+                    <label>Interaccion consigo mismo (Opcional) </label>
                     <select id="self-int" name="self-int">
                         <option value="1">-</option>
                         <option value="2">Debil a si mismo</option>

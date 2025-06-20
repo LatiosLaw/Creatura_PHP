@@ -34,24 +34,25 @@ $lista_tipos = $controladorTipo->listar_tipos();
 
     <div>
             <form action="/Creatura_PHP/procesamiento/manejar_modificacionTipo.php?id_tipo=<?php echo $id_tipo ?>" method="POST" enctype="multipart/form-data">
-                Nombre <input name="nombre" type="text" value="<?php echo $informacion_tipo['nombre_tipo']?>"><br>
+                <input name="nombre_original" type="text" value="<?php echo $informacion_tipo['nombre_tipo']?>" hidden>
+            Nombre <input name="nombre" type="text" value="<?php echo $informacion_tipo['nombre_tipo']?>" required><br>
                 Color <input name="color" type="color" value="#<?php echo $informacion_tipo['color']?>"><br>
                 Icono del Tipo <img src="/Creatura_PHP/imagenes/tipos/<?php echo $informacion_tipo['icono']?>" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';"><br>
                 Nuevo Icono del Tipo (Opcional) <input name="icono" type="file" accept="image/png, image/jpeg"><br>
                 <div>
-                    <label>Debilidades</label>
+                    <label>Debilidades (Opcional) </label>
                     <select id="select-debilidad"></select>
                     <table id="tabla-debilidad"></table>
                 </div>
 
                 <div>
-                    <label>Resistencias</label>
+                    <label>Resistencias (Opcional) </label>
                     <select id="select-resistencia"></select>
                     <table id="tabla-resistencia"></table>
                 </div>
 
                 <div>
-                    <label>Inmunidades</label>
+                    <label>Inmunidades (Opcional) </label>
                     <select id="select-inmunidad"></select>
                     <table id="tabla-inmunidad"></table>
                 </div>
