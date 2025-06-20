@@ -38,14 +38,25 @@ if (!isset($_SESSION['nickname'])) {
     $tamanoArchivo = $imagen['size'];
     $tmpArchivo = $imagen['tmp_name'];
 
+function limpiar_cadena($cadena) {
+    $cadena = str_replace(["'", '"', '\\'], '', $cadena);
+    return trim($cadena);
+}
+
+$nombre = limpiar_cadena($_POST['nombre'] ?? '-');
+$descripcion = limpiar_cadena($_POST['descripcion'] ?? '-');
+
     $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, $nombreArchivo, $publico);
 }else{
     $id_creatura_nueva = $controladorCreatura->alta_creatura($nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $nickname, null, $publico);
 }
 
+if($habilidades!=null){
     foreach($habilidades as $hab){
         $controladorCreatura->alta_moveset($id_creatura_nueva, $hab['id']);
     }
+}
+    
 
     if ($nombreArchivo != null) {
         $destino = "../imagenes/creaturas/" . basename($nombreArchivo);

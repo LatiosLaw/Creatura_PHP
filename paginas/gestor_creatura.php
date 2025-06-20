@@ -73,8 +73,8 @@ $creaturas_usuario = $controladorCreatura->listar_creaturas_ext(1000, $nickname_
                         <td>
                             <select onchange="manejarAccion(this.value, '<?= htmlspecialchars($fila['nombre_creatura']) ?>', '<?= htmlspecialchars($fila['id_creatura']) ?>')">
     <option value="">-- Acciones --</option>
-    <option value="ver">Ver</option>
     <option value="editar">Editar</option>
+    <option value="ver">Ver</option>
     <option value="eliminar">Eliminar</option>
   </select>
 </td>

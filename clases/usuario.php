@@ -197,6 +197,34 @@ function listar_usuarios_creadores_aleatorios() {
     return $creaturas;
 }
 
+function listar_creaturas_de_usuario_solo_pub($nickname, $controladorTipo) {
+        
+    // Consulta todas las criaturas del creador
+    $query = "SELECT * FROM creatura WHERE creador = ? AND publico = 1";
+    $stmt = mysqli_prepare($this->conexion, $query);
+    mysqli_stmt_bind_param($stmt, "s", $nickname);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    $creaturas = [];
+
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Obtener datos del tipo1
+        $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+        $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
+
+        $creaturas[] = [
+            'id_creatura' => $fila['id_creatura'],
+            'nombre' => $fila['nombre_creatura'],
+            'imagen' => $fila['imagen'],
+            'tipo1' => $tipo1,
+            'tipo2' => $tipo2
+        ];
+    }
+
+    return $creaturas;
+}
+
 function listar_creaturas_de_usuario_API($nickname, $controladorTipo) {
         
     // Consulta todas las criaturas del creador

@@ -166,56 +166,88 @@ function sincronizarSlider(input, sliderName) {
             return tipo ? `#${tipo.color}` : '#000000'; // negro si no se encuentra
         }
 
-        const habilidadesSeleccionadas = [];
-
     const habilidadesIniciales = <?= json_encode($movimientos_creatura) ?>;
+
+// Cargamos directamente las habilidades preseleccionadas al array de control
+const habilidadesSeleccionadas = habilidadesIniciales.map(hab => ({
+    id: hab.id_habilidad,
+    nombre: hab.nombre_habilidad,
+    descripcion: hab.descripcion,
+    categoria: hab.categoria_habilidad,
+    potencia: hab.potencia,
+    color: obtenerColorTipo(hab.id_tipo_habilidad)
+}));
 
 document.addEventListener("DOMContentLoaded", () => {
     reconstruirAmbosSelects();
-
-    habilidadesIniciales.forEach(hab => {
-        const color = obtenerColorTipo(hab.id_tipo_habilidad);
-        agregarHabilidad(
-            hab.id_habilidad,
-            hab.nombre_habilidad,
-            hab.descripcion,
-            hab.categoria_habilidad,
-            hab.potencia,
-            color
-        );
-    });
+    actualizarTablaSeleccionadas(); // Pintamos la tabla con las habilidades ya existentes
 
     document.getElementById("tipo1").addEventListener("change", reconstruirAmbosSelects);
     document.getElementById("tipo2").addEventListener("change", reconstruirAmbosSelects);
 });
 
+
         function retornarHabilidades(id_tipo) {
-            if (!id_tipo) return;
+    if (!id_tipo) return;
 
-            fetch(`../procesamiento/dinamico/obtener_habilidades_tipo.php?id_tipo=${id_tipo}`)
-                .then(res => res.json())
-                .then(habilidades => {
-                    const tbody = document.querySelector("#tablaHabilidades tbody");
-                    tbody.innerHTML = "";
+    fetch(`../procesamiento/dinamico/obtener_habilidades_tipo.php?id_tipo=${id_tipo}`)
+        .then(res => res.json())
+        .then(habilidades => {
+            const tbody = document.querySelector("#tablaHabilidades tbody");
+            tbody.innerHTML = "";
 
-                    habilidades.forEach(hab => {
-                        const color = obtenerColorTipo(hab.id_tipo_habilidad);
-                        const tr = document.createElement("tr");
+            habilidades.forEach(hab => {
+                const color = obtenerColorTipo(hab.id_tipo_habilidad);
+                const tr = document.createElement("tr");
 
-                        tr.innerHTML = `
-        <td>${hab.id_habilidad}</td>
-                        <td style="color: ${color};">${hab.nombre_habilidad}</td>
-        <td>${hab.descripcion}</td>
-        <td>${hab.categoria_habilidad}</td>
-        <td>${hab.potencia}</td>
-        <td><button type="button" onclick="agregarHabilidad(${hab.id_habilidad}, '${hab.nombre_habilidad}', '${hab.descripcion}', '${hab.categoria_habilidad}', ${hab.potencia}, '${color}')">Agregar</button></td>
-    `;
+                // Creamos celdas
+                const tdId = document.createElement("td");
+                tdId.textContent = hab.id_habilidad;
 
-                        tbody.appendChild(tr);
-                    });
-                })
-                .catch(err => console.error("Error al cargar habilidades:", err));
-        }
+                const tdNombre = document.createElement("td");
+                tdNombre.textContent = hab.nombre_habilidad;
+                tdNombre.style.color = color;
+
+                const tdDescripcion = document.createElement("td");
+                tdDescripcion.textContent = hab.descripcion;
+
+                const tdCategoria = document.createElement("td");
+                tdCategoria.textContent = hab.categoria_habilidad;
+
+                const tdPotencia = document.createElement("td");
+                tdPotencia.textContent = hab.potencia;
+
+                const tdAccion = document.createElement("td");
+                const boton = document.createElement("button");
+                boton.type = "button";
+                boton.textContent = "Agregar";
+                boton.onclick = () => {
+                    agregarHabilidad(
+                        hab.id_habilidad,
+                        hab.nombre_habilidad,
+                        hab.descripcion,
+                        hab.categoria_habilidad,
+                        hab.potencia,
+                        color
+                    );
+                };
+                tdAccion.appendChild(boton);
+
+                // Agregamos todo al <tr>
+                tr.appendChild(tdId);
+                tr.appendChild(tdNombre);
+                tr.appendChild(tdDescripcion);
+                tr.appendChild(tdCategoria);
+                tr.appendChild(tdPotencia);
+                tr.appendChild(tdAccion);
+
+                // Finalmente, agregamos el <tr> a la tabla
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(err => console.error("Error al cargar habilidades:", err));
+}
+
 
         function agregarHabilidad(id, nombre, descripcion, categoria, potencia, color) {
             if (habilidadesSeleccionadas.find(h => h.id === id)) {

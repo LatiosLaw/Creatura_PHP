@@ -22,8 +22,11 @@ if (isset($_SESSION['nickname'])) {
 
 $informacion = $controladorUsuario->retornar_informacion_usuario($nickname_usuario);
 
-
-$creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_usuario, $controladorTipo);
+if($nickname_sesion==$nickname_usuario){
+    $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_usuario, $controladorTipo);
+}else{
+    $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario_solo_pub($nickname_usuario, $controladorTipo);
+}
 
 ?>
 
