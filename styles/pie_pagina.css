@@ -23,6 +23,7 @@ a{
     font-weight: 500;
     margin-right: 5px;
     align-items: center;
+    overflow: auto;
 }
 
 .titular div{
