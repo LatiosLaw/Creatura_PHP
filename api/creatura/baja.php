@@ -29,3 +29,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         "mensaje" => "Método no permitido"
     ]);
 }
+?>

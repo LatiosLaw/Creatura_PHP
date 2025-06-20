@@ -1,8 +1,8 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Solo para desarrollo
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
 
 require_once("../../clases/creatura.php");
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 }
 
 // Validar parámetros
-if (!isset($_GET['nombre_creatura']) || !isset($_GET['creador'])) {
+if (!isset($_GET['id_creatura'])) {
     http_response_code(400);
     echo json_encode([
         "resultado" => "error",
@@ -25,11 +25,10 @@ if (!isset($_GET['nombre_creatura']) || !isset($_GET['creador'])) {
     exit;
 }
 
-$nombre_creatura = urldecode($_GET['nombre_creatura']);
-$creador = urldecode($_GET['creador']);
+$id_creatura = urldecode($_GET['id_creatura']);
 
 $controlador = new Creatura();
-$creatura = $controlador->retornar_creatura_API($nombre_creatura, $creador);
+$creatura = $controlador->retornar_creatura_API($id_creatura);
 
 if ($creatura) {
     echo json_encode([

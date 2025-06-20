@@ -1,6 +1,8 @@
 <?php
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Para pruebas locales, ajustar según seguridad
+header("Access-Control-Allow-Origin: *"); // Solo para desarrollo
+header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Headers: Content-Type");
 
 require_once("../../clases/tipo.php");
 

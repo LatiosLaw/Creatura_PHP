@@ -34,6 +34,19 @@ class Creatura
 
             $fila['tipo1'] = $tipo1;
             $fila['tipo2'] = $tipo2;
+			
+			//temas de imagen
+			$imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
+				$imagenCreatura = $fila['imagen'];
+				if(!empty($imagenCreatura)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$fila['imagen'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//fin de temas de imagen
 
             $creaturas[] = $fila;
         }
@@ -247,17 +260,39 @@ function baja_creatura_API($id_creatura)
         }
     }
 
-    function retornar_creatura_API($nombre_creatura, $creador)
-    {
-        $query = "SELECT * FROM creatura WHERE nombre_creatura = ? AND creador = ?";
+    function retornar_creatura_API($id_creatura)
+    {	
+		require_once("tipo.php");
+		$controladorTipo = new Tipo();
+        $query = "SELECT * FROM creatura WHERE id_creatura = ?";
         $stmt = mysqli_prepare($this->conexion, $query);
-        mysqli_stmt_bind_param($stmt, "ss", $nombre_creatura, $creador);
+        mysqli_stmt_bind_param($stmt, "i", $id_creatura);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
-
+		
         if ($resultado && mysqli_num_rows($resultado) > 0) {
             $creatura = mysqli_fetch_assoc($resultado);
+			
+			$tipo1 = $controladorTipo->retornar_tipo($creatura['id_tipo1']);
+            $tipo2 = $controladorTipo->retornar_tipo($creatura['id_tipo2']);
+
+            $creatura['tipo1'] = $tipo1;
+            $creatura['tipo2'] = $tipo2;
+			
+			
             $creatura['rating_promedio'] = $this->rating_promedio($creatura['id_creatura']);
+			$imgDir = __DIR__ ."../../imagenes/creaturas/". $creatura['imagen'];
+			//temas de imagen
+				$imagenCreatura = $creatura['imagen'];
+				if(!empty($imagenCreatura)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$creatura['imagen'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//fin de temas de imagen
             return $creatura;
         } else {
             return false;
