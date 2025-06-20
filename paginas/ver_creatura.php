@@ -1,4 +1,5 @@
 <?php
+include_once("../piezas_html/cabecera.php");
 
 require_once("../clases/tipo.php");
 $controladorTipo= new Tipo();
@@ -20,6 +21,17 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
         $efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($tipo1_elegida['id_tipo'], $tipo2_elegida['id_tipo']);
     }
 
+$rating = 0;
+
+if (isset($_SESSION['nickname'])) {
+    $nickname_sesion = $_SESSION['nickname'];
+    $rating_result = $controladorCreatura->retornar_rating($nickname_sesion, $creatura_elegida['id_creatura']);
+
+    if ($rating_result !== 0 && is_array($rating_result) && isset($rating_result['estrellas'])) {
+        $rating = floatval($rating_result['estrellas']); // ej: 3.5
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +44,19 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
 </head>
 <body>
 
-    <?php include_once("../piezas_html/cabecera.php"); ?>
+<?php if (isset($_SESSION['nickname'])): ?>
+<div id="rating-container"
+     data-current="<?= htmlspecialchars($rating) ?>"
+     data-creatura-id="<?= $creatura_elegida['id_creatura'] ?>">
+    <p>Tu puntuación:</p>
+    <div class="stars">
+        <?php for ($i = 1; $i <= 5; $i++): ?>
+            <span class="star" data-value="<?= $i ?>"></span>
+        <?php endfor; ?>
+    </div>
+    <div id="rating-msg"></div>
+</div>
+<?php endif; ?>
 
 <div class="cont-titular"> 
     <div class="titular">
@@ -47,7 +71,7 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
             <h2><?= htmlspecialchars($creatura_elegida['nombre_creatura']) ?></h2>
             <p>Hecho por <strong><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= urlencode($creatura_elegida['creador'])?>"> <?= htmlspecialchars($creatura_elegida['creador']) ?></a></strong></p>
         </div>
-        <p>Puntuación de la Creatura: <strong><?= htmlspecialchars($creatura_elegida['rating_promedio']) ?>/5</strong></p>
+        <p>Puntuación de la Creatura: <strong id="promedio-rating"><?= htmlspecialchars($creatura_elegida['rating_promedio']) ?>/5</strong></p>
         <div class="tipos-creatura">
             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo1_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo1_elegida['id_tipo']) ?>' style="background-color: #<?= $tipo1_elegida['color']; ?>;">
                 <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo1_elegida['nombre_tipo']; ?>
@@ -206,6 +230,82 @@ $creatura_elegida = $controladorCreatura->retornar_creatura($nombre_creatura, $c
     <?php include_once("../piezas_html/pie_pagina.php"); ?>
 
 <script>
+    
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("rating-container");
+    if (!container) return;
+
+    let currentRating = parseFloat(container.dataset.current) || 0;
+    const stars = container.querySelectorAll(".star");
+    const id_creatura = container.dataset.creaturaId;
+
+    function actualizarVisual(rating) {
+        stars.forEach((star, index) => {
+            const starValue = index + 1;
+            if (rating >= starValue) {
+                // estrella llena
+                star.textContent = '★';
+                star.style.color = 'black';
+                star.style.clipPath = 'none';
+            } else if (rating >= starValue - 0.5) {
+                // media estrella
+                star.textContent = '★';
+                star.style.color = 'black';
+                star.style.position = 'relative';
+                star.style.clipPath = 'inset(0 50% 0 0)'; // mostrar solo mitad izquierda
+            } else {
+                // estrella vacía
+                star.textContent = '☆';
+                star.style.color = 'gray';
+                star.style.clipPath = 'none';
+            }
+        });
+    }
+
+    actualizarVisual(currentRating);
+
+    stars.forEach(star => {
+        star.addEventListener("click", function (e) {
+            const starValue = parseInt(this.dataset.value);
+            const rect = this.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+
+            let nuevoValor;
+            if (clickX < rect.width / 2) {
+                // Click en mitad izquierda = media estrella
+                nuevoValor = starValue - 0.5;
+            } else {
+                // Click en mitad derecha = estrella completa
+                nuevoValor = starValue;
+            }
+
+            fetch("/Creatura_PHP/procesamiento/dinamico/guardar_rating.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `id_creatura=${id_creatura}&puntaje=${nuevoValor}`
+            })
+            .then(response => response.json())
+.then(data => {
+    if (data.success) {
+        currentRating = nuevoValor;
+        actualizarVisual(currentRating);
+        document.getElementById("rating-msg").textContent = "¡Tu puntuación se ha guardado!";
+
+        const promedioElem = document.getElementById("promedio-rating");
+        if (promedioElem && data.nuevo_promedio !== undefined) {
+            promedioElem.textContent = data.nuevo_promedio + "/5";
+        }
+    } else {
+        document.getElementById("rating-msg").textContent = "Error: " + (data.error || "desconocido");
+    }
+})
+            .catch(err => {
+                console.error("Error al guardar el rating", err);
+            });
+        });
+    });
+});
+
     function getColor(valor) {
     let r, g, b;
 
