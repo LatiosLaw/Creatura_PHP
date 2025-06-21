@@ -21,15 +21,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         isset($data['nickname'], $data['correo'], $data['contraseña'])
     ) {
         // Asignar valor por defecto "" si foto o biografia no existen o están vacíos
-        $foto = (isset($data['foto']) && !empty($data['foto'])) ? $data['foto'] : "";
+        $foto = $data['foto'];
         $biografia = (isset($data['biografia']) && !empty($data['biografia'])) ? $data['biografia'] : "";
+
+        $nombreArchivo = null;
+
+if ($foto && preg_match('/^data:image\/(\w+);base64,/', $foto, $tipoImagen)) {
+    $extension = strtolower($tipoImagen[1]) === 'jpeg' ? 'jpg' : $tipoImagen[1];
+    $nombreArchivo = uniqid("creatura_") . "." . $extension;
+$rutaDestino = __DIR__ . "/../../imagenes/creaturas/" . $nombreArchivo;
+
+    $imagenBinaria = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $foto));
+    if ($imagenBinaria === false || file_put_contents($rutaDestino, $imagenBinaria) === false) {
+        echo json_encode(["resultado" => "error", "mensaje" => "Error al procesar la imagen"]);
+        exit;
+    }
+}
+
+        $foto = (isset($data['foto']) && !empty($data['foto'])) ? $data['foto'] : "";
 
         $controlador = new Usuario();
 
         $resultado = $controlador->alta_usuario_API(
             $data['nickname'],
             $data['correo'],
-            $foto,
+            $nombreArchivo,
             $biografia,
             $data['contraseña'],
             "usuario"
