@@ -1,41 +1,116 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Solo para desarrollo, restringe en producción
-header("Access-Control-Allow-Methods: DELETE");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 require_once("../../clases/usuario.php");
+require_once("../../clases/tipo.php");
+require_once("../../clases/creatura.php");
 
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    // Leer datos del body (por ejemplo: {"nickname": "usuario123"})
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
+    
+    if (($data['metodo'] ?? '') !== 'DELETE' || !isset($data['nickname'])) {
+        echo json_encode([
+            "resultado" => "error",
+            "mensaje" => "Faltan parámetros o método incorrecto"
+        ]);
+        exit;
+    }
 
-    if (isset($data['nickname'])) {
-        $controlador = new Usuario();
+    $nickname = $data['nickname'];
 
-        $resultado = $controlador->baja_usuario_API($data['nickname']);
+    $controladorUsuario = new Usuario();
+    $controladorTipo = new Tipo();
+    $controladorCreatura = new Creatura();
 
-        if ($resultado) {
-            echo json_encode([
-                "resultado" => "ok",
-                "mensaje" => "Usuario eliminado correctamente"
-            ]);
-        } else {
-            echo json_encode([
-                "resultado" => "error",
-                "mensaje" => "No se pudo eliminar el usuario"
-            ]);
+    // 1. Eliminar habilidades y tipos creados por el usuario
+    $tipos = $controladorTipo->listar_tipos_creador($nickname);
+    if ($tipos && mysqli_num_rows($tipos) > 0) {
+        while ($tipo = mysqli_fetch_assoc($tipos)) {
+            $idTipo = $tipo['id_tipo'];
+
+            // Eliminar habilidades de ese tipo
+            $habilidades = $controladorTipo->retornar_habilidades_tipo($idTipo);
+            if (is_array($habilidades)) {
+                foreach ($habilidades as $habilidad) {
+                    if (isset($habilidad['id_habilidad'])) {
+                        $controladorCreatura->baja_habilidad($habilidad['id_habilidad']);
+                    }
+                }
+            }
+
+            // Cambiar tipo en creaturas que lo tengan
+            $criaturasAfectadas = $controladorTipo->retornar_creaturas_tipo($idTipo);
+            if ($criaturasAfectadas && mysqli_num_rows($criaturasAfectadas) > 0) {
+                while ($crea = mysqli_fetch_assoc($criaturasAfectadas)) {
+                    $nuevoTipo1 = $crea['id_tipo1'] == $idTipo ? $crea['id_tipo2'] : $crea['id_tipo1'];
+                    $controladorCreatura->modificar_creatura(
+                        $crea['id_creatura'],
+                        $crea['nombre_creatura'],
+                        $nuevoTipo1,
+                        0,
+                        $crea['descripcion'],
+                        $crea['hp'],
+                        $crea['atk'],
+                        $crea['def'],
+                        $crea['spa'],
+                        $crea['sdef'],
+                        $crea['spe'],
+                        $crea['creador'],
+                        $crea['imagen'],
+                        $crea['publico']
+                    );
+                }
+            }
+
+            // Eliminar efectividades y tipo
+            $controladorTipo->eliminar_efectividades($idTipo);
+            $controladorTipo->baja_tipo($idTipo);
         }
+    }
+
+    // 2. Eliminar ratings
+    $ratings = $controladorCreatura->listar_ratings_usuario($nickname);
+    if ($ratings && mysqli_num_rows($ratings) > 0) {
+        while ($rating = mysqli_fetch_assoc($ratings)) {
+            $controladorCreatura->baja_rating($rating['id_rating']);
+        }
+    }
+
+    // 3. Eliminar creaturas creadas por el usuario
+    $creaturas = $controladorCreatura->listar_creaturas_ext(500, $nickname);
+    if ($creaturas && mysqli_num_rows($creaturas) > 0) {
+        while ($crea = mysqli_fetch_assoc($creaturas)) {
+            $controladorCreatura->baja_creatura($crea['id_creatura']);
+        }
+    }
+
+    // 4. Eliminar usuario
+    $usuarioEliminado = $controladorUsuario->baja_usuario_API($nickname);
+
+    if ($usuarioEliminado == 1) {
+        echo json_encode([
+            "resultado" => "ok",
+            "mensaje" => "Cuenta eliminada exitosamente"
+        ]);
     } else {
         echo json_encode([
             "resultado" => "error",
-            "mensaje" => "Falta el parámetro 'nickname'"
+            "mensaje" => "No se pudo eliminar el usuario"
         ]);
     }
-} else {
-    http_response_code(405); // Método no permitido
-    echo json_encode([
-        "resultado" => "error",
-        "mensaje" => "Método no permitido"
-    ]);
+    exit;
 }
+
+http_response_code(405);
+echo json_encode([
+    "resultado" => "error",
+    "mensaje" => "Método no permitido"
+]);

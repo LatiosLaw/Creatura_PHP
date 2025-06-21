@@ -67,7 +67,13 @@ function baja_usuario($nickname) {
 
 function baja_usuario_API($nickname) {
     $query = "DELETE FROM usuario WHERE nickname = '$nickname'";
-    return mysqli_query($this->conexion, $query);
+    $resultado = mysqli_query($this->conexion, $query);
+
+    if ($resultado && mysqli_affected_rows($this->conexion) > 0) {
+        return 1; // Eliminación exitosa
+    } else {
+        return 0; // Fallo: o no existía el usuario o error en la query
+    }
 }
 
 function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, $tipo) {
@@ -161,7 +167,19 @@ function listar_usuarios_creadores_aleatorios() {
 
   function retornar_usuario_personal_API($nickname){
     $resultado = mysqli_query($this->conexion, "SELECT * from usuario WHERE nickname = '$nickname'");
-    return mysqli_fetch_assoc($resultado);
+    $usuario = mysqli_fetch_assoc($resultado);
+
+    $imgDir = __DIR__ ."../../imagenes/usuarios/". $usuario['foto'];
+			//temas de imagen
+				$imagenUsuario = $usuario['foto'];
+				if(!empty($imagenUsuario)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$usuario['foto'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+				}
+    return $usuario;
   }
 
   function retornar_informacion_usuario($nickname){
@@ -225,7 +243,7 @@ function listar_creaturas_de_usuario_solo_pub($nickname, $controladorTipo) {
     return $creaturas;
 }
 
-function listar_creaturas_de_usuario_API($nickname, $controladorTipo) {
+function listar_creaturas_de_usuario_API($nickname, $controladorTipo, $controladorCreatura) {
         
     // Consulta todas las criaturas del creador
     $query = "SELECT * FROM creatura WHERE creador = ?";
@@ -241,10 +259,27 @@ function listar_creaturas_de_usuario_API($nickname, $controladorTipo) {
         $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
         $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
 
+        $imagen_formateada = null;
+        $imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
+			//temas de imagen
+				$imagenCreatura = $fila['imagen'];
+				if(!empty($imagenCreatura)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$imagen_formateada = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//fin de temas de imagen
+
+            $rating = $controladorCreatura->rating_promedio($fila['id_creatura']);
+
         $creaturas[] = [
             'id_creatura' => $fila['id_creatura'],
             'nombre' => $fila['nombre_creatura'],
-            'imagen' => $fila['imagen'],
+            'imagen' => $imagen_formateada,
+            'rating' => $rating,
             'tipo1' => $tipo1,
             'tipo2' => $tipo2
         ];
