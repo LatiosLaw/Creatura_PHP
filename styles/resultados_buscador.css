@@ -22,12 +22,18 @@
 .x-large{
     font-size: x-large;
     margin: 10px 0 20px 0;
+    background-color: white;
+    text-align: center;
 }
 
 .contenedor-creaturas, .contenedor-usuarios{
+    background-color: #ebebeb;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    margin: 40px 100px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .contenido-creatura{
