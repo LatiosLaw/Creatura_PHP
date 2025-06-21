@@ -161,7 +161,19 @@ function listar_usuarios_creadores_aleatorios() {
 
   function retornar_usuario_personal_API($nickname){
     $resultado = mysqli_query($this->conexion, "SELECT * from usuario WHERE nickname = '$nickname'");
-    return mysqli_fetch_assoc($resultado);
+    $usuario = mysqli_fetch_assoc($resultado);
+
+    $imgDir = __DIR__ ."../../imagenes/usuarios/". $usuario['foto'];
+			//temas de imagen
+				$imagenUsuario = $usuario['foto'];
+				if(!empty($imagenUsuario)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$usuario['foto'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+				}
+    return $usuario;
   }
 
   function retornar_informacion_usuario($nickname){
