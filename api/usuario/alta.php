@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($foto && preg_match('/^data:image\/(\w+);base64,/', $foto, $tipoImagen)) {
     $extension = strtolower($tipoImagen[1]) === 'jpeg' ? 'jpg' : $tipoImagen[1];
     $nombreArchivo = uniqid("creatura_") . "." . $extension;
-$rutaDestino = __DIR__ . "/../../imagenes/creaturas/" . $nombreArchivo;
+$rutaDestino = __DIR__ . "/../../imagenes/usuarios/" . $nombreArchivo;
 
     $imagenBinaria = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $foto));
     if ($imagenBinaria === false || file_put_contents($rutaDestino, $imagenBinaria) === false) {
@@ -37,8 +37,6 @@ $rutaDestino = __DIR__ . "/../../imagenes/creaturas/" . $nombreArchivo;
         exit;
     }
 }
-
-        $foto = (isset($data['foto']) && !empty($data['foto'])) ? $data['foto'] : "";
 
         $controlador = new Usuario();
 

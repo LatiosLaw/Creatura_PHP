@@ -67,7 +67,13 @@ function baja_usuario($nickname) {
 
 function baja_usuario_API($nickname) {
     $query = "DELETE FROM usuario WHERE nickname = '$nickname'";
-    return mysqli_query($this->conexion, $query);
+    $resultado = mysqli_query($this->conexion, $query);
+
+    if ($resultado && mysqli_affected_rows($this->conexion) > 0) {
+        return 1; // Eliminación exitosa
+    } else {
+        return 0; // Fallo: o no existía el usuario o error en la query
+    }
 }
 
 function modificar_usuario($nickname, $correo, $foto, $biografia, $contraseña, $tipo) {
@@ -253,6 +259,7 @@ function listar_creaturas_de_usuario_API($nickname, $controladorTipo, $controlad
         $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
         $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
 
+        $imagen_formateada = null;
         $imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
 			//temas de imagen
 				$imagenCreatura = $fila['imagen'];
