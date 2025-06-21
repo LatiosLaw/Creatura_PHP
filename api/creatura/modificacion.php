@@ -1,9 +1,16 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Solo para desarrollo
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Origin: *"); // O específica tu frontend: http://localhost:4200
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
 
+require_once("../../clases/creatura.php");
+$controladorCreatura = new Creatura();
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 require_once("../../clases/creatura.php");
 $controladorCreatura = new Creatura();
 
@@ -40,7 +47,7 @@ $publico     = intval($data['publico']);
 
 $habilidades = isset($data['habilidades']) ? $data['habilidades'] : [];
 
-$creatura_vieja = $controladorCreatura->retornar_creatura_API($nombre, $creador);
+$creatura_vieja = $controladorCreatura->retornar_creatura_API($id_creatura);
 $imagenAnterior = $creatura_vieja['imagen'];
 
 $nombreArchivo = $imagenAnterior;
@@ -49,7 +56,7 @@ $nombreArchivo = $imagenAnterior;
 if (!empty($data['imagen']) && preg_match('/^data:image\/(\w+);base64,/', $data['imagen'], $tipoImagen)) {
     $extension = strtolower($tipoImagen[1]) === 'jpeg' ? 'jpg' : $tipoImagen[1];
     $nombreArchivo = uniqid("creatura_") . "." . $extension;
-    $rutaDestino = "../imagenes/creaturas/" . $nombreArchivo;
+	$rutaDestino = __DIR__ . "/../../imagenes/creaturas/" . $nombreArchivo;
 
     $imagenBinaria = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data['imagen']));
     if ($imagenBinaria === false || file_put_contents($rutaDestino, $imagenBinaria) === false) {
@@ -69,13 +76,18 @@ $ok = $controladorCreatura->modificar_creatura_API(
 
 // Insertar nuevas habilidades
 foreach ($habilidades as $hab) {
-    if (isset($hab['id'])) {
-        $controladorCreatura->alta_moveset_API($id_creatura, $hab['id']);
+    if (isset($hab['id_habilidad'])) {
+        $controladorCreatura->alta_moveset_API($id_creatura, $hab['id_habilidad']);
     }
 }
 
 echo json_encode([
     "resultado" => $ok ? "ok" : "error",
     "mensaje" => $ok ? "Creatura modificada correctamente." : "Error al modificar creatura",
-    "id_creatura" => $id_creatura
+    "id_creatura" => $id_creatura,
+	"habilidades" => $habilidades,
+	"tipo1" => $tipo1,
+	"tipo2" => $tipo2,
+	
+	
 ]);
