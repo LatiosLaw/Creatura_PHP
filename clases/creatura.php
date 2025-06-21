@@ -20,9 +20,7 @@ class Creatura
         return $resultado;
     }
 
-    public function listar_creaturas_con_tipos_API() {
-    require_once("tipo.php");
-    $controladorTipo = new Tipo();
+    public function listar_creaturas_con_tipos_API($controladorTipo) {
 
     $resultado = mysqli_query($this->conexion, "SELECT * FROM creatura");
     $creaturas = [];
