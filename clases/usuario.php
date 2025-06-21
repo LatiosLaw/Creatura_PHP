@@ -237,7 +237,7 @@ function listar_creaturas_de_usuario_solo_pub($nickname, $controladorTipo) {
     return $creaturas;
 }
 
-function listar_creaturas_de_usuario_API($nickname, $controladorTipo) {
+function listar_creaturas_de_usuario_API($nickname, $controladorTipo, $controladorCreatura) {
         
     // Consulta todas las criaturas del creador
     $query = "SELECT * FROM creatura WHERE creador = ?";
@@ -253,10 +253,26 @@ function listar_creaturas_de_usuario_API($nickname, $controladorTipo) {
         $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
         $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
 
+        $imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
+			//temas de imagen
+				$imagenCreatura = $fila['imagen'];
+				if(!empty($imagenCreatura)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$imagen_formateada = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//fin de temas de imagen
+
+            $rating = $controladorCreatura->rating_promedio($fila['id_creatura']);
+
         $creaturas[] = [
             'id_creatura' => $fila['id_creatura'],
             'nombre' => $fila['nombre_creatura'],
-            'imagen' => $fila['imagen'],
+            'imagen' => $imagen_formateada,
+            'rating' => $rating,
             'tipo1' => $tipo1,
             'tipo2' => $tipo2
         ];
