@@ -1,9 +1,15 @@
 <?php
 // Cabeceras necesarias para API REST
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Solo para desarrollo, restringe en producción
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+
+// Manejo explícito de preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 require_once("../../clases/usuario.php");
 
@@ -12,16 +18,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Verifica campos obligatorios
     if (
-        isset($data['nickname'], $data['correo'], $data['foto'], $data['biografia'],
-              $data['contraseña'])
+        isset($data['nickname'], $data['correo'], $data['contraseña'])
     ) {
+        // Asignar valor por defecto "" si foto o biografia no existen o están vacíos
+        $foto = (isset($data['foto']) && !empty($data['foto'])) ? $data['foto'] : "";
+        $biografia = (isset($data['biografia']) && !empty($data['biografia'])) ? $data['biografia'] : "";
+
         $controlador = new Usuario();
 
         $resultado = $controlador->alta_usuario_API(
             $data['nickname'],
             $data['correo'],
-            $data['foto'],
-            $data['biografia'],
+            $foto,
+            $biografia,
             $data['contraseña'],
             "usuario"
         );

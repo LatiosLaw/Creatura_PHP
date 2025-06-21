@@ -1,8 +1,16 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Solo para desarrollo, restringí en producción
-header("Access-Control-Allow-Methods: POST");
+
+// CORS headers para todas las solicitudes
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+// Manejo explícito de preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 require_once("../../clases/usuario.php");
 $controladorUsuario = new Usuario();
