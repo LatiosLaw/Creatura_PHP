@@ -323,10 +323,6 @@ MODIFY `id_habilidad` INT(5) NOT NULL AUTO_INCREMENT;
 --
 
 INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
-('Puño Cometa', 1, 'Pega de dos a cinco veces seguidas.', 'FISICO', 18, 'SYSTEM'),
-('Guillotina', 1, 'Ataque cortante con grandes pinzas que fulmina al objetivo de un solo golpe si acierta.', 'FISICO', 0, 'SYSTEM'),
-('Danza Espada', 1, 'Este frenético baile de combate eleva el espíritu y aumenta mucho el Ataque.', 'ESTADO', 0, 'SYSTEM'),
-('Triataque', 1, 'Ataque con tres rayos de luz que puede paralizar, quemar o congelar al objetivo.', 'ESPECIAL', 80, 'SYSTEM'),
 
 -- Tipo Fuego (2)
 ('Lanzallamas', 2, 'Lanza llamas que puede quemar al objetivo.', 'ESPECIAL', 90, 'SYSTEM'),
@@ -334,17 +330,17 @@ INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`,
 ('Sobrecalentamiento', 2, 'Potente ataque especial que reduce el Ataque Especial del usuario.', 'ESPECIAL', 130, 'SYSTEM'),
 ('Onda Ígnea', 2, 'Genera una ola de calor que puede quemar al rival.', 'ESPECIAL', 95, 'SYSTEM'),
 
--- Tipo Agua (3)
-('Surf', 3, 'Crea una gran ola que golpea a todos en campo.', 'ESPECIAL', 90, 'SYSTEM'),
-('Hidrobomba', 3, 'Poderoso chorro de agua.', 'ESPECIAL', 110, 'SYSTEM'),
-('Cola de Agua', 3, 'Azote con la cola que puede causar daño.', 'FISICO', 90, 'SYSTEM'),
-('Escaldar', 3, 'Agua hirviendo que puede quemar.', 'ESPECIAL', 80, 'SYSTEM'),
-
 -- Tipo Eléctrico (4)
 ('Rayo', 4, 'Un potente rayo que puede paralizar al objetivo.', 'ESPECIAL', 90, 'SYSTEM'),
 ('Trueno', 4, 'Un rayo muy fuerte que paraliza, pero es impreciso.', 'ESPECIAL', 110, 'SYSTEM'),
 ('Placaje Eléctrico', 4, 'Se envuelve en electricidad y embiste con retroceso.', 'FISICO', 120, 'SYSTEM'),
 ('Onda Trueno', 4, 'Rayo de voltaje que puede paralizar, sin daño directo fuerte.', 'ESTADO', 0, 'SYSTEM'),
+
+-- Tipo Agua (3)
+('Surf', 3, 'Crea una gran ola que golpea a todos en campo.', 'ESPECIAL', 90, 'SYSTEM'),
+('Hidrobomba', 3, 'Poderoso chorro de agua.', 'ESPECIAL', 110, 'SYSTEM'),
+('Cola de Agua', 3, 'Azote con la cola que puede causar daño.', 'FISICO', 90, 'SYSTEM'),
+('Escaldar', 3, 'Agua hirviendo que puede quemar.', 'ESPECIAL', 80, 'SYSTEM'),
 
 -- Tipo Planta (5)
 ('Hoja Afilada', 5, 'Hoja afilada con alta probabilidad de crítico.', 'FISICO', 90, 'SYSTEM'),
@@ -429,6 +425,12 @@ INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`,
 ('Destello Mágico', 18, 'Brilla intensamente para dañar al rival.', 'ESPECIAL', 80, 'SYSTEM'),
 ('Carantoña', 18, 'Ataca dulcemente al rival. Puede bajar el Ataque.', 'FISICO', 90, 'SYSTEM'),
 ('Voz Cautivadora', 18, 'Un canto encantador que nunca falla.', 'ESPECIAL', 40, 'SYSTEM'),
+
+-- Tipo Normal (1)
+('Puño Cometa', 1, 'Pega de dos a cinco veces seguidas.', 'FISICO', 18, 'SYSTEM'),
+('Guillotina', 1, 'Ataque cortante con grandes pinzas que fulmina al objetivo de un solo golpe si acierta.', 'FISICO', 0, 'SYSTEM'),
+('Danza Espada', 1, 'Este frenético baile de combate eleva el espíritu y aumenta mucho el Ataque.', 'ESTADO', 0, 'SYSTEM'),
+('Triataque', 1, 'Ataque con tres rayos de luz que puede paralizar, quemar o congelar al objetivo.', 'ESPECIAL', 80, 'SYSTEM'),
 
 -- Tipo Inanis (20)
 ('Ráfaga Eldritch', 20, 'El usuario libera de golpe el poder de los antiguos, causando mucho daño y reduciendo la precision del rival. Este ataque no puede ser usado 2 turnos consecutivos.', 'ESPECIAL', 180, 'LatiosLaw'),
