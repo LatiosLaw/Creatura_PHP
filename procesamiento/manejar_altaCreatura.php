@@ -5,7 +5,7 @@ require_once("../clases/creatura.php");
 $controladorCreatura = new Creatura();
 
 if (!isset($_SESSION['nickname'])) {
-    header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_no_sesion");
+    header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_creatura_no_sesion");
     exit;
 } else {
     $nickname = $_SESSION['nickname'];
@@ -36,7 +36,7 @@ $spe = isset($_POST['spe']) ? (int)$_POST['spe'] : 70;
 $habilidades_json = $_POST['habilidades_json'] ?? '[]';
 $habilidades = json_decode($habilidades_json, true);
 if ($habilidades === null) {
-    header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_json_habilidades_invalido");
+    header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_creatura_json_habilidades_invalido");
     exit;
 }
 
@@ -52,11 +52,7 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
     // Validar tipo y tamaño si querés
     $allowed_types = ['image/jpeg', 'image/png'];
     if (!in_array($imagen['type'], $allowed_types)) {
-        header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=tipo_imagen_no_valido");
-        exit;
-    }
-    if ($imagen['size'] > 5 * 1024 * 1024) { // max 5MB
-        header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=tamano_imagen_excedido");
+        header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_creatura_tipo_imagen_no_valido");
         exit;
     }
 }
@@ -81,7 +77,7 @@ if ($habilidades != null && is_array($habilidades)) {
         if (isset($hab['id'])) {
             $res = $controladorCreatura->alta_moveset($id_creatura_nueva, $hab['id']);
             if (!$res) {
-                header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=fallo_alta_moveset");
+                header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_creatura_fallo_alta_moveset");
                 exit;
             }
         }
@@ -92,7 +88,7 @@ if ($habilidades != null && is_array($habilidades)) {
 if ($nombreArchivo != null && $tmpArchivo != null) {
     $destino = "../imagenes/creaturas/" . basename($nombreArchivo);
     if (!move_uploaded_file($tmpArchivo, $destino)) {
-        header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=fallo_subida_imagen");
+        header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_creatura_fallo_subida_imagen");
         exit;
     }
 }

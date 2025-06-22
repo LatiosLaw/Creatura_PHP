@@ -15,12 +15,18 @@ if (isset($_GET['success'])) {
     $message = '';
     $popup_class = 'popup_respuesta_error'; // Clase para el popup de error
     
-    if ($cod_error == 'alta_no_sesion') {
+    if ($cod_error == 'alta_creatura_no_sesion') {
         $message = 'Debes iniciar sesión para crear Creaturas!';
-    } else if ($cod_error == 'alta_json_habilidades_invalido') {
+    } else if ($cod_error == 'alta_creatura_json_habilidades_invalido') {
         $message = 'Error al formatear Json con las habilidades de la Creatura.';
-    } else if ($cod_error == '3') {
-        $message = 'Error al Generar una Nueva Compra.';
+    } else if ($cod_error == 'alta_creatura_tipo_imagen_no_valido') {
+        $message = 'La imagen de la creatura debe ser JPEG o PNG.';
+    } else if ($cod_error == 'fallo_alta_creatura') {
+        $message = 'Error al generar la nueva Creatura.';
+    } else if ($cod_error == 'alta_creatura_fallo_alta_moveset') {
+        $message = 'Error al crear el moveset de la Creatura.';
+    } else if ($cod_error == 'alta_creatura_fallo_subida_imagen') {
+        $message = 'Error al subir la imagen de la creatura.';
     }
 } else {
     $message = '';

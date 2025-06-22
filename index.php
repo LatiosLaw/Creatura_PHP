@@ -24,6 +24,7 @@ $usuarios_aleatorios = $controladorUsuario->listar_usuarios_creadores_aleatorios
 <body>
 
     <?php include_once("./piezas_html/cabecera.php"); ?>
+<?php include_once("./piezas_html/popup_adaptativo.php"); ?>
 
     <div class="cont-titular"> 
         <div class="titular">
