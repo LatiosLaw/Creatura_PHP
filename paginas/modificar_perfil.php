@@ -44,27 +44,33 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     </div>
 </div>
 
-<form id="formAltaCreatura" action="../procesamiento/manejar_modificacionPerfil.php" method="POST" enctype="multipart/form-data">
-<div class="contenido-usuario">
+<form id="formAltaCreatura" action="../procesamiento/manejar_modificacionPerfil.php" method="POST" enctype="multipart/form-data" onsubmit="return verificarContrasenas()">
+  <div class="contenido-usuario">
     <div class="imagen">
-        <p>Nueva Foto de Perfil:</p>
-        <input name="foto" type="file" accept="image/png, image/jpeg" id="fotoInput">
-        <img id="userImage" src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+      <p>Nueva Foto de Perfil:</p>
+      <input name="foto" type="file" accept="image/png, image/jpeg" id="fotoInput">
+      <img id="userImage" src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
     </div>
 
     <div class="info-personal">
-        <input type="text" name="nick_viejo" value="<?= htmlspecialchars($informacion['nickname']) ?>" hidden>
-        <input type="text" name="correo_viejo" value="<?= htmlspecialchars($informacion['correo']) ?>" hidden>
+      <p>Nickname</p>
+      <input type="text" name="nickname" maxlength="30" value="<?= htmlspecialchars($informacion['nickname']) ?>" readonly style="background-color: #e9ecef; color: #6c757d;">
+      
+      <p>Correo</p>
+      <input type="email" name="correo" maxlength="30" value="<?= htmlspecialchars($informacion['correo']) ?>" readonly style="background-color: #e9ecef; color: #6c757d;">
+      
+      <p>Biografia</p>
+      <input type="text" name="biografia" maxlength="200" value="<?= htmlspecialchars($informacion['biografia']) ?>">
+      
+      <p>Nueva Contraseña (Opcional)</p>
+      <input id="contra" type="password" name="contra" placeholder="Contraseña" maxlength="30">
+      
+      <p>Verificar Nueva Contraseña</p>
+      <input id="ver_contra" name="ver_contra" type="password" placeholder="Verificar Contraseña" maxlength="30">
 
-        <p>Nickname</p>
-        <input type="text" name="nickname" maxlength="30" value="<?= htmlspecialchars($informacion['nickname']) ?>">
-        <p>Correo</p>
-        <input type="email" name="correo" maxlength="30" value="<?= htmlspecialchars($informacion['correo']) ?>">
-        <p>Biografia</p>
-        <input type="text" name="biografia" maxlength="200" value="<?= htmlspecialchars($informacion['biografia']) ?>">
-        <button type="submit">Guardar Cambios</button>
+      <button type="submit">Guardar Cambios</button>
     </div>
-</div>
+  </div>
 </form>
 
 <?php include_once("../piezas_html/pie_pagina.php"); ?>
@@ -83,6 +89,27 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
                         reader.readAsDataURL(file);
                     }
                 });
+
+                 function verificarContrasenas() {
+    const contra = document.getElementById('contra').value;
+    const verContra = document.getElementById('ver_contra').value;
+
+    if (contra === '' && verContra === '') {
+      return true; // No se ingresó nada, se permite enviar
+    }
+
+    if (contra.length < 8 || verContra.length < 8) {
+      alert('La contraseña debe tener al menos 8 caracteres.');
+      return false;
+    }
+
+    if (contra !== verContra) {
+      alert('Las contraseñas no coinciden.');
+      return false;
+    }
+
+    return true;
+  }
             </script>
 </body>
 </html>

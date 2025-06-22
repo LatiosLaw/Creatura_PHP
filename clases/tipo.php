@@ -133,8 +133,8 @@ $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE id_tipo
     $resultado = mysqli_query($this->conexion, "SELECT * from habilidad WHERE id_tipo_habilidad = $id_tipo");
     return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
   }
+
   function retornar_habilidades_api(){
-	$controladorTipo = new Tipo();
     $resultado = mysqli_query($this->conexion, "
 			SELECT 
             h.*, 
@@ -144,10 +144,6 @@ $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE id_tipo
         FROM habilidad h
         INNER JOIN tipo t ON h.id_tipo_habilidad = t.id_tipo
     ");
-	
-	
-	//$tipo = $controladorTipo->retornar_tipo($resultado['id_tipo_habilidad']);
-	
 	
     return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 	
