@@ -111,15 +111,23 @@ if (isset($_GET['success'])) {
     <?php endif; ?>
 
     <script>
+
         // Mostrar el popup si hay un mensaje
-        window.onload = function() {
-            const popup = document.getElementById('popup_respuesta');
-            const overlay = document.getElementById('popup-overlay');
-            if (popup && popup.innerText !== '') {
-                popup.classList.add('show'); // Mostramos el popup
-                overlay.classList.add('show'); // Mostramos el fondo oscuro
-            }
-        };
+window.onload = function() {
+  const popup = document.getElementById('popup_respuesta');
+  const overlay = document.getElementById('popup-overlay');
+
+  if (popup && popup.innerText.trim() !== '') {
+    popup.classList.add('show'); 
+    overlay.classList.add('show');
+
+    // Borrar los parámetros de la URL (error/success)
+    const url = new URL(window.location.href);
+    url.searchParams.delete('error');
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url.pathname);
+  }
+};
 
         // Función para cerrar el popup
         function closePopup() {
