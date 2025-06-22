@@ -28,6 +28,7 @@ $info_tipo = $controladorTipo->retornar_tipo($informacion_habilidad['id_tipo_hab
 </head>
 <body>
     <?php include_once("../piezas_html/cabecera.php"); ?>
+    <?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 <div class="cont-titular"> 
     <div class="titular">
         <div>Información de la Habilidad</div>

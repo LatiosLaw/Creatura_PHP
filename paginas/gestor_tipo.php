@@ -21,7 +21,7 @@ $tipos_del_usuario = $controladorTipo->listar_tipos_creador($_SESSION['nickname'
     <title>Gestor de Tipos</title>
 </head>
 <body>
-
+<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 <button onclick="history.back();">Volver</button>
 
 <div>

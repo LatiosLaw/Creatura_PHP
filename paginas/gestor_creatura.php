@@ -23,6 +23,7 @@ $creaturas_usuario = $controladorCreatura->listar_creaturas_ext(1000, $nickname_
     <title>Gestor de Creaturas</title>
 </head>
 <body>
+<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 
     <button onclick="history.back();">Volver</button>
     <div>

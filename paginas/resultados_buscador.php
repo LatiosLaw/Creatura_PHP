@@ -35,7 +35,7 @@ $usuarios_encontrados = $controladorUsuario->listar_usuarios_busqueda($parametro
 <body>
 
 <?php include_once("../piezas_html/cabecera.php"); ?>
-
+<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 <div class="cont-titular"> 
     <div class="titular">
         <div>Resultados de la Busqueda</div>

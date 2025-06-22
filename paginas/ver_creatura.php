@@ -43,7 +43,7 @@ if (isset($_SESSION['nickname'])) {
     <link rel="stylesheet" href="\Creatura_PHP\styles\ver_creatura.css">
 </head>
 <body>
-
+<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 <?php if (isset($_SESSION['nickname'])): ?>
 <div id="rating-container"
      data-current="<?= htmlspecialchars($rating) ?>"

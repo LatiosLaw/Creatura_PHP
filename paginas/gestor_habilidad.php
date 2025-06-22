@@ -23,7 +23,7 @@ $habilidades_usuario = $controladorCreatura->retornar_habilidades_creador($nickn
     <title>Gestor de Habilidades</title>
 </head>
 <body>
-    
+    <?php include_once("../piezas_html/popup_adaptativo.php"); ?>
     <button onclick="history.back();">Volver</button>
 
     <div>

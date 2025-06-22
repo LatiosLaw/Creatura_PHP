@@ -21,7 +21,7 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
 <body>
 
     <?php include_once("../piezas_html/cabecera.php"); ?>
-
+<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 <div class="cont-titular"> 
     <div class="titular">
         <div>Todas las Creaturas del Sistema</div>

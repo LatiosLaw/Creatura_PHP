@@ -18,7 +18,7 @@ $lista_usuarios = $controladorUsuario->listar_usuarios_creadores();
 <body>
 
 <?php include_once("../piezas_html/cabecera.php"); ?>
-
+<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 <div class="cont-titular"> 
     <div class="titular">
         <div>Otros Creadores de Creaturas</div>

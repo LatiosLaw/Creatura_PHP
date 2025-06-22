@@ -39,7 +39,7 @@ if($nickname_sesion==$nickname_usuario){
     <link rel="stylesheet" href="\Creatura_PHP\styles\ver_usuario.css">
 </head>
 <body>
-
+<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
 <div class="cont-titular"> 
     <div class="titular">
         <div>Información del Usuario</div>
