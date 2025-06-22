@@ -59,12 +59,12 @@ session_start();
     <span class="close-btn" onclick="cerrarModal('registroModal')">&times;</span>
     <h2>Registrarse</h2>
     <form  id="formRegistro_USUARIO" method="POST" enctype="multipart/form-data">
-      <input type="text" name="nickname" placeholder="Nickname" required>
-      <input type="password" name="contra" placeholder="Contraseña" required>
-      <input name="ver_contra" type="password" placeholder="Verificar Contraseña" required>
-      <input type="email" name="correo" placeholder="Email" required>
-       Foto de Perfil (Opcional) <input name="foto" type="file" accept="image/png, image/jpeg">
-    Biografia (Opcional)<input name="biografia" type="text">
+      <input type="text" name="nickname" placeholder="Nickname" maxlength="30" required>
+      <input type="password" name="contra" placeholder="Contraseña" maxlength="30" required>
+      <input name="ver_contra" type="password" placeholder="Verificar Contraseña" maxlength="30" required>
+      <input type="email" name="correo" placeholder="Email" maxlength="35" required>
+       Foto de Perfil (opcional) <input name="foto" type="file" accept="image/png, image/jpeg">
+      <input name="biografia" type="text" placeholder="Biografía (opcional, máximo 200 caracteres)" maxlength="200">
       <button type="submit">Registrar</button>
     </form>
   </div>

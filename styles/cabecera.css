@@ -35,7 +35,7 @@
     color: white;
     border: none;
     padding: 15px 30px;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -52,10 +52,10 @@
 }
 
 .cabecera-bar input[type="text"] {
-    padding: 15px 2px 2px 2px;
+    padding: 8px 5px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 350px;
     transition: border-color 0.3s ease;
 }
@@ -70,7 +70,7 @@
     background-color: black;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -115,10 +115,23 @@
     padding: 15px;
 }
 
-.modal-registro-usuario form input, .modal-inicio-sesion form input{
+.modal-registro-usuario form input[type="text"], .modal-registro-usuario form input[type="password"], .modal-registro-usuario form input[type="email"], .modal-inicio-sesion form input[type="text"], .modal-inicio-sesion form input[type="password"]{
     margin-bottom: 10px;
-    padding: 8px;
-    font-size: 14px;
+    padding: 8px 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.modal-registro-usuario form input[type="text"]:focus, .modal-registro-usuario form input[type="password"]:focus, .modal-registro-usuario form input[type="email"]:focus, .modal-inicio-sesion form input[type="text"]:focus, .modal-inicio-sesion form input[type="password"]:focus{
+    border-color: #333;
+    outline: none;
+}
+
+.modal-registro-usuario form input[type="file"]{
+    margin-bottom: 10px;
+    font-size: 16px;
 }
 
 .modal-registro-usuario form button, .modal-inicio-sesion form button{

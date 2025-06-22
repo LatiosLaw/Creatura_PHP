@@ -1,6 +1,7 @@
 /* Pantalla chica */
 @media (max-width: 991.5px){
     .contenido-usuario{
+        margin-top: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -8,7 +9,6 @@
     }
 
     .contenido-usuario img{
-        margin-top: 10px;
         min-width: 300px;
         min-height: 300px;
         max-width: 300px;
@@ -23,8 +23,8 @@
     .info-personal{
         width: 80%;
         margin-top: 10px;
-        display: flex;
         flex-direction: column;
+        text-align: start;
     }
 }
 
@@ -56,6 +56,7 @@
 
 .contenido-usuario img{
     border: 1px solid black;
+    border-radius: 10px;
 }
 
 .imagen, .imagen input{
@@ -66,12 +67,32 @@
     margin-bottom: 10px;
 }
 
+.info-personal{
+    display: flex;
+    flex-direction: column;
+}
+
 .info-personal, .info-personal input{
     font-size: large;
 }
 
-.info-personal h2, .info-personal p{
+.info-personal p{
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.info-personal input{
     margin-bottom: 20px;
+    padding: 8px 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.info-personal input:focus {
+    border-color: #333;
+    outline: none;
 }
 
 .info-personal button{

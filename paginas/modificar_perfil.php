@@ -47,18 +47,21 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
 <form id="formAltaCreatura" action="../procesamiento/manejar_modificacionPerfil.php" method="POST" enctype="multipart/form-data">
 <div class="contenido-usuario">
     <div class="imagen">
-        <p>Nueva Foto de Perfil :</p>
-        <input name="foto" type="file" accept="image/png, image/jpeg">
-        <img src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+        <p>Nueva Foto de Perfil:</p>
+        <input name="foto" type="file" accept="image/png, image/jpeg" id="fotoInput">
+        <img id="userImage" src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
     </div>
 
     <div class="info-personal">
         <input type="text" name="nick_viejo" value="<?= htmlspecialchars($informacion['nickname']) ?>" hidden>
         <input type="text" name="correo_viejo" value="<?= htmlspecialchars($informacion['correo']) ?>" hidden>
 
-        <p>Nickname : <input type="text" name="nickname" value="<?= htmlspecialchars($informacion['nickname']) ?>"></p>
-        <p>Correo : <input type="email" name="correo" value="<?= htmlspecialchars($informacion['correo']) ?>"></p>
-        <p>Biografia : <input type="text" name="biografia" value="<?= htmlspecialchars($informacion['biografia']) ?>"></p>
+        <p>Nickname</p>
+        <input type="text" name="nickname" maxlength="30" value="<?= htmlspecialchars($informacion['nickname']) ?>">
+        <p>Correo</p>
+        <input type="email" name="correo" maxlength="30" value="<?= htmlspecialchars($informacion['correo']) ?>">
+        <p>Biografia</p>
+        <input type="text" name="biografia" maxlength="200" value="<?= htmlspecialchars($informacion['biografia']) ?>">
         <button type="submit">Guardar Cambios</button>
     </div>
 </div>
@@ -67,13 +70,19 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
 <?php include_once("../piezas_html/pie_pagina.php"); ?>
             
             <script>
+                document.getElementById('fotoInput').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
 
-                function confirmarEliminacion() {
-      if (confirm('¿Estás seguro de que quieres eliminar tu perfil? Esta acción no se puede deshacer.')) {
-        window.location.href = '/Creatura_PHP/procesamiento/manejar_bajaUsuario.php';
-      }
-    }
-    
+                    if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            document.getElementById('userImage').src = e.target.result;
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                });
             </script>
 </body>
 </html>
