@@ -43,20 +43,6 @@ if (isset($_SESSION['nickname'])) {
     <link rel="stylesheet" href="\Creatura_PHP\styles\ver_creatura.css">
 </head>
 <body>
-<?php include_once("../piezas_html/popup_adaptativo.php"); ?>
-<?php if (isset($_SESSION['nickname'])): ?>
-<div id="rating-container"
-     data-current="<?= htmlspecialchars($rating) ?>"
-     data-creatura-id="<?= $creatura_elegida['id_creatura'] ?>">
-    <p>Tu puntuación:</p>
-    <div class="stars">
-        <?php for ($i = 1; $i <= 5; $i++): ?>
-            <span class="star" data-value="<?= $i ?>"></span>
-        <?php endfor; ?>
-    </div>
-    <div id="rating-msg"></div>
-</div>
-<?php endif; ?>
 
 <div class="cont-titular"> 
     <div class="titular">
@@ -72,6 +58,7 @@ if (isset($_SESSION['nickname'])) {
                 <h2><?= htmlspecialchars($creatura_elegida['nombre_creatura']) ?></h2>
                 <p>Hecho por <strong><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= urlencode($creatura_elegida['creador'])?>"> <?= htmlspecialchars($creatura_elegida['creador']) ?></a></strong></p>
             </div>
+            <?php include_once("../piezas_html/popup_adaptativo.php"); ?>
             <?php if (isset($_SESSION['nickname'])): ?>
             <div id="rating-container" class="rating"
                 data-current="<?= htmlspecialchars($rating) ?>"
