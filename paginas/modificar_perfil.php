@@ -33,7 +33,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Perfil - <?php echo $nickname_usuario ?></title>
-    <link rel="stylesheet" href="\Creatura_PHP\styles\ver_usuario.css">
+    <link rel="stylesheet" href="\Creatura_PHP\styles\modificar_perfil.css">
 </head>
 <body>
 
@@ -46,14 +46,19 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
 
 <form id="formAltaCreatura" action="../procesamiento/manejar_modificacionPerfil.php" method="POST" enctype="multipart/form-data">
 <div class="contenido-usuario">
-    <img src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+    <div class="imagen">
+        <p>Nueva Foto de Perfil :</p>
+        <input name="foto" type="file" accept="image/png, image/jpeg">
+        <img src="../imagenes/usuarios/<?= htmlspecialchars($informacion['foto']) ?>" alt="Imagen del Usuario" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+    </div>
+
     <div class="info-personal">
         <input type="text" name="nick_viejo" value="<?= htmlspecialchars($informacion['nickname']) ?>" hidden>
         <input type="text" name="correo_viejo" value="<?= htmlspecialchars($informacion['correo']) ?>" hidden>
-        <h2>Nickname : <input type="text" name="nickname" value="<?= htmlspecialchars($informacion['nickname']) ?>"></h2>
+
+        <p>Nickname : <input type="text" name="nickname" value="<?= htmlspecialchars($informacion['nickname']) ?>"></p>
         <p>Correo : <input type="email" name="correo" value="<?= htmlspecialchars($informacion['correo']) ?>"></p>
         <p>Biografia : <input type="text" name="biografia" value="<?= htmlspecialchars($informacion['biografia']) ?>"></p>
-        <p>Nueva Foto de Perfil : <input name="foto" type="file" accept="image/png, image/jpeg"></p>
         <button type="submit">Guardar Cambios</button>
     </div>
 </div>
