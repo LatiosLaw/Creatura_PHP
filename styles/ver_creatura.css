@@ -22,6 +22,10 @@
         flex-direction: column;
     }
 
+    .rycc{
+        justify-content: space-around;
+    }
+
     .stats{
         text-align: left;
     }
@@ -45,6 +49,11 @@
         min-height: 500px;
         max-width: 500px;
         max-height: 500px;
+    }
+
+    
+    .rycc{
+        justify-content: space-between;
     }
 
     .tipos-creatura{
@@ -80,8 +89,27 @@
     background-color: #333;
 }
 
-.creatura-creador a{
+.rycc{
+    display: flex;
+}
+
+.creador-creatura a{
     color: black;
+}
+
+.rating p{
+    margin-bottom: -5px;
+}
+
+.star{
+    cursor: pointer;
+    font-size: xx-large;
+    margin-bottom: 5px;
+}
+
+#rating-msg{
+    display: none;
+    margin-bottom: 20px;
 }
 
 .tipos-creatura{

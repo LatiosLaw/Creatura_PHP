@@ -67,20 +67,34 @@ if (isset($_SESSION['nickname'])) {
 <div class="contenido-creatura">
     <img src="../imagenes/creaturas/<?= htmlspecialchars($creatura_elegida['imagen']) ?>" alt="Imagen de la creatura" width="200" onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';">
     <div class="info-creatura">
-        <div class="creatura-creador">
-            <h2><?= htmlspecialchars($creatura_elegida['nombre_creatura']) ?></h2>
-            <p>Hecho por <strong><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= urlencode($creatura_elegida['creador'])?>"> <?= htmlspecialchars($creatura_elegida['creador']) ?></a></strong></p>
+        <div class="rycc">
+            <div class="creador-creatura">
+                <h2><?= htmlspecialchars($creatura_elegida['nombre_creatura']) ?></h2>
+                <p>Hecho por <strong><a href="/Creatura_PHP/paginas/ver_usuario.php?usuario=<?= urlencode($creatura_elegida['creador'])?>"> <?= htmlspecialchars($creatura_elegida['creador']) ?></a></strong></p>
+            </div>
+            <?php if (isset($_SESSION['nickname'])): ?>
+            <div id="rating-container" class="rating"
+                data-current="<?= htmlspecialchars($rating) ?>"
+                data-creatura-id="<?= $creatura_elegida['id_creatura'] ?>">
+                <p>¡Puntua a esta Creatura!</p>
+                <div class="stars">
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <span class="star" data-value="<?= $i ?>"></span>
+                    <?php endfor; ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
         <p>Puntuación de la Creatura: <strong id="promedio-rating"><?= htmlspecialchars($creatura_elegida['rating_promedio']) ?>/5</strong></p>
+        <div id="rating-msg"></div>
         <div class="tipos-creatura">
             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo1_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo1_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo1_elegida['id_tipo']) ?>' style="background-color: #<?= $tipo1_elegida['color']; ?>;">
                 <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo1_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo1_elegida['nombre_tipo']; ?>
             </a>
             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo2_elegida['nombre_tipo']) ?>&creador=<?= urlencode($tipo2_elegida['creador']) ?>&id_tipo=<?= urlencode($tipo2_elegida['id_tipo']) ?>' style="background-color: #<?= $tipo2_elegida['color']; ?>;">
-               <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo2_elegida['nombre_tipo']; ?>
+            <img src="/Creatura_PHP/imagenes/tipos/<?= $tipo2_elegida['icono']; ?>" onerror="this.style.display='none';"><?=$tipo2_elegida['nombre_tipo']; ?>
             </a>
         </div>
-
         <p><strong>Descripción:</strong> <?= htmlspecialchars($creatura_elegida['descripcion']) ?></p>
 
         <div class="stats">
@@ -245,12 +259,12 @@ document.addEventListener("DOMContentLoaded", function () {
             if (rating >= starValue) {
                 // estrella llena
                 star.textContent = '★';
-                star.style.color = 'black';
+                star.style.color = 'gold';
                 star.style.clipPath = 'none';
             } else if (rating >= starValue - 0.5) {
                 // media estrella
                 star.textContent = '★';
-                star.style.color = 'black';
+                star.style.color = 'gold';
                 star.style.position = 'relative';
                 star.style.clipPath = 'inset(0 50% 0 0)'; // mostrar solo mitad izquierda
             } else {
@@ -290,13 +304,19 @@ document.addEventListener("DOMContentLoaded", function () {
         currentRating = nuevoValor;
         actualizarVisual(currentRating);
         document.getElementById("rating-msg").textContent = "¡Tu puntuación se ha guardado!";
+        
+        const ratingMsg = document.getElementById("rating-msg");
+        ratingMsg.style.display = 'block';
 
         const promedioElem = document.getElementById("promedio-rating");
         if (promedioElem && data.nuevo_promedio !== undefined) {
             promedioElem.textContent = data.nuevo_promedio + "/5";
         }
     } else {
-        document.getElementById("rating-msg").textContent = "Error: " + (data.error || "desconocido");
+        const ratingMsg = document.getElementById("rating-msg");
+        ratingMsg.textContent = "Error: " + (data.error || "desconocido");
+
+        ratingMsg.style.display = 'block';
     }
 })
             .catch(err => {
