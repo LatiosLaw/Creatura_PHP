@@ -1,5 +1,14 @@
 <?php
 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Incluir los archivos de PHPMailer
+require_once __DIR__ . '/../PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
+require_once __DIR__ . '/../PHPMailer-master/PHPMailer-master/src/SMTP.php';
+require_once __DIR__ . '/../PHPMailer-master/PHPMailer-master/src/Exception.php';
+
 require_once(__DIR__ . "/conexion.php");
 
 class Usuario {
@@ -35,7 +44,13 @@ function alta_usuario($nickname, $correo, $foto, $biografia, $contraseña, $tipo
     $stmt = mysqli_prepare($this->conexion, $insert_query);
     mysqli_stmt_bind_param($stmt, "ssssss", $nickname, $correo, $foto, $biografia, $contraseña, $tipo);
 
-    return mysqli_stmt_execute($stmt) ? 1 : 0;
+    if (mysqli_stmt_execute($stmt)) {
+        // Inserción exitosa, enviar correo
+        $this->enviar_correo_bienvenida($correo); // Podés pasarle lo que necesites
+        return 1;
+    }
+
+    return 0;
 }
 
 function alta_usuario_API($nickname, $correo, $foto, $biografia, $contraseña, $tipo) {
@@ -139,6 +154,39 @@ function listar_usuarios_creadores_aleatorios() {
     
     $resultado = mysqli_query($this->conexion, $query);
     return $resultado;
+}
+
+function enviar_correo_bienvenida($correo_usuario) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'mexacraftt200@gmail.com';
+        $mail->Password = 'imnubxerpvjahfzw'; // Asegurate que sea una App Password si usás Gmail
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Configuración del correo
+        $mail->setFrom('mexacraftt200@gmail.com', 'Creatura Dev Team');
+        $mail->addAddress($correo_usuario);
+        $mail->Subject = 'Creatura - Registro';
+        $mail->isHTML(true);
+        $mail->Body = '
+            <h1>¡Gracias por registrarte y bienvenido a Creatura!</h1>
+            <p>Esperamos que disfrutes creando y compartiendo tus criaturas con tus amigos y el resto de la comunidad.</p>
+            <p>Atte. Creatura Dev Team</p>
+        ';
+        $mail->AltBody = 'Gracias por registrarte en Creatura. ¡Bienvenido!';
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        error_log("Error al enviar correo: {$mail->ErrorInfo}");
+        return false;
+    }
 }
 
   function listar_usuarios_busqueda($parametro) {
