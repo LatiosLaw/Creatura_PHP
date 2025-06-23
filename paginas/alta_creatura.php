@@ -65,7 +65,7 @@ SPE
                 ?>
 
 Visibilidad 
-                <select name="publico" id="publico" required>
+                <select id="publico" required>
     <option value="">-- Selecciona Visiblidad --</option>
                     <option value="1">Publica</option>
                     <option value="0">Privada</option>
