@@ -1,66 +1,70 @@
 <?php
-
 require_once("../clases/tipo.php");
 $controladorTipo = new Tipo();
 
-$nombre = $_POST['nombre'];
-$color = $_POST['color'];
-$self_int = $_POST['self-int'];
-$color = ltrim($_POST['color'], '#');
-
 session_start();
+if (!isset($_SESSION['nickname'])) {
+    header("Location: /Creatura_PHP/paginas/gestor_tipo.php?error=alta_tipo_sin_sesion");
+    exit();
+}
 
+$nombre = $_POST['nombre'] ?? '';
+$color = isset($_POST['color']) ? ltrim($_POST['color'], '#') : '';
+$self_int = $_POST['self-int'] ?? 1;
 $creador = $_SESSION['nickname'];
 
 $nombreArchivo = null;
+$tmpArchivo = null;
 
+// Subida de ícono
 if (isset($_FILES['icono']) && $_FILES['icono']['error'] === UPLOAD_ERR_OK) {
     $icono = $_FILES['icono'];
-
-    $nombreArchivo = $icono['name'];
+    $nombreArchivo = basename($icono['name']);
     $tipoArchivo = $icono['type'];
-    $tamanoArchivo = $icono['size'];
     $tmpArchivo = $icono['tmp_name'];
+
+    // Validar tipo MIME
+    if (!in_array($tipoArchivo, ['image/jpeg', 'image/png'])) {
+        header("Location: /Creatura_PHP/paginas/gestor_tipo.php?error=alta_tipo_icono_no_valido");
+        exit();
+    }
 }
 
-$debilidades = isset($_POST['debilidad']) ? $_POST['debilidad'] : [];
-$resistencias = isset($_POST['resistencia']) ? $_POST['resistencia'] : [];
-$inmunidades = isset($_POST['inmunidad']) ? $_POST['inmunidad'] : [];
+$debilidades = $_POST['debilidad'] ?? [];
+$resistencias = $_POST['resistencia'] ?? [];
+$inmunidades = $_POST['inmunidad'] ?? [];
 
+// Alta de tipo
 if ($controladorTipo->alta_tipo($nombre, $color, $nombreArchivo, $creador) == 1) {
-
-    if ($nombreArchivo != null) {
-        $destino = "../imagenes/tipos/" . basename($nombreArchivo);
-        if (move_uploaded_file($tmpArchivo, $destino)) {
-            echo "La foto se subió correctamente.";
-            echo "<br>";
-        } else {
-            echo "Error al mover el archivo.";
-            echo "<br>";
+    // Subir imagen si corresponde
+    if ($nombreArchivo !== null) {
+        $destino = "../imagenes/tipos/" . $nombreArchivo;
+        if (!move_uploaded_file($tmpArchivo, $destino)) {
+            header("Location: /Creatura_PHP/paginas/gestor_tipo.php?error=alta_tipo_fallo_subida_imagen");
+            exit();
         }
     }
 
     $tipo_creado = $controladorTipo->retornar_tipo_por_creador($nombre, $creador);
+    $id_tipo = $tipo_creado['id_tipo'];
 
-    echo $tipo_creado['id_tipo'];
-
+    // Registrar efectividades
     foreach ($resistencias as $resis) {
-        $controladorTipo->alta_efectividad($resis, $tipo_creado['id_tipo'], 0.5);
+        $controladorTipo->alta_efectividad($resis, $id_tipo, 0.5);
     }
     foreach ($debilidades as $deb) {
-        $controladorTipo->alta_efectividad($deb, $tipo_creado['id_tipo'], 2);
+        $controladorTipo->alta_efectividad($deb, $id_tipo, 2);
     }
     foreach ($inmunidades as $inmu) {
-        $controladorTipo->alta_efectividad($inmu, $tipo_creado['id_tipo'], 0);
+        $controladorTipo->alta_efectividad($inmu, $id_tipo, 0);
+    }
+    if ($self_int != 1) {
+        $controladorTipo->alta_efectividad($id_tipo, $id_tipo, $self_int);
     }
 
-    if($self_int != 1){
-        $controladorTipo->alta_efectividad($tipo_creado['id_tipo'], $tipo_creado['id_tipo'], $self_int);
-    }
-
-    echo "funca, redirigiendo...";
-    header("refresh:3; url=/Creatura_PHP/paginas/gestor_tipo.php");
+    header("Location: /Creatura_PHP/paginas/gestor_tipo.php?success=alta_tipo_exitosa");
+    exit();
 } else {
-    echo "no funca, redirigiendo...";
-    header("refresh:3; url=/Creatura_PHP/paginas/gestor_tipo.php");
+    header("Location: /Creatura_PHP/paginas/gestor_tipo.php?error=fallo_alta_tipo");
+    exit();
 }
