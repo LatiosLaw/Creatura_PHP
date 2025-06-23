@@ -23,19 +23,35 @@ echo "('$nombre_tipo', '$color', '$icono', '$creador')" . "<br>";
 
 echo "Efectividades : " . "<br>";
 
-$efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($id, 0);
+$efectividades = $controladorCreatura->retornar_calculo_de_tipos_defendiendo($id_tipo, 0);
 
 foreach ($efectividades as $tipo_interact) {
 $multi = $tipo_interact['multiplicador'];
     if($multi != 1 ){
 $atacante = $tipo_interact['id_tipo'];
 
-    echo "($atacante, $id, $multi)". "<br>";
+    echo "($atacante, $id_tipo, $multi)". "<br>";
     }
     
     }
 
+$habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
+
+foreach ($habilidades_tipo as $habilida){
+   
+$nombre_hab = $habilida['nombre_habilidad'];
+$tipo_hab = $habilida['id_tipo_habilidad'];
+$descripcion_hab = $habilida['descripcion'];
+$categoria_hab = $habilida['categoria_habilidad'];
+$potencia_hab = $habilida['potencia'];
+$creador_hab = $habilida['creador'];
+
+echo "('$nombre_hab', $tipo_hab, '$descripcion_hab', '$categoria_hab', $potencia_hab, '$creador_hab')" . "<br>";
+
 }
+
+}
+
 
 if (isset($_GET['creatura']) && isset($_GET['creador'])) {
 $nombre_creatura = $_GET['creatura'];

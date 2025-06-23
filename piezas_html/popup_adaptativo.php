@@ -6,10 +6,46 @@ if (isset($_GET['success'])) {
     $popup_class = 'popup_respuesta_success'; // Clase para el popup de éxito
     if ($cod_confirm == 'alta_creatura_exitosa') {
         $message = 'Creatura agregada con exito!';
-    } else if ($cod_confirm == '2') { 
-        $message = 'Pieza Actualizada';
     } 
-    
+    if ($cod_confirm == 'alta_tipo_exitosa') {
+        $message = '¡Tipo creado con éxito!';
+    }
+    if ($cod_confirm == 'alta_habilidad_exitosa') {
+        $message = '¡Habilidad agregada con éxito!';
+    }
+    if ($cod_confirm == 'alta_usuario_exitosa') {
+        $message = '¡Usuario creado exitosamente! Ya puedes iniciar sesión.';
+    }
+    if ($cod_confirm == 'eliminar_creatura_exitosa') {
+        $message = 'Creatura eliminada correctamente.';
+    }
+    if ($cod_confirm == 'eliminar_habilidad_exitosa') {
+        $message = 'Habilidad eliminada correctamente.';
+    }
+    if ($cod_confirm == 'eliminar_tipo_exitosa') {
+        $message = 'Tipo eliminado correctamente.';
+    }
+    if ($cod_confirm == 'eliminar_usuario_exitosa') {
+        $message = 'Usuario eliminado exitosamente.';
+    }
+    if ($cod_confirm == 'login_exitoso') {
+        $message = '¡Ingreso exitoso! Bienvenido.';
+    }
+     if ($cod_confirm == 'logout_exitoso') {
+        $message = 'Has cerrado sesión correctamente.';
+    }
+    if ($cod_confirm == 'modificacion_exitosa') {
+        $message = '¡Modificación de creatura exitosa!';
+    }
+    if ($cod_confirm == 'modificacion_habilidad_exitosa') {
+        $message = '¡Modificación de habilidad exitosa!';
+    }
+    if ($cod_confirm == 'modificacion_usuario_exitosa') {
+        $message = '¡Usuario modificado con éxito!';
+    } 
+    if ($cod_confirm == 'modificacion_tipo_exitosa') {
+        $message = '¡Tipo modificado con éxito!';
+    }
 } else if (isset($_GET['error'])) {
     $cod_error = $_GET['error'];
     $message = '';
@@ -27,6 +63,142 @@ if (isset($_GET['success'])) {
         $message = 'Error al crear el moveset de la Creatura.';
     } else if ($cod_error == 'alta_creatura_fallo_subida_imagen') {
         $message = 'Error al subir la imagen de la creatura.';
+    }
+
+    if ($cod_error == 'alta_habilidad_sin_sesion') {
+        $message = 'Debes iniciar sesión para crear habilidades.';
+    } else if ($cod_error == 'alta_habilidad_campos_invalidos') {
+        $message = 'Campos inválidos o incompletos. Revisa los datos.';
+    } else if ($cod_error == 'fallo_alta_habilidad') {
+        $message = 'Ocurrió un error al registrar la habilidad.';
+    }
+
+    if ($cod_error == 'alta_tipo_sin_sesion') {
+        $message = 'Debes iniciar sesión para crear un tipo.';
+    } else if ($cod_error == 'alta_tipo_icono_no_valido') {
+        $message = 'El ícono debe ser un archivo PNG o JPEG.';
+    } else if ($cod_error == 'alta_tipo_fallo_subida_imagen') {
+        $message = 'No se pudo subir la imagen del tipo.';
+    } else if ($cod_error == 'fallo_alta_tipo') {
+        $message = 'Error al crear el tipo.';
+    }
+
+    if ($cod_error == 'alta_usuario_campos_vacios') {
+        $message = 'Por favor, completa todos los campos obligatorios.';
+    } else if ($cod_error == 'alta_usuario_contrasenas_diferentes') {
+        $message = 'Las contraseñas no coinciden.';
+    } else if ($cod_error == 'alta_usuario_email_invalido') {
+        $message = 'El correo electrónico ingresado no es válido.';
+    } else if ($cod_error == 'alta_usuario_foto_invalida') {
+        $message = 'La imagen debe ser JPEG o PNG.';
+    } else if ($cod_error == 'alta_usuario_fallo_subida_foto') {
+        $message = 'Ocurrió un error al subir la foto de perfil.';
+    } else if ($cod_error == 'alta_usuario_nick_o_correo_repetido') {
+        $message = 'El nickname o correo ya está en uso.';
+    }
+
+    if ($cod_error == 'eliminar_creatura_id_invalido') {
+        $message = 'ID de creatura inválido.';
+    } else if ($cod_error == 'eliminar_creatura_fallo') {
+        $message = 'Error al eliminar la creatura.';
+    }
+
+    if ($cod_error == 'eliminar_habilidad_id_invalido') {
+        $message = 'ID de habilidad inválido.';
+    } else if ($cod_error == 'eliminar_habilidad_fallo') {
+        $message = 'Error al eliminar la habilidad.';
+    }
+
+    if ($cod_error == 'eliminar_tipo_id_invalido') {
+        $message = 'ID de tipo inválido.';
+    } else if ($cod_error == 'eliminar_tipo_no_encontrado') {
+        $message = 'El tipo no fue encontrado.';
+    } else if ($cod_error == 'fallo_eliminar_habilidades') {
+        $message = 'Error al eliminar las habilidades relacionadas.';
+    } else if ($cod_error == 'fallo_modificar_criaturas') {
+        $message = 'Error al modificar las criaturas relacionadas.';
+    } else if ($cod_error == 'fallo_eliminar_efectividades') {
+        $message = 'Error al eliminar las efectividades relacionadas.';
+    } else if ($cod_error == 'fallo_eliminar_tipo') {
+        $message = 'Error al eliminar el tipo.';
+    }
+
+    if ($cod_error == 'no_sesion') {
+        $message = 'No hay sesión iniciada. Por favor inicia sesión.';
+    }else if ($cod_error == 'Error al eliminar habilidad') {
+        $message = 'Error al eliminar una habilidad.';
+    }else if ($cod_error == 'Error al modificar criatura') {
+        $message = 'Error al modificar una criatura.';
+    }else if ($cod_error == 'Error al eliminar efectividades') {
+        $message = 'Error al eliminar efectividades del tipo.';
+    }else if ($cod_error == 'Error al eliminar tipo') {
+        $message = 'Error al eliminar el tipo.';
+    }else if ($cod_error == 'Error al eliminar rating') {
+        $message = 'Error al eliminar un rating.';
+    }else if ($cod_error == 'Error al eliminar creatura') {
+        $message = 'Error al eliminar una creatura.';
+    }else if ($cod_error == 'Error al eliminar usuario') {
+        $message = 'Error al eliminar el usuario.';
+    }
+
+    if ($cod_error == 'credenciales_invalidas') {
+        $message = 'Credenciales incorrectas. Intenta nuevamente.';
+    } else if ($cod_error == 'usuario_no_encontrado') {
+        $message = 'Usuario no encontrado.';
+    }
+
+    if ($cod_error == 'logout_fallo') {
+        $message = 'Error al cerrar sesión.';
+    }
+
+    if ($cod_error == 'sin_sesion') {
+        $message = 'Debes iniciar sesión para modificar la creatura.';
+    } else if ($cod_error == 'parametros_faltantes') {
+        $message = 'Faltan parámetros para modificar la creatura.';
+    } else if ($cod_error == 'json_habilidades_invalido') {
+        $message = 'Error al procesar las habilidades (JSON inválido).';
+    } else if ($cod_error == 'fallo_borrar_moveset') {
+        $message = 'No se pudo borrar el moveset anterior.';
+    } else if ($cod_error == 'fallo_modificar_creatura') {
+        $message = 'Error al modificar la creatura.';
+    } else if ($cod_error == 'fallo_subida_imagen') {
+        $message = 'Error al subir la imagen de la creatura.';
+    }
+
+    if ($cod_error == 'fallo_modificar_habilidad') {
+        $message = 'Error al modificar la habilidad.';
+    } else if ($cod_error == 'mod_habilidad_sin_sesion') {
+        $message = 'Debes iniciar sesión para modificar habilidades.';
+    } else if ($cod_error == 'mod_habilidad_parametros_faltantes') {
+        $message = 'Faltan parámetros para modificar la habilidad.';
+    }
+
+    if ($cod_error == 'campos_vacios') {
+        $message = 'Por favor, completa todos los campos obligatorios.';
+    } else if ($cod_error == 'nick_correo_repetido') {
+        $message = 'El nickname o correo ya están en uso.';
+    } else if ($cod_error == 'contrasenas_no_coinciden') {
+        $message = 'Las contraseñas no coinciden.';
+    } else if ($cod_error == 'error_subida_foto') {
+        $message = 'Error al subir la foto de perfil.';
+    } else if ($cod_error == 'fallo_modificacion') {
+        $message = 'Error al modificar el usuario.';
+    } 
+
+    if ($cod_error == 'id_tipo_faltante') {
+        $message = 'ID del tipo faltante.';
+    } else if ($cod_error == 'campos_obligatorios_vacios') {
+        $message = 'Por favor, completa todos los campos obligatorios.';
+    } else if ($cod_error == 'tipo_no_encontrado') {
+        $message = 'El tipo solicitado no fue encontrado.';
+    }else if ($cod_error == 'icono_tipo_no_valido') {
+        $message = 'El ícono debe ser una imagen JPG o PNG válida.';
+    }else if ($cod_error == 'fallo_modificacion_tipo') {
+        $message = 'Error al modificar el tipo.';
+    }else if ($cod_error == 'fallo_subida_icono') {
+        $message = 'Error al subir el ícono.';
+    }else if ($cod_error == 'fallo_eliminar_efectividades') {
+        $message = 'Error al actualizar las efectividades del tipo.';
     }
 } else {
     $message = '';

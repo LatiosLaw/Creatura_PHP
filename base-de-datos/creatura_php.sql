@@ -95,8 +95,9 @@ INSERT INTO `creatura` (`nombre_creatura`, `id_tipo1`, `id_tipo2`, `descripcion`
 ('El Portadoor', 7, 22, 'El macho mas macho de los machos', 90, 130, 100, 40, 100, 60, 'WeirdAniki', 'portadoor.png', 1),
 ('Lagarto de Magma', 23, 2, 'Criatura infernal capaz de generar charcos de lava y disparar roca volcanica', 110, 90, 140, 100, 70, 60, 'The Silent One', 'magmamonster.png', 1),
 ('Acido Viviente', 23, 8, 'Monstruo de slime acidico', 120, 40, 40, 80, 170, 20, 'The Silent One', 'slime.png', 1),
-('Nanashi Mumei', 21, 23, 'Representante de la humanidad... Con todo lo que conlleva.', 70, 130, 60, 130, 70, 90, 'Amee', 'mumei.png', 1);
-
+('Nanashi Mumei', 21, 23, 'Representante de la humanidad... Con todo lo que conlleva.', 70, 130, 60, 130, 70, 90, 'Amee', 'mumei.png', 1),
+('Takodachi', 20, 1, 'Wah Wah Wah', 60, 25, 85, 90, 110, 20, 'LatiosLaw', 'wah.png', 0),
+('Bad Ending Ina', 20, 26, 'El fin es inevitable', 150, 60, 75, 215, 145, 80, 'LatiosLaw', 'bad_ending_ina.png', 0);
 -- --------------------------------------------------------
 
 --
@@ -244,13 +245,12 @@ INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
 (18, 2, 0.5),
 (18, 8, 0.5),
 (18, 17, 0.5),
-(1, 20, 0),
-(2, 20, 0.5),
-(3, 20, 0.5),
+(1, 20, 2),
 (7, 20, 0.5),
 (11, 20, 0.5),
 (21, 20, 2),
-(20, 20, 2),
+(24, 20, 0.5),
+(25, 20, 0),
 (12, 21, 2),
 (13, 21, 2),
 (23, 21, 2),
@@ -292,6 +292,18 @@ INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
 (24, 25, 0),
 (25, 25, 2);
 
+INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
+(1, 26, 0),
+(7, 26, 0),
+(12, 26, 0.5),
+(14, 26, 0.5),
+(15, 26, 0.5),
+(18, 26, 0.5),
+(21, 26, 2),
+(23, 26, 0.5),
+(24, 26, 0),
+(25, 26, 2),
+(26, 26, 0.5);
 -- --------------------------------------------------------
 
 --
@@ -568,7 +580,13 @@ INSERT INTO `moveset` (`id_creatura`, `id_habilidad`) VALUES
 (36, 12), (36, 28), (36, 87),
 
 -- Mumei (Monstruo/Waifu)
-(37, 79), (37, 88), (37, 52), (37, 70), (37, 85);
+(37, 79), (37, 88), (37, 52), (37, 70), (37, 85),
+
+-- Takodachi (Inanis/Normal)
+(38, 74),
+
+-- Bad Ending Ina (Inanis/Ancestral)
+(39, 73), (39, 57), (39, 49), (39, 92);
 
 -- --------------------------------------------------------
 
@@ -764,6 +782,9 @@ INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
 
 INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
 ('Gamer', '94b4ff', 'gamer.png', 'T.R.O.N.N.Y.');
+
+INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
+('Ancestral', '3D3D43', 'ancestral.png', 'LatiosLaw');
 
 -- --------------------------------------------------------
 

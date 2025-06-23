@@ -1,49 +1,61 @@
 <?php
-
-if (isset($_GET['id_creatura'])) {
-    $id_creatura = urldecode($_GET['id_creatura']);
-    $creador = urldecode($_GET['creador']);
-    $nombre_creatura = urldecode($_GET['nombre_creatura']);
-}
-
 session_start();
+
+if (!isset($_SESSION['nickname'])) {
+    // No hay sesión, salir o redirigir con error
+    header("Location: ../paginas/gestor_creatura.php?error=sin_sesion");
+    exit();
+}
 
 require_once("../clases/creatura.php");
 $controladorCreatura = new Creatura();
 
-if (!isset($_SESSION['nickname'])) {
-    die("No tienes permiso para realizar esta acción.");
-}else{
-    $nickname = $_SESSION['nickname'];
+if (!isset($_GET['id_creatura']) || !isset($_GET['creador']) || !isset($_GET['nombre_creatura'])) {
+    header("Location: ../paginas/gestor_creatura.php?error=parametros_faltantes");
+    exit();
 }
 
-    // Variables básicas
-    $nombre = $_POST['nombre'] ?? '-';
-    $tipo1 = empty($_POST['tipo1']) ? '0' : $_POST['tipo1'];
-    $tipo2 = empty($_POST['tipo2']) ? '0' : $_POST['tipo2'];
-    $descripcion = $_POST['descripcion'] ?? '-';
+$id_creatura = urldecode($_GET['id_creatura']);
+$creador = urldecode($_GET['creador']);
+$nombre_creatura = urldecode($_GET['nombre_creatura']);
 
-    // Estadísticas
-    $hp = $_POST['hp'] ?? 70;
-    $atk = $_POST['atk'] ?? 70;
-    $def = $_POST['def'] ?? 70;
-    $spa = $_POST['spa'] ?? 70;
-    $spdef = $_POST['spdef'] ?? 70;
-    $spe = $_POST['spe'] ?? 70;
+$nickname = $_SESSION['nickname'];
 
-    $publico = $_POST['publico'] ?? '0';
+// Variables básicas con valores por defecto
+$nombre = $_POST['nombre'] ?? '-';
+$tipo1 = empty($_POST['tipo1']) ? '0' : $_POST['tipo1'];
+$tipo2 = empty($_POST['tipo2']) ? '0' : $_POST['tipo2'];
+$descripcion = $_POST['descripcion'] ?? '-';
 
-    $controladorCreatura->borrar_moveset_por_creatura($id_creatura);
+// Estadísticas con valores por defecto
+$hp = $_POST['hp'] ?? 70;
+$atk = $_POST['atk'] ?? 70;
+$def = $_POST['def'] ?? 70;
+$spa = $_POST['spa'] ?? 70;
+$spdef = $_POST['spdef'] ?? 70;
+$spe = $_POST['spe'] ?? 70;
 
-    $creatura_vieja = $controladorCreatura->retornar_creatura($nombre_creatura, $creador);
+$publico = $_POST['publico'] ?? '0';
 
-    // Habilidades (JSON decodificado a array asociativo)
-    $habilidades_json = $_POST['habilidades_json'] ?? '[]';
-    $habilidades = json_decode($habilidades_json, true);
+$habilidades_json = $_POST['habilidades_json'] ?? '[]';
+$habilidades = json_decode($habilidades_json, true);
+if ($habilidades === null) {
+    // JSON inválido
+    header("Location: ../paginas/gestor_creatura.php?error=json_habilidades_invalido");
+    exit();
+}
 
-    $nombreArchivo = null;
+// Borrar moveset previo
+if (!$controladorCreatura->borrar_moveset_por_creatura($id_creatura)) {
+    header("Location: ../paginas/gestor_creatura.php?error=fallo_borrar_moveset");
+    exit();
+}
 
-    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+$creatura_vieja = $controladorCreatura->retornar_creatura($nombre_creatura, $creador);
+
+$nombreArchivo = null;
+$subioImagen = false;
+if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
     $imagen = $_FILES['imagen'];
 
     $nombreArchivo = $imagen['name'];
@@ -51,27 +63,35 @@ if (!isset($_SESSION['nickname'])) {
     $tamanoArchivo = $imagen['size'];
     $tmpArchivo = $imagen['tmp_name'];
 
-    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $nombreArchivo, $publico);
-}else{
-    $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $creatura_vieja['imagen'], $publico);
+    $exitoModificacion = $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $nombreArchivo, $publico);
+    if (!$exitoModificacion) {
+        header("Location: ../paginas/gestor_creatura.php?error=fallo_modificar_creatura");
+        exit();
+    }
+
+    $destino = "../imagenes/creaturas/" . basename($nombreArchivo);
+    if (move_uploaded_file($tmpArchivo, $destino)) {
+        $subioImagen = true;
+    } else {
+        header("Location: ../paginas/gestor_creatura.php?error=fallo_subida_imagen");
+        exit();
+    }
+} else {
+    // Modificar con imagen previa
+    $exitoModificacion = $controladorCreatura->modificar_creatura($id_creatura, $nombre, $tipo1, $tipo2, $descripcion, $hp, $atk, $def, $spa, $spdef, $spe, $creador, $creatura_vieja['imagen'], $publico);
+    if (!$exitoModificacion) {
+        header("Location: ../paginas/gestor_creatura.php?error=fallo_modificar_creatura");
+        exit();
+    }
 }
 
-    foreach($habilidades as $hab){
+// Agregar habilidades nuevas
+foreach ($habilidades as $hab) {
+    if (isset($hab['id'])) {
         $controladorCreatura->alta_moveset($id_creatura, $hab['id']);
     }
+}
 
-    if ($nombreArchivo != null) {
-        $destino = "../imagenes/creaturas/" . basename($nombreArchivo);
-        if (move_uploaded_file($tmpArchivo, $destino)) {
-            echo "La foto se subió correctamente.";
-            echo "<br>";
-        } else {
-            echo "Error al mover el archivo.";
-            echo "<br>";
-        }
-    }
-
-    echo "funca, redirigiendo...";
-    header("refresh:3; url=../paginas/gestor_creatura.php");
-
+header("Location: ../paginas/gestor_creatura.php?success=modificacion_exitosa");
+exit();
 ?>
