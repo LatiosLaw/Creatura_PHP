@@ -326,6 +326,7 @@ function listar_creaturas_de_usuario_API($nickname, $controladorTipo, $controlad
         $creaturas[] = [
             'id_creatura' => $fila['id_creatura'],
             'nombre' => $fila['nombre_creatura'],
+			'creador' => $fila['creador'],
             'imagen' => $imagen_formateada,
             'rating' => $rating,
             'tipo1' => $tipo1,
