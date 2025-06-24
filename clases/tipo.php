@@ -125,7 +125,7 @@ function modificar_tipo($nombre_original, $nombre_tipo, $color, $icono, $creador
   }
 
   function retornar_creaturas_tipo($id_tipo){
-$resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE id_tipo1 = $id_tipo OR id_tipo2 = $id_tipo AND publico = 1");
+$resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE (id_tipo1 = $id_tipo OR id_tipo2 = $id_tipo) AND publico = 1");
     return $resultado;
   }
 
