@@ -382,6 +382,58 @@ public function retornar_habilidad($nombre_habilidad, $creador)
     return $fila ?: null;
 }
 
+public function retornar_habilidad_id($id_habilidad)
+{
+    // 1. Consulta con JOIN
+    $sql = "
+        SELECT 
+            h.*, 
+            t.id_tipo       AS tipo_id,
+            t.nombre_tipo   AS tipo_nombre,
+            t.color         AS tipo_color,
+            t.icono         AS tipo_icono,
+            t.creador       AS tipo_creador
+        FROM habilidad h
+        LEFT JOIN tipo t ON h.id_tipo_habilidad = t.id_tipo
+        WHERE h.id_habilidad = ?
+        LIMIT 1
+    ";
+
+    $stmt = $this->conexion->prepare($sql);
+    if (!$stmt) {
+        throw new Exception("Error al preparar la consulta: " . $this->conexion->error);
+    }
+
+    $stmt->bind_param("i", $id_habilidad);
+
+    if (!$stmt->execute()) {
+        throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+    }
+
+    $res  = $stmt->get_result();
+    $fila = $res->fetch_assoc();
+    $stmt->close();
+
+    /* ---------------------------------------------------
+     *  2.  Convertir ícono en Base64 (si existe archivo)
+     * ---------------------------------------------------*/
+    if ($fila && !empty($fila['tipo_icono'])) {
+        $rutaIcono = __DIR__ . "../../imagenes/tipos/" . $fila['tipo_icono'];
+
+        if (file_exists($rutaIcono)) {
+            $mime  = mime_content_type($rutaIcono);           // ej: image/png
+            $bytes = file_get_contents($rutaIcono);
+            $fila['tipo_icono_base64'] = "data:$mime;base64," . base64_encode($bytes);
+        } else {
+            // Si el archivo no existe, podrías setear null o un placeholder
+            $fila['tipo_icono_base64'] = "";
+        }
+    }
+
+    return $fila ?: null;    // array asociativo o null
+}
+
+
 function retornar_habilidades_creador($nickname)
 {
     $nickname = mysqli_real_escape_string($this->conexion, $nickname);
@@ -389,7 +441,11 @@ function retornar_habilidades_creador($nickname)
     $query = "
         SELECT 
             h.*, 
-            t.id_tipo AS id_tipo_habilidad
+            t.id_tipo       AS tipo_id,
+            t.nombre_tipo   AS tipo_nombre,
+            t.color         AS tipo_color,
+            t.icono         AS tipo_icono,
+            t.creador       AS tipo_creador
         FROM habilidad h
         INNER JOIN tipo t ON h.id_tipo_habilidad = t.id_tipo
         WHERE h.creador = '$nickname'
@@ -400,6 +456,36 @@ function retornar_habilidades_creador($nickname)
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         while ($fila = mysqli_fetch_assoc($resultado)) {
+            // Convertir ícono en base64 si existe
+            $icono_base64 = null;
+            if (!empty($fila['tipo_icono'])) {
+                $ruta = __DIR__ . "/../imagenes/tipos/" . $fila['tipo_icono'];
+                if (file_exists($ruta)) {
+                    $mime = mime_content_type($ruta);
+                    $data = file_get_contents($ruta);
+                    $icono_base64 = "data:$mime;base64," . base64_encode($data);
+                }
+            }
+
+            // Agrupar los datos del tipo
+            $fila['tipo'] = [
+                'id'            => $fila['tipo_id'],
+                'nombre'        => $fila['tipo_nombre'],
+                'color'         => $fila['tipo_color'],
+                'icono'         => $fila['tipo_icono'],           // (opcional: se puede eliminar)
+                'icono_base64'  => $icono_base64,
+                'creador'       => $fila['tipo_creador']
+            ];
+
+            // Eliminar los campos duplicados
+            unset(
+                $fila['tipo_id'],
+                $fila['tipo_nombre'],
+                $fila['tipo_color'],
+                $fila['tipo_icono'],
+                $fila['tipo_creador']
+            );
+
             $habilidades[] = $fila;
         }
     }
