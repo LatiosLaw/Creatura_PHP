@@ -97,7 +97,8 @@ INSERT INTO `creatura` (`nombre_creatura`, `id_tipo1`, `id_tipo2`, `descripcion`
 ('Acido Viviente', 23, 8, 'Monstruo de slime acidico', 120, 40, 40, 80, 170, 20, 'The Silent One', 'slime.png', 1),
 ('Nanashi Mumei', 21, 23, 'Representante de la humanidad... Con todo lo que conlleva.', 70, 130, 60, 130, 70, 90, 'Amee', 'mumei.png', 1),
 ('Takodachi', 20, 1, 'Wah Wah Wah', 60, 25, 85, 90, 110, 20, 'LatiosLaw', 'wah.png', 0),
-('Bad Ending Ina', 20, 26, 'El fin es inevitable', 150, 60, 75, 215, 145, 80, 'LatiosLaw', 'bad_ending_ina.png', 0);
+('Bad Ending Ina', 20, 26, 'El fin es inevitable', 150, 60, 75, 215, 145, 80, 'LatiosLaw', 'bad_ending_ina.png', 0),
+('Elegg', 27, 21, 'Egg', 70, 65, 90, 155, 100, 80, 'T.R.O.N.N.Y.', 'elegg.png', 1);
 -- --------------------------------------------------------
 
 --
@@ -304,6 +305,15 @@ INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
 (24, 26, 0),
 (25, 26, 2),
 (26, 26, 0.5);
+
+INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
+(4, 27, 0),
+(7, 27, 0.5),
+(9, 27, 2),
+(11, 27, 2),
+(12, 27, 2),
+(21, 27, 0.5),
+(25, 27, 0.5);
 -- --------------------------------------------------------
 
 --
@@ -473,6 +483,10 @@ INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`,
 ('Bucle Temporal', 24, 'Golpea al rival y lo mete en un bucle temporal, obligandolo a usar el mismo ataque que el turno anterior.', 'FISICO', 65, 'Amee'),
 ('Fisura Relativa', 24, 'El usuario golpea al rival, aislandolo de la linea de tiempo, impidiendo que ataque durante los proximos 2 turnos.', 'FISICO', 90, 'Amee'),
 ('Minutos Contados', 24, 'El usuario empieza una cuenta regresiva de 3 turnosm al finalizar, aquel afectado se debilita. El pokemon mas lento en el campo no podrá cambiar.', 'ESTADO', 0, 'Amee');
+
+INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
+('BOOM', 27, 'Infecta dispositivos electronicos y los obliga a correr BOOM, si el rival es tipo Acero, este pierde 75% de su HP', 'ESTADO', 0, 'T.R.O.N.N.Y.'),
+('Eleggtric Shock', 27, 'El usuario lanza una descarga electrica a un rival, disminuyendo su velocidad en un nivel, puede paralizar.', 'ESPECIAL', 80, 'T.R.O.N.N.Y.');
 -- --------------------------------------------------------
 
 --
@@ -586,7 +600,10 @@ INSERT INTO `moveset` (`id_creatura`, `id_habilidad`) VALUES
 (38, 74),
 
 -- Bad Ending Ina (Inanis/Ancestral)
-(39, 73), (39, 57), (39, 49), (39, 92);
+(39, 73), (39, 57), (39, 49), (39, 92),
+
+-- Elegg (Eleggtrico/Waifu)
+(41, 5), (41, 61), (41, 94), (41, 93);
 
 -- --------------------------------------------------------
 
@@ -785,6 +802,9 @@ INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
 
 INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
 ('Ancestral', '3D3D43', 'ancestral.png', 'LatiosLaw');
+
+INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
+('Eleggtrico', 'FFEE99', 'egg.png', 'T.R.O.N.N.Y.')
 
 -- --------------------------------------------------------
 
