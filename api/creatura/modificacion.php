@@ -48,10 +48,13 @@ $publico     = intval($data['publico']);
 $habilidades = isset($data['habilidades']) ? $data['habilidades'] : [];
 
 $creatura_vieja = $controladorCreatura->retornar_creatura_API($id_creatura);
-$imagenAnterior = $creatura_vieja['imagen'];
+$imagenAnterior = $creatura_vieja['imagenNombre'];
 
 $nombreArchivo = $imagenAnterior;
-
+$rutaVieja = __DIR__ . "/../../imagenes/creaturas/" . $nombreArchivo;
+if (file_exists($rutaVieja)){
+	unlink($rutaVieja);
+}
 // Procesar imagen si se envía una nueva (en base64)
 if (!empty($data['imagen']) && preg_match('/^data:image\/(\w+);base64,/', $data['imagen'], $tipoImagen)) {
     $extension = strtolower($tipoImagen[1]) === 'jpeg' ? 'jpg' : $tipoImagen[1];

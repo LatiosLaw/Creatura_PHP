@@ -426,6 +426,7 @@ function baja_creatura_API($id_creatura)
 			
             $creatura['rating_promedio'] = $this->rating_promedio($creatura['id_creatura']);
 			$imgDir = __DIR__ ."../../imagenes/creaturas/". $creatura['imagen'];
+			$creatura['imagenNombre'] = $creatura['imagen'];
 			//temas de imagen
 				$imagenCreatura = $creatura['imagen'];
 				if(!empty($imagenCreatura)){
