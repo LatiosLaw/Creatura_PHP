@@ -26,119 +26,173 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Creatura - <?php echo $nombre_creatura ?></title>
+    <link rel="stylesheet" href="\Creatura_PHP\styles\editar_creatura.css">
 </head>
 <body>
     <?php include_once("../piezas_html/cabecera.php"); ?>
-    <button onclick="history.back();">Volver</button>
 
-<div>
-            <form id="formAltaCreatura" action="/Creatura_PHP/procesamiento/manejar_modificacionCreatura.php?id_creatura=<?php echo $informacion_creatura['id_creatura']?>&creador=<?php echo $informacion_creatura['creador']?>&nombre_creatura=<?php echo $informacion_creatura['nombre_creatura']?>" method="POST" enctype="multipart/form-data">
-                Nombre <input name="nombre" type="text" value="<?= htmlspecialchars($informacion_creatura['nombre_creatura']) ?>" required><br>
-                TIPO 1
-                <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')" required>
-            <?php foreach ($lista_tipos as $tipo): ?>
-                <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo1'] ? 'selected' : '' ?> style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
-                    <?= htmlspecialchars($tipo['nombre_tipo']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select><br>
-
-
-                TIPO 2
-               <select name="tipo2" id="tipo2" onchange="reconstruirSelects('tipo2')">
-            <?php foreach ($lista_tipos as $tipo): ?>
-                <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo2'] ? 'selected' : '' ?> style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
-                    <?= htmlspecialchars($tipo['nombre_tipo']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select><br>
-
-        Imagen <img src="/Creatura_PHP/imagenes/creaturas/<?php echo $informacion_creatura['imagen']; ?>" width="100" height="100"><br>
-
-                Imagen Nueva (Opcional) <input name="imagen" type="file" accept="image/png, image/jpeg"><br>
-
-                HP
-<input name="hp" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['hp'] ?>" oninput="sincronizarValor(this, 'hp_val')">
-<input id="hp_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['hp'] ?>" oninput="sincronizarSlider(this, 'hp')"><br>
-
-ATK
-<input name="atk" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['atk'] ?>" oninput="sincronizarValor(this, 'atk_val')">
-<input id="atk_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['atk'] ?>" oninput="sincronizarSlider(this, 'atk')"><br>
-
-DEF
-<input name="def" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['def'] ?>" oninput="sincronizarValor(this, 'def_val')">
-<input id="def_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['def'] ?>" oninput="sincronizarSlider(this, 'def')"><br>
-
-SPA
-<input name="spa" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['spa'] ?>" oninput="sincronizarValor(this, 'spa_val')">
-<input id="spa_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['spa'] ?>" oninput="sincronizarSlider(this, 'spa')"><br>
-
-SPDEF
-<input name="spdef" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['sdef'] ?>" oninput="sincronizarValor(this, 'spdef_val')">
-<input id="spdef_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['sdef'] ?>" oninput="sincronizarSlider(this, 'spdef')"><br>
-
-SPE
-<input name="spe" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['spe'] ?>" oninput="sincronizarValor(this, 'spe_val')">
-<input id="spe_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['spe'] ?>" oninput="sincronizarSlider(this, 'spe')"><br>
-
-                Descripcion <input name="descripcion" type="text" value="<?= htmlspecialchars($informacion_creatura['descripcion']) ?>"><br>
-
-                <?php
-                $lista_tipos_habilidad = $controladorTipo->listar_tipos();
-                ?>
-
-Visibilidad 
-                <select id="publico" name="publico" required>
-    <option value="">-- Selecciona Visiblidad --</option>
-    <option value="1" <?= ($informacion_creatura['publico'] == 1) ? 'selected' : '' ?>>Pública</option>
-    <option value="0" <?= ($informacion_creatura['publico'] == 0) ? 'selected' : '' ?>>Privada</option>
-</select><br>
-
-
-                <h4>Habilidades</h4>
-                Disponibles : <br>
-                <label for="filtroTipoHabilidad">Filtrar por tipo:</label>
-                <select id="filtroTipoHabilidad" onchange="retornarHabilidades(this.value)">
-                    <option value="">-- Selecciona un tipo --</option>
-                    <?php foreach ($lista_tipos_habilidad as $tipo): ?>
-                        <option value="<?= $tipo['id_tipo'] ?>" style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
-                            <?= htmlspecialchars($tipo['nombre_tipo']) ?></option>
-                    <?php endforeach; ?>
-                </select><br>
-
-                <table id="tablaHabilidades" border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Categoría</th>
-                            <th>Potencia</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                Seleccionadas : <br>
-                <table id="tablaSeleccionadas" border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Categoría</th>
-                            <th>Potencia</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-                <input type="hidden" name="habilidades_json" id="habilidades_json">
-
-                <input type="submit">
-            </form>
+<div class="cont-titular"> 
+    <div class="titular">
+        <div>Creatura</div>
+        <button onclick="history.back();">Cancelar</button>
+    </div>
+</div>
+<form id="formAltaCreatura" action="/Creatura_PHP/procesamiento/manejar_modificacionCreatura.php?id_creatura=<?php echo $informacion_creatura['id_creatura']?>&creador=<?php echo $informacion_creatura['creador']?>&nombre_creatura=<?php echo $informacion_creatura['nombre_creatura']?>" method="POST" enctype="multipart/form-data">
+    <div class="guardar">
+        <button type="submit">Guardar Cambios</button>
+    </div>
+    <div class="contenido-creatura">
+        <div class="imagen">
+            <p>Nueva Imagen de la Creatura:</p>
+            <input name="imagen" type="file" accept="image/png, image/jpeg" id="imagenInput">
+            <img id="creaturaImage" src="/Creatura_PHP/imagenes/creaturas/<?php echo $informacion_creatura['imagen']; ?>">
         </div>
+        <div class="info-creatura">
+            <div class="visibilidad">
+                <div>
+                    <select id="publico" name="publico" required>
+                        <option value="">Selecciona Visiblidad</option>
+                        <option value="1" <?= ($informacion_creatura['publico'] == 1) ? 'selected' : '' ?>>Mantener Pública</option>
+                        <option value="0" <?= ($informacion_creatura['publico'] == 0) ? 'selected' : '' ?>>Mantener Privada</option>
+                    </select>
+                </div>
+            </div>
+            <div class="info">
+                <p>Nombre</p>
+                <input name="nombre" type="text" maxlength="30" value="<?= htmlspecialchars($informacion_creatura['nombre_creatura']) ?>" required>
+
+                <p>Descripción</p>
+                <input name="descripcion" type="text" maxlength="200" value="<?= htmlspecialchars($informacion_creatura['descripcion']) ?>">
+            </div>
+            <div class="tipos">
+                <div>
+                    <p>Tipo 1</p>
+                    <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')" required>
+                        <?php foreach ($lista_tipos as $tipo): ?>
+                            <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo1'] ? 'selected' : '' ?> style="background-color: #<?= htmlspecialchars($tipo['color']) ?>;">
+                                <?= htmlspecialchars($tipo['nombre_tipo']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div>
+                    <p>Tipo 2</p>
+                    <select name="tipo2" id="tipo2" onchange="reconstruirSelects('tipo2')">
+                        <?php foreach ($lista_tipos as $tipo): ?>
+                            <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo2'] ? 'selected' : '' ?> style="background-color: #<?= htmlspecialchars($tipo['color']) ?>;">
+                                <?= htmlspecialchars($tipo['nombre_tipo']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="stats">
+                <div>
+                    <p>HP</p>
+                    <input id="hp_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['hp'] ?>" oninput="sincronizarSlider(this, 'hp')">
+                </div>
+                <input class="barra-stat" name="hp" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['hp'] ?>" oninput="sincronizarValor(this, 'hp_val')">
+
+                <div>
+                    <p>ATK</p>
+                    <input id="atk_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['atk'] ?>" oninput="sincronizarSlider(this, 'atk')">
+                </div>
+                <input class="barra-stat" name="atk" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['atk'] ?>" oninput="sincronizarValor(this, 'atk_val')">
+                
+                <div>
+                    <p>DEF</p>
+                    <input id="def_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['def'] ?>" oninput="sincronizarSlider(this, 'def')">
+                </div>
+                <input class="barra-stat" name="def" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['def'] ?>" oninput="sincronizarValor(this, 'def_val')">
+                
+                <div>
+                    <p>SPA</p>
+                    <input id="spa_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['spa'] ?>" oninput="sincronizarSlider(this, 'spa')">
+                </div>
+                <input class="barra-stat" name="spa" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['spa'] ?>" oninput="sincronizarValor(this, 'spa_val')">
+                
+                <div>
+                    <p>SDEF</p>
+                    <input id="spdef_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['sdef'] ?>" oninput="sincronizarSlider(this, 'spdef')">
+                </div>
+                <input class="barra-stat" name="spdef" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['sdef'] ?>" oninput="sincronizarValor(this, 'spdef_val')">
+                
+                <div>
+                    <p>SPE</p>
+                    <input id="spe_val" type="number" min="1" max="255" value="<?= (int)$informacion_creatura['spe'] ?>" oninput="sincronizarSlider(this, 'spe')">
+                </div>
+                <input class="barra-stat" name="spe" type="range" min="1" max="255" value="<?= (int)$informacion_creatura['spe'] ?>" oninput="sincronizarValor(this, 'spe_val')">
+            </div>
+
+            <?php
+            $lista_tipos_habilidad = $controladorTipo->listar_tipos();
+            ?>
+        </div>
+    </div>
+
+
+
+    <div class="cont-titular"> 
+        <div class="titular">
+            <div>Habilidades de la Creatura</div>
+        </div>
+    </div>
+
+    <div class="cont-mini-titular"> 
+        <div class="mini-titular">
+            <div>Disponibles</div>
+        </div>
+    </div>
+    <div class="selector-tipo">
+        <label for="filtroTipoHabilidad">Filtrar por tipo</label>
+        <select id="filtroTipoHabilidad" onchange="retornarHabilidades(this.value)">
+            <option value="">Selecciona un tipo</option>
+            <?php foreach ($lista_tipos_habilidad as $tipo): ?>
+                <option value="<?= $tipo['id_tipo'] ?>" style="background-color: #<?= htmlspecialchars($tipo['color']) ?>;">
+                    <?= htmlspecialchars($tipo['nombre_tipo']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="habilidades agregar">
+        <table id="tablaHabilidades">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Potencia</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="cont-mini-titular"> 
+        <div class="mini-titular">
+            <div>Seleccionadas</div>
+        </div>
+    </div>
+    <div class="habilidades quitar">
+        <table id="tablaSeleccionadas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Potencia</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <input type="hidden" name="habilidades_json" id="habilidades_json">
+</form>
 
         <script>
             
@@ -206,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const tdNombre = document.createElement("td");
                 tdNombre.textContent = hab.nombre_habilidad;
-                tdNombre.style.color = color;
+                tdNombre.style.backgroundColor = color;
 
                 const tdDescripcion = document.createElement("td");
                 tdDescripcion.textContent = hab.descripcion;
@@ -282,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
             <td>${hab.id}</td>
-                <td style="color: ${hab.color};">${hab.nombre}</td>
+                <td style="background-color: ${hab.color};">${hab.nombre}</td>
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>
@@ -332,6 +386,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 reconstruirAmbosSelects();
             });
         });
+
+        document.getElementById('imagenInput').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+
+                    if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            document.getElementById('creaturaImage').src = e.target.result;
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                });
     </script>
 
 <?php include_once("../piezas_html/pie_pagina.php"); ?>
