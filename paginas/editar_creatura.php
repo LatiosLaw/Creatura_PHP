@@ -238,6 +238,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("tipo1").addEventListener("change", reconstruirAmbosSelects);
     document.getElementById("tipo2").addEventListener("change", reconstruirAmbosSelects);
+
+    const tbodySel = document.querySelector("#tablaSeleccionadas tbody");
+    tbodySel.addEventListener("click", function (e) {
+        if (e.target.matches("button[data-id]")) {
+            const id = e.target.getAttribute("data-id");
+            eliminarHabilidad(id);   // quita del array y vuelve a pintar
+        }
+    });
 });
 
 
@@ -321,12 +329,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function eliminarHabilidad(id) {
-            const index = habilidadesSeleccionadas.findIndex(h => h.id === id);
-            if (index !== -1) {
-                habilidadesSeleccionadas.splice(index, 1);
-                actualizarTablaSeleccionadas();
-            }
-        }
+    const index = habilidadesSeleccionadas.findIndex(h => h.id == id); // Comparación flexible
+    if (index !== -1) {
+        habilidadesSeleccionadas.splice(index, 1);
+        actualizarTablaSeleccionadas();
+    }
+}
 
         function actualizarTablaSeleccionadas() {
             const tbody = document.querySelector("#tablaSeleccionadas tbody");
@@ -340,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>
-            <td><button type="button" onclick="eliminarHabilidad(${hab.id})">Quitar</button></td>
+            <td><button type="button" data-id="${hab.id}">Quitar</button></td>
         `;
                 tbody.appendChild(tr);
             });
