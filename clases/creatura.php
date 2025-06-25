@@ -30,8 +30,7 @@ class Creatura
             $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
             $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
 
-            $fila['tipo1'] = $tipo1;
-            $fila['tipo2'] = $tipo2;
+            
 			
 			//temas de imagen
 			$imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
@@ -45,7 +44,35 @@ class Creatura
 					
 				}
 			//fin de temas de imagen
-
+	
+			//imagen tipos momento
+			
+				$imgDir = __DIR__ ."../../imagenes/tipos/". $tipo1['icono'];
+				$imagenTipo = $tipo1['icono'];
+				if(!empty($imagenTipo)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$tipo1['icono'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			///////
+				$imgDir = __DIR__ ."../../imagenes/tipos/". $tipo2['icono'];
+				$imagenTipo = $tipo2['icono'];
+				if(!empty($imagenTipo)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$tipo2['icono'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			
+			//imagen tipos momento fin
+			$fila['tipo1'] = $tipo1;
+            $fila['tipo2'] = $tipo2;
+			
             $creaturas[] = $fila;
         }
     }

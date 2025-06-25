@@ -129,6 +129,35 @@ function verificar_disponibilidad($nickname, $correo, $nick_viejo, $correo_viejo
     $resultado = mysqli_query($this->conexion, "SELECT nickname, foto, biografia from usuario");
     return $resultado;
   }
+  
+  function listar_usuarios_api() {
+    $resultado = mysqli_query($this->conexion, "SELECT nickname, foto, biografia from usuario");
+    
+	$usuarios = [];
+	
+	while ($fila = mysqli_fetch_assoc($resultado)) {
+	
+    $imgDir = __DIR__ ."../../imagenes/usuarios/". $fila['foto'];
+			//temas de imagen
+				$imagenUsuario = $fila['foto'];
+				if(!empty($imagenUsuario)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$fila['foto'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+				}
+
+        $usuarios[] = [
+            'nickname' => $fila['nickname'],
+            'foto' => $fila['foto'],
+			'biografia' => $fila['biografia']
+        ];
+    }
+	
+    return $usuarios;
+	
+  }
 
   function listar_usuarios_creadores() {
     $query = "
