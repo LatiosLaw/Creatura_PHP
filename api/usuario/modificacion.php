@@ -53,6 +53,12 @@ if (empty($contra)) {
 
 // Manejo de imagen base64
 $nombreArchivo = $usuario_viejo['foto'];
+
+$rutaVieja = __DIR__ . "/../../imagenes/usuarios/" . $nombreArchivo;
+if (file_exists($rutaVieja)){
+	unlink($rutaVieja);
+}
+
 if ($foto_base64 && strpos($foto_base64, 'data:image') === 0) {
     $ext = strpos($foto_base64, 'image/png') !== false ? 'png' : 'jpg';
     $nombreArchivo = $nickname . '_' . uniqid() . '.' . $ext;
