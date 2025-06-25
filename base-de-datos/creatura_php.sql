@@ -804,7 +804,7 @@ INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
 ('Ancestral', '3D3D43', 'ancestral.png', 'LatiosLaw');
 
 INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
-('Eleggtrico', 'FFEE99', 'egg.png', 'T.R.O.N.N.Y.')
+('Eleggtrico', 'FFEE99', 'egg.png', 'T.R.O.N.N.Y.');
 
 -- --------------------------------------------------------
 
