@@ -51,7 +51,62 @@ class Creatura
     }
     return $creaturas;
 }
+        function buscar_creaturas_default2($parametro,$controladorTipo)
+{
+    $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
 
+    $sql = "
+        (SELECT * FROM creatura 
+         WHERE creador = 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '{$param_escaped}%')
+        UNION
+        (SELECT * FROM creatura 
+         WHERE creador = 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '%{$param_escaped}%' 
+         AND nombre_creatura NOT LIKE '{$param_escaped}%')
+    ";
+
+    $resultado = mysqli_query($this->conexion, $sql);
+	$creaturas = [];
+	 while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Obtener datos del tipo1
+        $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+        $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
+
+        $imagen_formateada = null;
+        $imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
+			//temas de imagen
+				$imagenCreatura = $fila['imagen'];
+				if(!empty($imagenCreatura)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$imagen_formateada = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//fin de temas de imagen
+
+            $rating = $this->rating_promedio($fila['id_creatura']);
+
+        $creaturas[] = [
+            'id_creatura' => $fila['id_creatura'],
+            'nombre' => $fila['nombre_creatura'],
+			'creador' => $fila['creador'],
+            'imagen' => $imagen_formateada,
+            'rating' => $rating,
+            'tipo1' => $tipo1,
+            'tipo2' => $tipo2
+        ];
+    }
+	
+	
+	
+	
+	
+	
+    return $creaturas;
+}
     function listar_creaturas_ext($cantidad, $creador)
     {
 
@@ -111,7 +166,67 @@ function buscar_creaturas($parametro)
     $resultado = mysqli_query($this->conexion, $sql);
     return $resultado;
 }
+function buscar_creaturas2($parametro,$controladorTipo)
+{
+    $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
 
+    $sql = "
+        (SELECT *, 1 AS orden_prioridad FROM creatura 
+         WHERE creador != 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '{$param_escaped}%' )
+
+        UNION
+
+        (SELECT *, 2 AS orden_prioridad FROM creatura 
+         WHERE creador != 'SYSTEM' AND publico = 1
+         AND nombre_creatura LIKE '%{$param_escaped}%' 
+         AND nombre_creatura NOT LIKE '{$param_escaped}%' )
+
+        ORDER BY orden_prioridad, nombre_creatura ASC
+    ";
+
+    $resultado = mysqli_query($this->conexion, $sql);
+	
+	$creaturas = [];
+	 while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Obtener datos del tipo1
+        $tipo1 = $controladorTipo->retornar_tipo($fila['id_tipo1']);
+        $tipo2 = $controladorTipo->retornar_tipo($fila['id_tipo2']);
+
+        $imagen_formateada = null;
+        $imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
+			//temas de imagen
+				$imagenCreatura = $fila['imagen'];
+				if(!empty($imagenCreatura)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$imagen_formateada = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//fin de temas de imagen
+
+            $rating = $this->rating_promedio($fila['id_creatura']);
+
+        $creaturas[] = [
+            'id_creatura' => $fila['id_creatura'],
+            'nombre' => $fila['nombre_creatura'],
+			'creador' => $fila['creador'],
+            'imagen' => $imagen_formateada,
+            'rating' => $rating,
+            'tipo1' => $tipo1,
+            'tipo2' => $tipo2
+        ];
+    }
+	
+	
+	
+	
+	
+	
+    return $creaturas;
+}
 function retornar_creaturas_habilidad($id_habilidad)
 {
     $id_habilidad = mysqli_real_escape_string($this->conexion, $id_habilidad);

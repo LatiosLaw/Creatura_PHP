@@ -207,7 +207,47 @@ function enviar_correo_bienvenida($correo_usuario) {
     $resultado = mysqli_query($this->conexion, $sql);
     return $resultado;
 }
+  function listar_usuarios_busqueda2($parametro) {
+    $param_escaped = mysqli_real_escape_string($this->conexion, $parametro);
 
+    $sql = "
+        (SELECT nickname, foto, biografia 
+         FROM usuario 
+         WHERE nickname LIKE '{$param_escaped}%' AND nickname != 'SYSTEM')
+        UNION
+        (SELECT nickname, foto, biografia 
+         FROM usuario 
+         WHERE nickname LIKE '%{$param_escaped}%' 
+         AND nickname NOT LIKE '{$param_escaped}%' 
+         AND nickname != 'SYSTEM')
+    ";
+	
+    $resultado = mysqli_query($this->conexion, $sql);
+
+	$usuarios = [];
+	
+	while ($fila = mysqli_fetch_assoc($resultado)) {
+	
+    $imgDir = __DIR__ ."../../imagenes/usuarios/". $fila['foto'];
+			//temas de imagen
+				$imagenUsuario = $fila['foto'];
+				if(!empty($imagenUsuario)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$fila['foto'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+				}
+
+        $usuarios[] = [
+            'nickname' => $fila['nickname'],
+            'foto' => $fila['foto'],
+			'biografia' => $fila['biografia']
+        ];
+    }
+	
+    return $usuarios;
+}
   function retornar_usuario_personal($nickname){
     $resultado = mysqli_query($this->conexion, "SELECT * from usuario WHERE nickname = '$nickname'");
     return mysqli_fetch_assoc($resultado);

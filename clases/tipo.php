@@ -123,10 +123,52 @@ function modificar_tipo($nombre_original, $nombre_tipo, $color, $icono, $creador
         ];
     }
   }
-
   function retornar_creaturas_tipo($id_tipo){
 $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE (id_tipo1 = $id_tipo OR id_tipo2 = $id_tipo) AND publico = 1");
     return $resultado;
+  }
+function retornar_creaturas_tipo2($id_tipo,$controladorCreatura){
+$resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE (id_tipo1 = $id_tipo OR id_tipo2 = $id_tipo) AND publico = 1");
+    
+	$creaturas = [];
+	 while ($fila = mysqli_fetch_assoc($resultado)) {
+        // Obtener datos del tipo1
+        $tipo1 = $this->retornar_tipo($fila['id_tipo1']);
+        $tipo2 = $this->retornar_tipo($fila['id_tipo2']);
+
+        $imagen_formateada = null;
+        $imgDir = __DIR__ ."../../imagenes/creaturas/". $fila['imagen'];
+			//temas de imagen
+				$imagenCreatura = $fila['imagen'];
+				if(!empty($imagenCreatura)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$imagen_formateada = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//fin de temas de imagen
+
+            $rating = $controladorCreatura->rating_promedio($fila['id_creatura']);
+
+        $creaturas[] = [
+            'id_creatura' => $fila['id_creatura'],
+            'nombre' => $fila['nombre_creatura'],
+			'creador' => $fila['creador'],
+            'imagen' => $imagen_formateada,
+            'rating' => $rating,
+            'tipo1' => $tipo1,
+            'tipo2' => $tipo2
+        ];
+    }
+	
+	
+	
+	
+	
+	
+    return $creaturas;
   }
 
   function retornar_habilidades_tipo($id_tipo){
