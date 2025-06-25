@@ -59,7 +59,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
       <p>Correo</p>
       <input type="email" name="correo" maxlength="30" value="<?= htmlspecialchars($informacion['correo']) ?>" readonly style="background-color: #e9ecef; color: #6c757d;">
       
-      <p>Biografia</p>
+      <p>Biografía</p>
       <input type="text" name="biografia" maxlength="200" value="<?= htmlspecialchars($informacion['biografia']) ?>">
       
       <p>Nueva Contraseña (Opcional)</p>

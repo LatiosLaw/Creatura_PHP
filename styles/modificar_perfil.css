@@ -16,7 +16,6 @@
     }
 
     .imagen{
-        min-width: 500px;
         max-width: 500px;
     }
 
@@ -52,15 +51,15 @@
         min-width: 500px;
         max-width: 500px;
     }
+
+    .imagen, .imagen input{
+        font-size: large;
+    }
 }
 
 .contenido-usuario img{
     border: 1px solid black;
     border-radius: 10px;
-}
-
-.imagen, .imagen input{
-    font-size: large;
 }
 
 .imagen p, .imagen input{
@@ -72,7 +71,7 @@
     flex-direction: column;
 }
 
-.info-personal, .info-personal input{
+.info-personal p, .info-personal input{
     font-size: large;
 }
 
@@ -102,7 +101,7 @@
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: larger;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

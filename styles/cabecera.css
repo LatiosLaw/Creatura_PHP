@@ -15,7 +15,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      overflow-x: auto;
     }
     .btn-usr-medio{
         margin: 0 10px 0 10px;
@@ -28,6 +27,7 @@
     padding: 25px 20px;
     background-color: darkgray;
     color: white;
+    overflow-x: auto;
 }
 
 .cabecera-bar button {
