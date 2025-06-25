@@ -310,7 +310,7 @@ function retornar_creaturas_habilidad($id_habilidad)
         SELECT c.* 
         FROM creatura c
         INNER JOIN moveset m ON c.id_creatura = m.id_creatura
-        WHERE m.id_habilidad = '$id_habilidad'
+        WHERE m.id_habilidad = '$id_habilidad' AND c.publico = 1
     ";
 
     $resultado = mysqli_query($this->conexion, $sql);
