@@ -46,6 +46,7 @@
 
     .info-creatura{
         width: 50%;
+        overflow-y: auto;
     }
 
     .contenido-creatura img{
@@ -171,7 +172,9 @@
 .tipos{
     display: flex;
     justify-content: space-around;
+    gap: 5px;
     margin-bottom: 20px;
+    overflow-x: auto;
 }
 
 .tipos div p{
@@ -197,14 +200,18 @@
 }
 
 .tipos select option{
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
     font-weight: bold;
 }
 
 .tipos select option:hover{
     background-color: #333;
     color: white;
+}
+
+.tipos select option:first-child{
+  display: none;
 }
 
 .stats{
