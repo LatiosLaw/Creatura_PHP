@@ -65,8 +65,8 @@ $habilidades_usuario = $controladorCreatura->retornar_habilidades_creador($nickn
                         '<?= htmlspecialchars($habilidad['id_habilidad'],   ENT_QUOTES) ?>'
                       )">
                     <option value="">. . .</option>
-                    <option value="ver">Ver</option>
                     <option value="editar">Editar</option>
+                    <option value="ver">Ver</option>
                     <option value="eliminar">Eliminar</option>
                   </select>
                 </td>
