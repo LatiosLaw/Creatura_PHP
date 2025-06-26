@@ -14,107 +14,160 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Creatura</title>
+    <link rel="stylesheet" href="\Creatura_PHP\styles\alta_creatura.css">
 </head>
 <body>
 
 <?php include_once("../piezas_html/cabecera.php"); ?>
 
-    <button onclick="history.back();">Volver</button>
-
-<div>
-            <form id="formAltaCreatura" action="../procesamiento/manejar_altaCreatura.php" method="POST" enctype="multipart/form-data">
-                Nombre <input name="nombre" type="text" required><br>
-                TIPO 1
-                <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')" required></select><br>
-
-                TIPO 2
-                <select name="tipo2" id="tipo2" onchange="reconstruirSelects('tipo2')"></select><br>
-
-                Imagen <input name="imagen" type="file" accept="image/png, image/jpeg"><br>
-
-                HP
-<input name="hp" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'hp_val')">
-<input id="hp_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'hp')"><br>
-
-ATK
-<input name="atk" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'atk_val')">
-<input id="atk_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'atk')"><br>
-
-DEF
-<input name="def" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'def_val')">
-<input id="def_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'def')"><br>
-
-SPA
-<input name="spa" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spa_val')">
-<input id="spa_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spa')"><br>
-
-SPDEF
-<input name="spdef" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spdef_val')">
-<input id="spdef_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spdef')"><br>
-
-SPE
-<input name="spe" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spe_val')">
-<input id="spe_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spe')"><br>
-
-
-
-                Descripcion <input name="descripcion" type="text"><br>
-
-                <?php
-                $lista_tipos_habilidad = $controladorTipo->listar_tipos();
-                ?>
-
-Visibilidad 
-                <select name="publico" id="publico" required>
-    <option value="">-- Selecciona Visiblidad --</option>
-                    <option value="1">Publica</option>
-                    <option value="0">Privada</option>
-                </select><br>
-
-                <h4>Habilidades</h4>
-                Disponibles : <br>
-                <label for="filtroTipoHabilidad">Filtrar por tipo:</label>
-                <select id="filtroTipoHabilidad" onchange="retornarHabilidades(this.value)">
-                    <option value="">-- Selecciona un tipo --</option>
-                    <?php foreach ($lista_tipos_habilidad as $tipo): ?>
-                        <option value="<?= $tipo['id_tipo'] ?>" style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
-                            <?= htmlspecialchars($tipo['nombre_tipo']) ?></option>
-                    <?php endforeach; ?>
-                </select><br>
-
-                <table id="tablaHabilidades" border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Categoría</th>
-                            <th>Potencia</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                Seleccionadas : <br>
-                <table id="tablaSeleccionadas" border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Categoría</th>
-                            <th>Potencia</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-                <input type="hidden" name="habilidades_json" id="habilidades_json">
-
-                <input type="submit">
-            </form>
+<div class="cont-titular"> 
+    <div class="titular">
+        <div>Creatura</div>
+        <button onclick="history.back();">Cancelar</button>
+    </div>
+</div>
+<form id="formAltaCreatura" action="../procesamiento/manejar_altaCreatura.php" method="POST" enctype="multipart/form-data">
+    <div class="guardar">
+        <button type="submit">Confirmar Creación</button>
+    </div>
+    <div class="contenido-creatura">
+        <div class="imagen">
+            <p>Imagen de la Creatura:</p>
+            <input name="imagen" type="file" accept="image/png, image/jpeg" id="imagenInput">
+            <img id="creaturaImage" src="../imagenes/sin_imagen.png">
         </div>
+        <div class="info-creatura">
+            <div class="visibilidad">
+                <div>
+                    <select name="publico" id="publico" required>
+                        <option value="">Selecciona Visiblidad</option>
+                        <option value="1">Dejar Pública</option>
+                        <option value="0">Dejar Privada</option>
+                    </select>
+                </div>
+            </div>
+            <div class="info">
+                <p>Nombre</p>
+                <input name="nombre" type="text" required>
+
+                <p>Descripción</p>
+                <input name="descripcion" type="text">
+            </div>
+            <div class="tipos">
+                <div>
+                    <p>Tipo 1</p>
+                    <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')" required></select>
+                </div>
+                <div>
+                    <p>Tipo 2 (Opcional)</p>
+                    <select name="tipo2" id="tipo2" onchange="reconstruirSelects('tipo2')"></select>
+                </div>
+            </div>
+            <div class="stats">
+                <div>
+                    <p>HP</p>
+                    <input id="hp_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'hp')">
+                </div>
+                <input class="barra-stat" name="hp" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'hp_val')">
+
+                <div>
+                    <p>ATK</p>
+                    <input id="atk_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'atk')">
+                </div>
+                <input class="barra-stat" name="atk" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'atk_val')">
+
+                <div>
+                    <p>DEF</p>
+                    <input id="def_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'def')">
+                </div>
+                <input class="barra-stat" name="def" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'def_val')">
+
+                <div>
+                    <p>SPA</p>
+                    <input id="spa_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spa')">
+                </div>
+                <input class="barra-stat" name="spa" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spa_val')">
+
+                <div>
+                    <p>SDEF</p>
+                    <input id="spdef_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spdef')">
+                </div>
+                <input class="barra-stat" name="spdef" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spdef_val')">
+
+                <div>
+                    <p>SPE</p>
+                    <input id="spe_val" type="number" min="1" max="255" value="70" oninput="sincronizarSlider(this, 'spe')">
+                </div>
+                <input class="barra-stat" name="spe" type="range" min="1" max="255" value="70" oninput="sincronizarValor(this, 'spe_val')">
+            </div>
+
+            <?php
+            $lista_tipos_habilidad = $controladorTipo->listar_tipos();
+            ?>
+        </div>
+    </div>
+
+    <div class="cont-titular"> 
+        <div class="titular">
+            <div>Habilidades de la Creatura</div>
+        </div>
+    </div>
+
+    <div class="cont-mini-titular"> 
+        <div class="mini-titular">
+            <div>Disponibles</div>
+        </div>
+    </div>
+    <div class="selector-tipo">
+        <label for="filtroTipoHabilidad">Filtrar por tipo:</label>
+        <select id="filtroTipoHabilidad" onchange="retornarHabilidades(this.value)">
+            <option value="">Selecciona un tipo</option>
+            <?php foreach ($lista_tipos_habilidad as $tipo): ?>
+                <option value="<?= $tipo['id_tipo'] ?>" style="background-color: #<?= htmlspecialchars($tipo['color']) ?>;">
+                    <?= htmlspecialchars($tipo['nombre_tipo']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="habilidades agregar">
+        <table id="tablaHabilidades">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Potencia</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="cont-mini-titular"> 
+        <div class="mini-titular">
+            <div>Seleccionadas</div>
+        </div>
+    </div>
+    <div class="habilidades quitar">
+        <table id="tablaSeleccionadas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Potencia</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <input type="hidden" name="habilidades_json" id="habilidades_json">
+</form>
 
         <?php include_once("../piezas_html/pie_pagina.php"); ?>
 
@@ -160,7 +213,7 @@ function sincronizarSlider(input, sliderName) {
 
                         tr.innerHTML = `
         <td>${hab.id_habilidad}</td>
-                        <td style="color: ${color};">${hab.nombre_habilidad}</td>
+                        <td style="background-color: ${color};">${hab.nombre_habilidad}</td>
         <td>${hab.descripcion}</td>
         <td>${hab.categoria_habilidad}</td>
         <td>${hab.potencia}</td>
@@ -206,7 +259,7 @@ function sincronizarSlider(input, sliderName) {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
             <td>${hab.id}</td>
-                <td style="color: ${hab.color};">${hab.nombre}</td>
+                <td style="background-color: ${hab.color};">${hab.nombre}</td>
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>
@@ -221,13 +274,13 @@ function sincronizarSlider(input, sliderName) {
         // Reconstruye completamente un select, excluyendo un valor si se indica
         function poblarSelect(select, excluir) {
             const valorActual = select.value;
-            select.innerHTML = '<option value="">-</option>';
+            select.innerHTML = '<option value="">Selecciona un tipo</option><option value="">-</option>';
             tipos.forEach(tipo => {
                 if (tipo.id_tipo != excluir) {
                     const option = document.createElement("option");
                     option.value = tipo.id_tipo;
                     option.textContent = tipo.nombre_tipo;
-                    option.style.color = `#${tipo.color}`;
+                    option.style.backgroundColor = `#${tipo.color}`;
                     select.appendChild(option);
                 }
             });
@@ -256,6 +309,20 @@ function sincronizarSlider(input, sliderName) {
                 reconstruirAmbosSelects();
             });
         });
+
+        document.getElementById('imagenInput').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+
+                    if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            document.getElementById('creaturaImage').src = e.target.result;
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                });
     </script>
     
 </body>

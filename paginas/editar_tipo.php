@@ -45,7 +45,7 @@ $lista_tipos = $controladorTipo->listar_tipos();
     <div class="contenido-tipo">
         <div class="imagen">
             <p>Nuevo Icono del Tipo (Opcional)</p><input name="icono" type="file" accept="image/png, image/jpeg" id="imageInput">
-            <img id="typeImage" src="/Creatura_PHP/imagenes/tipos/<?php echo $informacion_tipo['icono']?>" width="20" height="20" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
+            <img id="typeImage" src="/Creatura_PHP/imagenes/tipos/<?php echo $informacion_tipo['icono']?>" onerror="this.onerror=null; this.src='/Creatura_PHP/imagenes/sin_imagen.png';">
             <p class="msg">Con el fin de evitar que el icono se vea pequeño, intente que su imagen cubra el mayor espacio posible</p>
         </div>
         <div class="info-tipo">

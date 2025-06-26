@@ -51,7 +51,7 @@ if (isset($_SESSION['nickname'])) {
     </div>
 </div>
 <div class="contenido-creatura">
-    <img src="../imagenes/creaturas/<?= htmlspecialchars($creatura_elegida['imagen']) ?>" alt="Imagen de la creatura" width="200" onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';">
+    <img src="../imagenes/creaturas/<?= htmlspecialchars($creatura_elegida['imagen']) ?>" alt="Imagen de la creatura" onerror="this.onerror=null; this.src='../imagenes/sin_imagen.png';">
     <div class="info-creatura">
         <div class="rycc">
             <div class="creador-creatura">
