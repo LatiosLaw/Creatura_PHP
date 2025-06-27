@@ -69,7 +69,7 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos();
                     <p>Tipo 1</p>
                     <select name="tipo1" id="tipo1" onchange="reconstruirSelects('tipo1')" required>
                         <?php foreach ($lista_tipos as $tipo): ?>
-                            <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo1'] ? 'selected' : '' ?> style="background-color: #<?= htmlspecialchars($tipo['color']) ?>;">
+                            <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo1'] ? 'selected' : '' ?> style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
                                 <?= htmlspecialchars($tipo['nombre_tipo']); ?>
                             </option>
                         <?php endforeach; ?>
@@ -79,7 +79,7 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos();
                     <p>Tipo 2</p>
                     <select name="tipo2" id="tipo2" onchange="reconstruirSelects('tipo2')">
                         <?php foreach ($lista_tipos as $tipo): ?>
-                            <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo2'] ? 'selected' : '' ?> style="background-color: #<?= htmlspecialchars($tipo['color']) ?>;">
+                            <option value="<?= $tipo['id_tipo'] ?>" <?= $tipo['id_tipo'] == $informacion_creatura['id_tipo2'] ? 'selected' : '' ?> style="color: #<?= htmlspecialchars($tipo['color']) ?>;">
                                 <?= htmlspecialchars($tipo['nombre_tipo']) ?>
                             </option>
                         <?php endforeach; ?>
@@ -359,13 +359,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // Reconstruye completamente un select, excluyendo un valor si se indica
         function poblarSelect(select, excluir) {
             const valorActual = select.value;
-            select.innerHTML = '<option value="">-</option>';
+            select.innerHTML = '<option value="">Selecciona un tipo</option><option value="">-</option>';
             tipos.forEach(tipo => {
                 if (tipo.id_tipo != excluir) {
                     const option = document.createElement("option");
                     option.value = tipo.id_tipo;
                     option.textContent = tipo.nombre_tipo;
-                    option.style.color = `#${tipo.color}`;
+                    option.style.backgroundColor = `#${tipo.color}`;
                     select.appendChild(option);
                 }
             });
