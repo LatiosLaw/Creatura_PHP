@@ -140,7 +140,7 @@ $usuarios_encontrados = $controladorUsuario->listar_usuarios_busqueda($parametro
         <?php endwhile; ?>
     </div>
 <?php else: ?>
-    <div class="x-large">No se encontraron creaturas default que coincidan con tu busqueda.</div>
+    <div class="x-large">No se encontraron creaturas del sistema que coincidan con tu busqueda.</div>
 <?php endif; ?>
 
 <?php if (mysqli_num_rows($creaturas_usuarios_encontradas) > 0): ?>
