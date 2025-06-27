@@ -23,6 +23,8 @@ $controlador = new Creatura();
 $resultado = $controlador->retornar_calculo_de_tipos_defendiendo_API($id_tipo1, $id_tipo2);
 
 echo json_encode([
+	"tipo1" => $id_tipo1,
+	"tipo2" => $id_tipo2,
     "resultado" => "ok",
     "defensas" => $resultado
 ]);
