@@ -468,8 +468,7 @@ function baja_creatura_API($id_creatura)
 			$tipo1 = $controladorTipo->retornar_tipo($creatura['id_tipo1']);
             $tipo2 = $controladorTipo->retornar_tipo($creatura['id_tipo2']);
 
-            $creatura['tipo1'] = $tipo1;
-            $creatura['tipo2'] = $tipo2;
+            
 			
 			
             $creatura['rating_promedio'] = $this->rating_promedio($creatura['id_creatura']);
@@ -486,6 +485,32 @@ function baja_creatura_API($id_creatura)
 					
 				}
 			//fin de temas de imagen
+			//imagen tipos momento
+			
+				$imgDir = __DIR__ ."../../imagenes/tipos/". $tipo1['icono'];
+				$imagenTipo = $tipo1['icono'];
+				if(!empty($imagenTipo)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$tipo1['icono'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			///////
+				$imgDir = __DIR__ ."../../imagenes/tipos/". $tipo2['icono'];
+				$imagenTipo = $tipo2['icono'];
+				if(!empty($imagenTipo)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$tipo2['icono'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+				$creatura['tipo1'] = $tipo1;
+            $creatura['tipo2'] = $tipo2;
+			//imagen tipos momento fin
             return $creatura;
         } else {
             return false;
@@ -764,6 +789,8 @@ function retornar_calculo_de_tipos_defendiendo_API($id_tipo1, $id_tipo2)
     // Primero obtenemos todos los tipos atacantes
     $tipos = [];
     $consulta_tipos = mysqli_query($this->conexion, "SELECT * FROM tipo");
+	
+	
     while ($tipo = mysqli_fetch_assoc($consulta_tipos)) {
         $tipos[$tipo['id_tipo']] = $tipo;
         $tipos[$tipo['id_tipo']]['multiplicador1'] = 1.0;
@@ -792,7 +819,23 @@ function retornar_calculo_de_tipos_defendiendo_API($id_tipo1, $id_tipo2)
     foreach ($tipos as $id => $tipo) {
         $m1 = $tipo['multiplicador1'];
         $m2 = $tipo['multiplicador2'];
-
+		
+				//imagen tipos momento
+			
+				$imgDir = __DIR__ ."../../imagenes/tipos/". $tipo['icono'];
+				$imagenTipo = $tipo['icono'];
+				if(!empty($imagenTipo)){
+					if (file_exists($imgDir)) {
+						$extencionIMG = mime_content_type($imgDir);
+						$IMGposta = file_get_contents($imgDir);
+						$tipo['icono'] = "data:".$extencionIMG.";base64," . base64_encode($IMGposta);
+					}
+					
+				}
+			//imagen tipos momento fin
+		
+		
+		
         // Inmunidad prevalece
         $total = ($m1 == 0 || $m2 == 0) ? 0 : $m1 * $m2;
 
