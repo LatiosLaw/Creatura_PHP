@@ -73,7 +73,7 @@
     background-color: #333;
 }
 
-.contenedor-creaturas, .contenedor-usuarios{
+.contenedor-creaturas{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -119,9 +119,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.nombre-creatura{
     text-align: center;
     font-size: 22px;
     padding-left: 5px;
