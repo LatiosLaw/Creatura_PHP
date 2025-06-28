@@ -13,7 +13,9 @@ session_start();
 </head>
 <body>
   <header class="cabecera-bar">
-    <button onclick="location.href='/Creatura_PHP/index.php'">Inicio</button>
+<a href="/Creatura_PHP/index.php">
+  <img style="max-width:80px; max-height:80px;" src="/Creatura_PHP/imagenes/Creatura_logo_texto.png" alt="Logo" style="cursor: pointer;">
+</a>
 
     <div class="botones-usuario btn-usr-medio">
     <?php if (isset($_SESSION['nickname'])) { ?>

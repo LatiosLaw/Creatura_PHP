@@ -39,10 +39,10 @@ $publico = $_POST['publico'] ?? '0';
 
 $habilidades_json = $_POST['habilidades_json'] ?? '[]';
 $habilidades = json_decode($habilidades_json, true);
-if ($habilidades === null) {
-    // JSON inválido
-    header("Location: ../paginas/gestor_creatura.php?error=json_habilidades_invalido");
-    exit();
+
+// Si no es un array válido, lo tratamos como vacío
+if (!is_array($habilidades)) {
+    $habilidades = [];
 }
 
 // Borrar moveset previo

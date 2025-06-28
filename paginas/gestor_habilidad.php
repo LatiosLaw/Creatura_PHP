@@ -27,7 +27,7 @@ $habilidades_usuario = $controladorCreatura->retornar_habilidades_creador($nickn
     <?php include_once("../piezas_html/popup_adaptativo.php"); ?>
     <div class="cont-titular">
       <div class="titular">
-        <div>Tus Creaturas</div>
+        <div>Tus Habilidades</div>
         <button onclick="window.location.href = '/Creatura_PHP/paginas/alta_habilidad.php';">Crear Habilidad</button>
         <button onclick="history.back();">Volver</button>
       </div>
