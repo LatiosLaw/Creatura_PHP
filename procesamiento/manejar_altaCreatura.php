@@ -35,9 +35,10 @@ $spe = isset($_POST['spe']) ? (int)$_POST['spe'] : 70;
 // Habilidades (JSON decodificado a array asociativo)
 $habilidades_json = $_POST['habilidades_json'] ?? '[]';
 $habilidades = json_decode($habilidades_json, true);
-if ($habilidades === null) {
-    header("Location: /Creatura_PHP/paginas/gestor_creatura.php?error=alta_creatura_json_habilidades_invalido");
-    exit;
+
+// Si no es un array válido, lo tratamos como vacío
+if (!is_array($habilidades)) {
+    $habilidades = [];
 }
 
 $nombreArchivo = null;
