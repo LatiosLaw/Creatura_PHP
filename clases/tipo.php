@@ -195,10 +195,34 @@ $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE (id_tip
     return $creaturas;
   }
 
-  function retornar_habilidades_tipo($id_tipo){
-    $resultado = mysqli_query($this->conexion, "SELECT * from habilidad WHERE id_tipo_habilidad = $id_tipo");
-    return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
-  }
+function retornar_habilidades_tipo($id_tipo) {
+    // Prepara la consulta con JOIN
+    $sql = "
+        SELECT  h.id_habilidad,
+                h.nombre_habilidad,
+                h.id_tipo_habilidad,
+                h.descripcion,
+                h.categoria_habilidad,
+                h.potencia,
+                h.creador,
+
+                /* Campos del tipo */
+                t.nombre_tipo       AS nombre_tipo_habilidad,
+                t.color             AS color_tipo_habilidad,
+                t.icono             AS icono_tipo_habilidad
+        FROM    habilidad AS h
+        JOIN    tipo      AS t ON h.id_tipo_habilidad = t.id_tipo
+        WHERE   h.id_tipo_habilidad = ?
+    ";
+
+    // Prepared statement para mayor seguridad
+    $stmt = $this->conexion->prepare($sql);
+    $stmt->bind_param("i", $id_tipo);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+    return $resultado->fetch_all(MYSQLI_ASSOC);
+}
 
   function retornar_habilidades_api(){
     $resultado = mysqli_query($this->conexion, "

@@ -213,11 +213,11 @@ function sincronizarSlider(input, sliderName) {
 
                         tr.innerHTML = `
         <td>${hab.id_habilidad}</td>
-                        <td style="background-color: ${color};">${hab.nombre_habilidad}</td>
+                        <td style="background-color: ${color};"><img src="/Creatura_PHP/imagenes/tipos/${hab.icono_tipo_habilidad}">${hab.nombre_habilidad}</td>
         <td>${hab.descripcion}</td>
         <td>${hab.categoria_habilidad}</td>
         <td>${hab.potencia}</td>
-        <td><button type="button" onclick="agregarHabilidad(${hab.id_habilidad}, '${hab.nombre_habilidad}', '${hab.descripcion}', '${hab.categoria_habilidad}', ${hab.potencia}, '${color}')">Agregar</button></td>
+        <td><button type="button" onclick="agregarHabilidad(${hab.id_habilidad}, '${hab.nombre_habilidad}', '${hab.descripcion}', '${hab.categoria_habilidad}', ${hab.potencia}, '${color}', '${hab.icono_tipo_habilidad}')">Agregar</button></td>
     `;
 
                         tbody.appendChild(tr);
@@ -226,7 +226,7 @@ function sincronizarSlider(input, sliderName) {
                 .catch(err => console.error("Error al cargar habilidades:", err));
         }
 
-        function agregarHabilidad(id, nombre, descripcion, categoria, potencia, color) {
+        function agregarHabilidad(id, nombre, descripcion, categoria, potencia, color, icono) {
             if (habilidadesSeleccionadas.find(h => h.id === id)) {
                 alert("Ya seleccionaste esta habilidad.");
                 return;
@@ -238,7 +238,8 @@ function sincronizarSlider(input, sliderName) {
                 descripcion,
                 categoria,
                 potencia,
-                color
+                color,
+                icono
             });
             actualizarTablaSeleccionadas();
         }
@@ -259,7 +260,7 @@ function sincronizarSlider(input, sliderName) {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
             <td>${hab.id}</td>
-                <td style="background-color: ${hab.color};">${hab.nombre}</td>
+                <td style="background-color: ${hab.color};"><img src="/Creatura_PHP/imagenes/tipos/${hab.icono}">${hab.nombre}</td>
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>

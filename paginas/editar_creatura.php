@@ -229,7 +229,8 @@ const habilidadesSeleccionadas = habilidadesIniciales.map(hab => ({
     descripcion: hab.descripcion,
     categoria: hab.categoria_habilidad,
     potencia: hab.potencia,
-    color: obtenerColorTipo(hab.id_tipo_habilidad)
+    color: obtenerColorTipo(hab.id_tipo_habilidad),
+    icono: hab.icono_tipo_habilidad
 }));
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -260,6 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             habilidades.forEach(hab => {
                 const color = obtenerColorTipo(hab.id_tipo_habilidad);
+                const icono = hab.icono_tipo_habilidad;
                 const tr = document.createElement("tr");
 
                 // Creamos celdas
@@ -267,8 +269,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 tdId.textContent = hab.id_habilidad;
 
                 const tdNombre = document.createElement("td");
-                tdNombre.textContent = hab.nombre_habilidad;
-                tdNombre.style.backgroundColor = color;
+
+                const img = document.createElement("img");
+img.src = `/Creatura_PHP/imagenes/tipos/${icono}`;
+img.alt = "Tipo";
+img.style.width = "20px";
+img.style.height = "20px";
+img.style.marginRight = "5px";
+img.style.verticalAlign = "middle";
+
+tdNombre.style.backgroundColor = color;
+
+const texto = document.createTextNode(hab.nombre_habilidad);
+tdNombre.appendChild(img);     // Primero la imagen
+tdNombre.appendChild(texto);   // Después el nombre como texto
 
                 const tdDescripcion = document.createElement("td");
                 tdDescripcion.textContent = hab.descripcion;
@@ -290,7 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         hab.descripcion,
                         hab.categoria_habilidad,
                         hab.potencia,
-                        color
+                        color,
+                        icono
                     );
                 };
                 tdAccion.appendChild(boton);
@@ -311,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-        function agregarHabilidad(id, nombre, descripcion, categoria, potencia, color) {
+        function agregarHabilidad(id, nombre, descripcion, categoria, potencia, color, icono) {
             if (habilidadesSeleccionadas.find(h => h.id === id)) {
                 alert("Ya seleccionaste esta habilidad.");
                 return;
@@ -323,7 +338,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 descripcion,
                 categoria,
                 potencia,
-                color
+                color,
+                icono
             });
             actualizarTablaSeleccionadas();
         }
@@ -344,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
             <td>${hab.id}</td>
-                <td style="background-color: ${hab.color};">${hab.nombre}</td>
+                <td style="background-color: ${hab.color};"><img src="/Creatura_PHP/imagenes/tipos/${hab.icono}">${hab.nombre}</td>
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>
