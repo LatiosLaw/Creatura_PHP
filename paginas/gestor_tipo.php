@@ -20,6 +20,7 @@ $tipos_del_usuario = $controladorTipo->listar_tipos_creador($_SESSION['nickname'
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Tipos</title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\gestor_tipo.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 <?php include_once("../piezas_html/popup_adaptativo.php"); ?>

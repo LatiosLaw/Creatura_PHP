@@ -31,6 +31,7 @@ $usuarios_encontrados = $controladorUsuario->listar_usuarios_busqueda($parametro
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Busqueda</title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\resultados_buscador.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 

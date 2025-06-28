@@ -41,6 +41,7 @@ if (isset($_SESSION['nickname'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Creatura - <?php echo $nombre_creatura ?></title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\ver_creatura.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 

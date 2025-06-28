@@ -37,6 +37,7 @@ if($nickname_sesion==$nickname_usuario){
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Perfil - <?php echo $nickname_usuario ?></title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\ver_usuario.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 <?php include_once("../piezas_html/popup_adaptativo.php"); ?>

@@ -34,6 +34,7 @@ $creaturas_usuario = $controladorUsuario->listar_creaturas_de_usuario($nickname_
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Perfil - <?php echo $nickname_usuario ?></title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\modificar_perfil.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 

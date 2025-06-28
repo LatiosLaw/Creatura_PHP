@@ -19,6 +19,7 @@ $lista_tipos = $controladorTipo->listar_tipos();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Tipo</title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\alta_tipo.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 

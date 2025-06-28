@@ -24,6 +24,7 @@ $lista_tipos = $controladorTipo->listar_tipos();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Habilidad - <?php echo $nombre_habilidad ?></title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\editar_habilidad.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
     <?php include_once("../piezas_html/cabecera.php"); ?>

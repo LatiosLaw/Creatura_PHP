@@ -14,6 +14,7 @@ $lista_usuarios = $controladorUsuario->listar_usuarios_creadores();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\todos_los_usuarios.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 

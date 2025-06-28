@@ -17,6 +17,7 @@ $lista_creaturas_usuarios = $controladorCreatura->listar_creaturas_usuarios_alea
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Creaturas</title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\todas_las_creaturas.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 

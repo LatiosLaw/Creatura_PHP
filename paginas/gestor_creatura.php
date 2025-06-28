@@ -22,6 +22,7 @@ $creaturas_usuario = $controladorCreatura->listar_creaturas_ext(1000, $nickname_
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Creaturas</title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\gestor_creatura.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
 <?php include_once("../piezas_html/popup_adaptativo.php"); ?>

@@ -25,6 +25,7 @@ $info_tipo = $controladorTipo->retornar_tipo($informacion_habilidad['id_tipo_hab
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Habilidad - <?php echo $nombre_habilidad ?></title>
     <link rel="stylesheet" href="\Creatura_PHP\styles\ver_habilidad.css">
+    <link rel="shortcut icon" href="\Creatura_PHP\imagenes\Creatura_logo.png" type="image/x-icon">
 </head>
 <body>
     <?php include_once("../piezas_html/cabecera.php"); ?>
