@@ -96,9 +96,21 @@ INSERT INTO `creatura` (`nombre_creatura`, `id_tipo1`, `id_tipo2`, `descripcion`
 ('Lagarto de Magma', 23, 2, 'Criatura infernal capaz de generar charcos de lava y disparar roca volcanica', 110, 90, 140, 100, 70, 60, 'The Silent One', 'magmamonster.png', 1),
 ('Acido Viviente', 23, 8, 'Monstruo de slime acidico', 120, 40, 40, 80, 170, 20, 'The Silent One', 'slime.png', 1),
 ('Nanashi Mumei', 21, 23, 'Representante de la humanidad... Con todo lo que conlleva.', 70, 130, 60, 130, 70, 90, 'Amee', 'mumei.png', 1),
-('Takodachi', 20, 1, 'Wah Wah Wah', 60, 25, 85, 90, 110, 20, 'LatiosLaw', 'wah.png', 0),
+('Takodachi', 20, 1, 'Wah Wah Wah', 60, 25, 85, 90, 110, 20, 'LatiosLaw', 'wah.png', 1),
 ('Bad Ending Ina', 20, 26, 'El fin es inevitable', 150, 60, 75, 215, 145, 80, 'LatiosLaw', 'bad_ending_ina.png', 0),
-('Elegg', 27, 21, 'Egg', 70, 65, 90, 155, 100, 80, 'T.R.O.N.N.Y.', 'elegg.png', 1);
+('Elegg', 27, 21, 'Egg', 70, 65, 90, 155, 100, 80, 'T.R.O.N.N.Y.', 'elegg.png', 1),
+('Gamekid Evolution', 25, 17, 'An old relic of the Arks Past', 100, 40, 90, 100, 40, 10, 'T.R.O.N.N.Y.', 'exia_gamekid.png', 1),
+('Thousand Sunny', 22, 3, 'El barco que surcará toda la Grand Line', 180, 80, 160, 150, 90, 70, 'WeirdAniki', 'sunny.png', 1),
+('Spark', 4, 7, 'He just wans his job back...', 80, 100, 60, 100, 50, 120, 'Perepupengue', 'creatura_6861aa0ac622b.png', 1),
+('RadiaDoor', 22, 29, 'La puerta a la destrucción, o a el progreso.', 120, 30, 100, 200, 110, 10, 'Perepupengue', 'creatura_6861aacda3eb7.png', 1),
+('Type: Null', 28, 0, 'El chilcali.', 100, 100, 100, 100, 100, 100, 'Perepupengue', 'creatura_6861a3118fe2d.jpg', 1),
+('Rathalos', 2, 15, 'La vieja confiable', 100, 130, 90, 145, 135, 90, 'El Cazador', 'ratha.png', 1),
+('Mizutsune', 3, 18, 'Kitsune Jabón', 90, 100, 85, 125, 115, 130, 'El Cazador', 'mizu.png', 1),
+('Gore Magala', 16, 26, 'Misterio con Alas', 100, 150, 90, 135, 120, 130, 'El Cazador', 'goremagala.png', 1),
+('Queen Of Hearts', 2, 16, 'Off with his head. NOW!', 50, 127, 65, 54, 87, 99, 'Perepupengue', 'Lorina.jpg', 1),
+('PayasoChu', 4, 18, 'Jajajaj Chu jajajaj Pala', 50, 48, 31, 120, 152, 109, 'Perepupengue', 'PayasoChu.jpg', 1),
+('Tien Shin Han', 11, 7, 'I. Hate. Every thing about you.', 255, 255, 255, 255, 255, 255, 'Perepupengue', 'creatura_6861b91436785.png', 0),
+('Kiritsugu', 16, 0, 'Matando magos con plomo y edge', 70, 80, 68, 90, 91, 135, 'Perepupengue', 'creatura_6861b613cd56d.gif', 1);
 -- --------------------------------------------------------
 
 --
@@ -314,6 +326,19 @@ INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
 (12, 27, 2),
 (21, 27, 0.5),
 (25, 27, 0.5);
+
+INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
+(19, 28, 0);
+
+INSERT INTO `efectividades` (`atacante`, `defensor`, `multiplicador`) VALUES
+(1, 29, 0),
+(2, 29, 0),
+(3, 29, 2),
+(4, 29, 0),
+(9, 29, 2),
+(16, 29, 2),
+(18, 29, 2),
+(24, 29, 0.5);
 -- --------------------------------------------------------
 
 --
@@ -487,6 +512,39 @@ INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`,
 INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
 ('BOOM', 27, 'Infecta dispositivos electronicos y los obliga a correr BOOM, si el rival es tipo Acero, este pierde 75% de su HP', 'ESTADO', 0, 'T.R.O.N.N.Y.'),
 ('Eleggtric Shock', 27, 'El usuario lanza una descarga electrica a un rival, disminuyendo su velocidad en un nivel, puede paralizar.', 'ESPECIAL', 80, 'T.R.O.N.N.Y.');
+
+INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
+('Gamer Move', 25, 'El usuario golpea al rival, causando daño del lado que tenga puntos de defensa (Fisica o Especial).', 'FISICO', 100, 'T.R.O.N.N.Y.'),
+('Procrastinación', 25, 'El usuario procrastina, perdiendo un turno.', 'ESTADO', 0, 'T.R.O.N.N.Y.'),
+('Aislamiento', 25, 'El usuario se encierra en su cuarto, volviendose inmune a todo ataque no basado en sonido durante el resto del turno.', 'ESTADO', 0, 'T.R.O.N.N.Y.'),
+('Speedrun', 25, 'El usuario golpea al rival, tras cada impacto, tratando de conseguir un mejor tiempo e incrementando el daño de la habilidad en 40 puntos.', 'FISICO', 60, 'T.R.O.N.N.Y.'),
+('Trashtalk', 25, 'El usuario ***** al rival, causando daño a su autoestima.', 'ESPECIAL', 90, 'T.R.O.N.N.Y.');
+
+INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
+('Juicio Milenario', 26, 'El usuario utiliza sus poderes ancestrales para desintegrar al rival, causando daño crítico asegurado.', 'ESPECIAL', 100, 'LatiosLaw'),
+('Órdenes del Más Allá', 26, 'El usuario ordena a todas las entidades a quedarse quietas, aplicando cantidades abrudamoras de presión y forzando a toda entidad a gastar el turno.', 'ESTADO', 0, 'LatiosLaw'),
+('Sacrificio', 26, 'El usuario toma la vida de un aliado, duplicando sus propias estadísticas.', 'ESTADO', 0, 'LatiosLaw');
+
+INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
+('Atomic-Deconstruction ', 29, 'Ataca al rival con un potente ataque. Si el rival no es derrotado con esta habilidad, el usuario tendrá que recargar por un turno.', 'ESPECIAL', 120, 'Perepupengue'),
+('Heavy Water', 29, 'Aplica al enemigo un efecto de estado llamado "Daño genético" que le inflige 1.3 de su hp por turno y le impide regenerar o ganar hp.', 'ESTADO', 0, 'Perepupengue'),
+('Corte de Atomos', 29, 'Ataca generando un corte extremada mente preciso que corta los átomos del oponente. Siempre hace critico.', 'FISICO', 60, 'Perepupengue');
+
+INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
+('Null Slash', 28, 'Ataca con propiedades elementales nulas, pero no con potencia nula.', 'FISICO', 120, 'Perepupengue'),
+('Null Judgment', 28, 'Juzga a su oponente con la ira de dios hecho pro humanos.', 'ESPECIAL', 120, 'Perepupengue'),
+('Nullify Damege', 28, 'Regenera todo su hp.', 'ESTADO', 0, 'Perepupengue');
+
+INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
+('piu-piu', 4, 'Ataca con la punta de sus dedos, lanzando rayos de plasma. Golpea de 1 a 5 veces.', 'ESPECIAL', 35, 'Perepupengue'),
+('Charged Piu', 4, 'Concentra energía en la punta de sus dedos. Largando un enorme ataque de plasma. Tiene un turno de carga.', 'ESPECIAL', 160, 'Perepupengue');
+
+INSERT INTO `habilidad` (`nombre_habilidad`, `id_tipo_habilidad`, `descripcion`, `categoria_habilidad`, `potencia`, `creador`) VALUES
+('Orden real de ataque', 16, 'Ordena a sus vasallos que ataquen con todo.', 'FISICO', 120, 'Perepupengue'),
+('Orden de defensa', 16, 'Ordena a sus esclavos a que mueran por ella. Aumenta la defensa en 1 y protege de cualquier ataque por un turno.', 'ESTADO', 0, 'Perepupengue'),
+('Orden de cura', 16, 'Ordena a sus doctores y alquimistas a que la curen de manera urgente. Cura la mitad del hp y cualquier efecto de estado.', 'ESTADO', 0, 'Perepupengue'),
+('Kikōhō', 11, 'Screw power levels, screw super saiyan AND SCREW YOU.', 'ESPECIAL', 255, 'Perepupengue');
+
 -- --------------------------------------------------------
 
 --
@@ -600,10 +658,46 @@ INSERT INTO `moveset` (`id_creatura`, `id_habilidad`) VALUES
 (38, 74),
 
 -- Bad Ending Ina (Inanis/Ancestral)
-(39, 73), (39, 57), (39, 49), (39, 92),
+(39, 73), (39, 100), (39, 102), (39, 49), (39, 101),
 
 -- Elegg (Eleggtrico/Waifu)
-(40, 5), (40, 61), (40, 94), (40, 93);
+(40, 5), (40, 61), (40, 94), (40, 93),
+
+-- Gamekid Evolution (Gamer/Acero)
+(41, 97), (41, 96), (41, 95),
+
+-- Thousand Sunny (Puerta/Agua)
+(42, 9), (42, 84), (42, 62),
+
+-- Spark (Electrico/Lucha)
+(43, 6), (43, 7), (43, 24), (43, 23), (43, 72), (43, 109), (43, 110),
+
+-- Radiadoor (Puerta/Radiacion)
+(44, 103), (44, 104), (44, 105),
+
+-- Silvally (Nulo) 45
+(45, 106), (45, 107), (45, 108),
+
+-- Rathalos (Fuego/Dragon)
+(46, 1), (46, 2), (46, 53), (46, 54), (46, 86),
+
+-- Mizutsune (Agua/Hada)
+(47, 9), (47, 12), (47, 67), (47, 10), (47, 65), (47, 11),
+
+-- Gore Magala (Siniestro/Ancestral)
+(48, 57), (48, 58), (48, 60), (48, 100), (48, 54), (48, 56),
+
+-- Queen Of Hearts (Siniestro/Fuego)
+(49, 111), (49, 112), (49, 113),
+
+-- PayasoChu (Electrico/Hada)
+(50, 5), (50, 6), (50, 7), (50, 8), (50, 65), (50, 80), (50, 95), (50, 93), (50, 81),
+
+-- Tien Shin Han (Psiquico/Lucha)
+(51, 114),
+
+-- Kiritsugu (Siniestro)
+(52, 63), (52, 27), (52, 57), (52, 60), (52, 23);
 
 -- --------------------------------------------------------
 
@@ -806,6 +900,11 @@ INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
 INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
 ('Eleggtrico', 'FFEE99', 'egg.png', 'T.R.O.N.N.Y.');
 
+INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
+('Null', 'c9c9c9', 'type-null.png', 'Perepupengue');
+
+INSERT INTO `tipo` (`nombre_tipo`, `color`, `icono`, `creador`) VALUES
+('Radiación', '00ff11', 'radiacion.png', 'Perepupengue');
 -- --------------------------------------------------------
 
 --
@@ -839,8 +938,8 @@ INSERT INTO `usuario` (`nickname`, `correo`, `foto`, `biografia`, `contraseña`,
 ('The Silent One', 'void@gmail.com', 'Monster.png', '...', 'secondtonone', 'usuario'),
 ('Amee', 'the.ame.way@gmail.com', 'funny_smolame.png', 'The Sanest fan of the Number One Detective!', 'n1Detective', 'usuario'),
 ('WeirdAniki', 'straw.hat.franky@gmail.com', 'Aniki.png', 'The SUPERRRRRRR Aniki everyone NEEDS.', 'eithercolaornothing', 'usuario'),
-('T.R.O.N.N.Y.', 'darkhero.returns@gmail.com', 'tronni.png', 'Just me. On my room. As always.', 'eleggIsBest', 'usuario');
-
+('T.R.O.N.N.Y.', 'd.arkhero.returns@gmail.com', 'tronni.png', 'Just me. On my room. As always.', 'eleggIsBest', 'usuario'),
+('El Cazador', 'mizutsunemybeloved@gmail.com', 'hunter.png', 'Un cazador debe cazar.', 'RathalosHereIComeAgain', 'usuario');
 --
 -- Índices para tablas volcadas
 --

@@ -107,8 +107,8 @@ $habilidades_tipo = $controladorTipo->retornar_habilidades_tipo($id_tipo);
             $multiplicador = htmlspecialchars($tipo['multiplicador']);
 
             echo "<a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=$nombre_tipo&creador=$creador&id_tipo=$id_tipo' style='background-color: #$color;'>
-                <img src='/Creatura_PHP/imagenes/tipos/$icono'> $nombre_mostrar <div>x$multiplicador</div>
-            </a>";
+                <img src='/Creatura_PHP/imagenes/tipos/$icono' onerror=\"this.style.visibility='hidden';\"> $nombre_mostrar <div>x$multiplicador</div>
+                </a>";
         }
 
         echo "</div>";

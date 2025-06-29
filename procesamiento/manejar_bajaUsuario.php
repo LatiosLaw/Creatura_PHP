@@ -25,66 +25,87 @@ $mensaje_error = '';
 // Listar tipos del usuario y eliminar todo lo relacionado
 $tipos_del_usuario = $controladorTipo->listar_tipos_creador($nickname);
 
-if ($tipos_del_usuario && mysqli_num_rows($tipos_del_usuario) > 0) {
-    while ($tipo = mysqli_fetch_assoc($tipos_del_usuario)) {
-        // Eliminar habilidades del tipo
+if (is_array($tipos_del_usuario) && count($tipos_del_usuario) > 0) {
+    foreach ($tipos_del_usuario as $tipo) {
+
+        /*-------------------------------------------------
+         * 1) Eliminar habilidades del tipo
+         *------------------------------------------------*/
         $habilidades = $controladorTipo->retornar_habilidades_tipo($tipo['id_tipo']);
-        if (is_array($habilidades) && count($habilidades) > 0) {
-            foreach ($habilidades as $habilidad) {
-                if (isset($habilidad['id_habilidad'])) {
-                    $res = $controladorCreatura->baja_habilidad($habilidad['id_habilidad']);
-                    if (!$res) {
+        if (is_array($habilidades)) {
+            foreach ($habilidades as $hab) {
+                if (!empty($hab['id_habilidad'])) {
+                    if (!$controladorCreatura->baja_habilidad($hab['id_habilidad'])) {
                         $fallo = true;
-                        $mensaje_error = "Error al eliminar habilidad '{$habilidad['nombre_habilidad']}'";
-                        break;  // Salir foreach habilidades
+                        $mensaje_error = "Error al eliminar habilidad '{$hab['nombre_habilidad']}'";
+                        break 2;          // sale del foreach tipos
                     }
                 }
             }
         }
-        if ($fallo) break;  // Salir while tipos
 
-        // Modificar criaturas que usan este tipo
-        $criaturas_perjudicadas = $controladorTipo->retornar_creaturas_tipo($tipo['id_tipo']);
-        if ($criaturas_perjudicadas && mysqli_num_rows($criaturas_perjudicadas) > 0) {
-            while ($pobrecito = mysqli_fetch_assoc($criaturas_perjudicadas)) {
-                if ($pobrecito['id_tipo1'] == $tipo['id_tipo']) {
-                    $res = $controladorCreatura->modificar_creatura(
-                        $pobrecito['id_creatura'], $pobrecito['nombre_creatura'], $pobrecito['id_tipo2'], 0,
-                        $pobrecito['descripcion'], $pobrecito['hp'], $pobrecito['atk'], $pobrecito['def'],
-                        $pobrecito['spa'], $pobrecito['sdef'], $pobrecito['spe'], $pobrecito['creador'],
-                        $pobrecito['imagen'], $pobrecito['publico']
-                    );
-                } else {
-                    $res = $controladorCreatura->modificar_creatura(
-                        $pobrecito['id_creatura'], $pobrecito['nombre_creatura'], $pobrecito['id_tipo1'], 0,
-                        $pobrecito['descripcion'], $pobrecito['hp'], $pobrecito['atk'], $pobrecito['def'],
-                        $pobrecito['spa'], $pobrecito['sdef'], $pobrecito['spe'], $pobrecito['creador'],
-                        $pobrecito['imagen'], $pobrecito['publico']
-                    );
-                }
-                if (!$res) {
-                    $fallo = true;
-                    $mensaje_error = "Error al modificar criatura '{$pobrecito['nombre_creatura']}'";
-                    break; // Salir while criaturas
-                }
+        /*-------------------------------------------------
+         * 2) Modificar criaturas que usan este tipo
+         *------------------------------------------------*/
+      $idTipoAEliminar = $tipo['id_tipo']; // ID del tipo a eliminar
+
+$criaturasRs = $controladorTipo->retornar_creaturas_tipo($idTipoAEliminar);
+
+while ($crea = mysqli_fetch_assoc($criaturasRs)) {
+        $nuevoTipo1 = $crea['id_tipo1'];
+        $nuevoTipo2 = $crea['id_tipo2'];
+
+        // Caso: tipo a eliminar está en el primer tipo
+        if ($crea['id_tipo1'] == $idTipoAEliminar) {
+            if ($crea['id_tipo2'] != 0 && $crea['id_tipo2'] != $idTipoAEliminar) {
+                // Promover tipo 2 a tipo 1
+                $nuevoTipo1 = $crea['id_tipo2'];
+                $nuevoTipo2 = 0;
+            } else {
+                // Ambos son el tipo a eliminar o tipo2 es 0
+                $nuevoTipo1 = 0;
+                $nuevoTipo2 = 0;
             }
         }
-        if ($fallo) break; // Salir while tipos
 
-        // Eliminar efectividades
-        $res = $controladorTipo->eliminar_efectividades($tipo['id_tipo']);
-        if (!$res) {
-            $fallo = true;
-            $mensaje_error = "Error al eliminar efectividades del tipo '{$tipo['nombre_tipo']}'";
-            break;  // Salir while tipos
+        // Caso: tipo a eliminar está en el segundo tipo
+        elseif ($crea['id_tipo2'] == $idTipoAEliminar) {
+            $nuevoTipo2 = 0;
+            // No tocar tipo1
         }
 
-        // Eliminar tipo
-        $res = $controladorTipo->baja_tipo($tipo['id_tipo']);
-        if (!$res) {
+        // Ejecutar la actualización
+        $controladorCreatura->modificar_creatura(
+            $crea['id_creatura'],
+            $crea['nombre_creatura'],
+            $nuevoTipo1,
+            $nuevoTipo2,
+            $crea['descripcion'],
+            $crea['hp'],
+            $crea['atk'],
+            $crea['def'],
+            $crea['spa'],
+            $crea['sdef'],
+            $crea['spe'],
+            $crea['creador'],
+            $crea['imagen'],
+            $crea['publico']
+        );
+    }
+
+        /*-------------------------------------------------
+         * 3) Eliminar efectividades y el tipo en sí
+         *------------------------------------------------*/
+        if (!$controladorTipo->eliminar_efectividades($tipo['id_tipo'])) {
+            $fallo = true;
+            $mensaje_error = "Error al eliminar efectividades del tipo '{$tipo['nombre_tipo']}'";
+            break;
+        }
+
+        if (!$controladorTipo->baja_tipo($tipo['id_tipo'])) {
             $fallo = true;
             $mensaje_error = "Error al eliminar tipo '{$tipo['nombre_tipo']}'";
-            break; // Salir while tipos
+            break;
         }
     }
 }

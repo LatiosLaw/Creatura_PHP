@@ -172,7 +172,7 @@ class Creatura
 
     function listar_creaturas_usuarios_aleatorios()
     {
-            $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE creador != 'SYSTEM' AND publico = 1 ORDER BY RAND() LIMIT 30");
+            $resultado = mysqli_query($this->conexion, "SELECT * from creatura WHERE creador != 'SYSTEM' AND publico = 1 ORDER BY RAND() LIMIT 20");
             return $resultado;
     }
 
