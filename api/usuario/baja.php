@@ -31,50 +31,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $controladorCreatura = new Creatura();
 
     // 1. Eliminar habilidades y tipos creados por el usuario
-    $tipos = $controladorTipo->listar_tipos_creador($nickname);
-    if ($tipos && mysqli_num_rows($tipos) > 0) {
-        while ($tipo = mysqli_fetch_assoc($tipos)) {
-            $idTipo = $tipo['id_tipo'];
+$tipos = $controladorTipo->listar_tipos_creador($nickname);
+if (is_array($tipos) && count($tipos) > 0) {
+    foreach ($tipos as $tipo) {
+        $idTipo = $tipo['id_tipo'];
 
-            // Eliminar habilidades de ese tipo
-            $habilidades = $controladorTipo->retornar_habilidades_tipo($idTipo);
-            if (is_array($habilidades)) {
-                foreach ($habilidades as $habilidad) {
-                    if (isset($habilidad['id_habilidad'])) {
-                        $controladorCreatura->baja_habilidad($habilidad['id_habilidad']);
-                    }
+        // Eliminar habilidades de ese tipo
+        $habilidades = $controladorTipo->retornar_habilidades_tipo($idTipo);
+        if (is_array($habilidades)) {
+            foreach ($habilidades as $habilidad) {
+                if (isset($habilidad['id_habilidad'])) {
+                    $controladorCreatura->baja_habilidad($habilidad['id_habilidad']);
                 }
             }
-
-            // Cambiar tipo en creaturas que lo tengan
-            $criaturasAfectadas = $controladorTipo->retornar_creaturas_tipo($idTipo);
-            if ($criaturasAfectadas && mysqli_num_rows($criaturasAfectadas) > 0) {
-                while ($crea = mysqli_fetch_assoc($criaturasAfectadas)) {
-                    $nuevoTipo1 = $crea['id_tipo1'] == $idTipo ? $crea['id_tipo2'] : $crea['id_tipo1'];
-                    $controladorCreatura->modificar_creatura(
-                        $crea['id_creatura'],
-                        $crea['nombre_creatura'],
-                        $nuevoTipo1,
-                        0,
-                        $crea['descripcion'],
-                        $crea['hp'],
-                        $crea['atk'],
-                        $crea['def'],
-                        $crea['spa'],
-                        $crea['sdef'],
-                        $crea['spe'],
-                        $crea['creador'],
-                        $crea['imagen'],
-                        $crea['publico']
-                    );
-                }
-            }
-
-            // Eliminar efectividades y tipo
-            $controladorTipo->eliminar_efectividades($idTipo);
-            $controladorTipo->baja_tipo($idTipo);
         }
+
+        // Cambiar tipo en creaturas que lo tengan
+        $criaturasAfectadas = $controladorTipo->retornar_creaturas_tipo($idTipo);
+        if (is_array($criaturasAfectadas)) {
+            foreach ($criaturasAfectadas as $crea) {
+                $nuevoTipo1 = $crea['id_tipo1'] == $idTipo ? $crea['id_tipo2'] : $crea['id_tipo1'];
+                $controladorCreatura->modificar_creatura(
+                    $crea['id_creatura'],
+                    $crea['nombre_creatura'],
+                    $nuevoTipo1,
+                    0,
+                    $crea['descripcion'],
+                    $crea['hp'],
+                    $crea['atk'],
+                    $crea['def'],
+                    $crea['spa'],
+                    $crea['sdef'],
+                    $crea['spe'],
+                    $crea['creador'],
+                    $crea['imagen'],
+                    $crea['publico']
+                );
+            }
+        }
+
+        // Eliminar efectividades y tipo
+        $controladorTipo->eliminar_efectividades($idTipo);
+        $controladorTipo->baja_tipo($idTipo);
     }
+}
 
     // 2. Eliminar ratings
     $ratings = $controladorCreatura->listar_ratings_usuario($nickname);

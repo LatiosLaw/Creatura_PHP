@@ -25,66 +25,64 @@ $mensaje_error = '';
 // Listar tipos del usuario y eliminar todo lo relacionado
 $tipos_del_usuario = $controladorTipo->listar_tipos_creador($nickname);
 
-if ($tipos_del_usuario && mysqli_num_rows($tipos_del_usuario) > 0) {
-    while ($tipo = mysqli_fetch_assoc($tipos_del_usuario)) {
-        // Eliminar habilidades del tipo
+if (is_array($tipos_del_usuario) && count($tipos_del_usuario) > 0) {
+    foreach ($tipos_del_usuario as $tipo) {
+
+        /*-------------------------------------------------
+         * 1) Eliminar habilidades del tipo
+         *------------------------------------------------*/
         $habilidades = $controladorTipo->retornar_habilidades_tipo($tipo['id_tipo']);
-        if (is_array($habilidades) && count($habilidades) > 0) {
-            foreach ($habilidades as $habilidad) {
-                if (isset($habilidad['id_habilidad'])) {
-                    $res = $controladorCreatura->baja_habilidad($habilidad['id_habilidad']);
-                    if (!$res) {
+        if (is_array($habilidades)) {
+            foreach ($habilidades as $hab) {
+                if (!empty($hab['id_habilidad'])) {
+                    if (!$controladorCreatura->baja_habilidad($hab['id_habilidad'])) {
                         $fallo = true;
-                        $mensaje_error = "Error al eliminar habilidad '{$habilidad['nombre_habilidad']}'";
-                        break;  // Salir foreach habilidades
+                        $mensaje_error = "Error al eliminar habilidad '{$hab['nombre_habilidad']}'";
+                        break 2;          // sale del foreach tipos
                     }
                 }
             }
         }
-        if ($fallo) break;  // Salir while tipos
 
-        // Modificar criaturas que usan este tipo
-        $criaturas_perjudicadas = $controladorTipo->retornar_creaturas_tipo($tipo['id_tipo']);
-        if ($criaturas_perjudicadas && mysqli_num_rows($criaturas_perjudicadas) > 0) {
-            while ($pobrecito = mysqli_fetch_assoc($criaturas_perjudicadas)) {
-                if ($pobrecito['id_tipo1'] == $tipo['id_tipo']) {
-                    $res = $controladorCreatura->modificar_creatura(
-                        $pobrecito['id_creatura'], $pobrecito['nombre_creatura'], $pobrecito['id_tipo2'], 0,
-                        $pobrecito['descripcion'], $pobrecito['hp'], $pobrecito['atk'], $pobrecito['def'],
-                        $pobrecito['spa'], $pobrecito['sdef'], $pobrecito['spe'], $pobrecito['creador'],
-                        $pobrecito['imagen'], $pobrecito['publico']
-                    );
-                } else {
-                    $res = $controladorCreatura->modificar_creatura(
-                        $pobrecito['id_creatura'], $pobrecito['nombre_creatura'], $pobrecito['id_tipo1'], 0,
-                        $pobrecito['descripcion'], $pobrecito['hp'], $pobrecito['atk'], $pobrecito['def'],
-                        $pobrecito['spa'], $pobrecito['sdef'], $pobrecito['spe'], $pobrecito['creador'],
-                        $pobrecito['imagen'], $pobrecito['publico']
-                    );
-                }
-                if (!$res) {
+        /*-------------------------------------------------
+         * 2) Modificar criaturas que usan este tipo
+         *------------------------------------------------*/
+        $criaturas = $controladorTipo->retornar_creaturas_tipo($tipo['id_tipo']);
+        if (is_array($criaturas)) {
+            foreach ($criaturas as $crea) {
+                $nuevoTipo1 = ($crea['id_tipo1'] == $tipo['id_tipo'])
+                              ? $crea['id_tipo2']
+                              : $crea['id_tipo1'];
+
+                $ok = $controladorCreatura->modificar_creatura(
+                    $crea['id_creatura'], $crea['nombre_creatura'],
+                    $nuevoTipo1, 0,                       // id_tipo2 pasa a 0
+                    $crea['descripcion'], $crea['hp'], $crea['atk'], $crea['def'],
+                    $crea['spa'], $crea['sdef'], $crea['spe'],
+                    $crea['creador'], $crea['imagen'], $crea['publico']
+                );
+
+                if (!$ok) {
                     $fallo = true;
-                    $mensaje_error = "Error al modificar criatura '{$pobrecito['nombre_creatura']}'";
-                    break; // Salir while criaturas
+                    $mensaje_error = "Error al modificar criatura '{$crea['nombre_creatura']}'";
+                    break 2;      // sale del foreach tipos
                 }
             }
         }
-        if ($fallo) break; // Salir while tipos
 
-        // Eliminar efectividades
-        $res = $controladorTipo->eliminar_efectividades($tipo['id_tipo']);
-        if (!$res) {
+        /*-------------------------------------------------
+         * 3) Eliminar efectividades y el tipo en sí
+         *------------------------------------------------*/
+        if (!$controladorTipo->eliminar_efectividades($tipo['id_tipo'])) {
             $fallo = true;
             $mensaje_error = "Error al eliminar efectividades del tipo '{$tipo['nombre_tipo']}'";
-            break;  // Salir while tipos
+            break;
         }
 
-        // Eliminar tipo
-        $res = $controladorTipo->baja_tipo($tipo['id_tipo']);
-        if (!$res) {
+        if (!$controladorTipo->baja_tipo($tipo['id_tipo'])) {
             $fallo = true;
             $mensaje_error = "Error al eliminar tipo '{$tipo['nombre_tipo']}'";
-            break; // Salir while tipos
+            break;
         }
     }
 }
