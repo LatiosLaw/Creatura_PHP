@@ -54,3 +54,8 @@
 .tipo select option:first-child{
   display: none;
 }
+
+.btns-titular{
+    margin-inline-start: auto;
+    display: flex;
+}
