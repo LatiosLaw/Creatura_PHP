@@ -244,10 +244,13 @@ function retornar_habilidades_tipo($id_tipo) {
     return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
   }
 
-  function listar_tipos_creador($creador){
-    $resultado = mysqli_query($this->conexion, "SELECT * from tipo where creador = '$creador'");
-    return $resultado;
-  }
+  function listar_tipos_creador($creador) {
+    $resultado = mysqli_query($this->conexion, "SELECT * FROM tipo WHERE creador = '$creador'");
+    
+    if (!$resultado) return [];
+
+    return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////// ABL DE EFECTIVIDAD //////////////////////////////////////////

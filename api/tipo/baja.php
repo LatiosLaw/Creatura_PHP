@@ -29,8 +29,8 @@ if (!isset($_GET['id_tipo'])) {
 $id_tipo = (int)$_GET['id_tipo'];
 
 /* ----- Dependencias ------------------------------------- */
-require_once("../clases/tipo.php");
-require_once("../clases/creatura.php");
+require_once("../../clases/tipo.php");
+require_once("../../clases/creatura.php");
 
 $ctlTipo     = new Tipo();
 $ctlCreatura = new Creatura();

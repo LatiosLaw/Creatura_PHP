@@ -34,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+$input = json_decode(file_get_contents("php://input"), true);
+
 /* ---------- Verificar id_tipo en la URL ---------- */
 if (!isset($input['id_tipo'])) {
     exitJson(400, 'mod_tipo_id_faltante', 'Falta id_tipo en la URL.');
@@ -41,11 +43,10 @@ if (!isset($input['id_tipo'])) {
 $id_tipo = (int) $input['id_tipo'];
 
 /* ---------- Dependencias ---------- */
-require_once("../clases/tipo.php");
+require_once("../../clases/tipo.php");
 $controladorTipo = new Tipo();
 
 /* ---------- Leer JSON ---------- */
-$input = json_decode(file_get_contents("php://input"), true);
 if ($input === null) {
     exitJson(400, 'json_invalido', 'El cuerpo de la solicitud no es JSON válido.');
 }
@@ -74,16 +75,10 @@ if (!$tipo_viejo) {
 /* ---------- Procesar ícono base64 (opcional) ---------- */
 $nombreIcono = $tipo_viejo['icono'];
 
-if ($icono_base64) {
-
-    // 1.  Asegurarse de que realmente sea un Data-URL de imagen
-    if (strpos($icono_base64, 'data:image') !== 0) {
-        exitJson(400, 'icono_tipo_no_valido', 'El ícono debe ser PNG o JPEG.');
-    }
-
-    // 2.  Determinar extensión (png o jpg) de forma clara
+if (!empty($icono_base64) && strpos($icono_base64, 'data:image') === 0) {
+    // 1. Validar tipo
     $ext = null;
-    if (strpos($icono_base64, 'image/png')  !== false) {
+    if (strpos($icono_base64, 'image/png') !== false) {
         $ext = 'png';
     } elseif (strpos($icono_base64, 'image/jpeg') !== false) {
         $ext = 'jpg';
@@ -93,15 +88,11 @@ if ($icono_base64) {
         exitJson(400, 'icono_tipo_no_valido', 'El ícono debe ser PNG o JPEG.');
     }
 
-    // 3.  Generar nombre de archivo y ruta destino
+    // 2. Guardar nuevo archivo
     $nombreIcono = uniqid('tipo_') . '.' . $ext;
-    $destino     = '../imagenes/tipos/' . $nombreIcono;
+    $destino = $_SERVER['DOCUMENT_ROOT'] . "/Creatura_PHP/imagenes/tipos/" . $nombreIcono;
+    $base64Data = explode(',', $icono_base64, 2)[1] ?? '';
 
-    // 4.  Separar cabecera y contenido base64
-    $partes = explode(',', $icono_base64, 2);
-    $base64Data = $partes[1] ?? '';
-
-    // 5.  Guardar el archivo
     $ok = @file_put_contents($destino, base64_decode($base64Data));
     if ($ok === false) {
         exitJson(500, 'fallo_subida_icono', 'No se pudo guardar el ícono.');

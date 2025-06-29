@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // ---------- Dependencias ---------- //
-require_once("../clases/tipo.php");
+require_once("../../clases/tipo.php");
 $controladorTipo = new Tipo();
 
 // ---------- Leer y validar JSON ---------- //
@@ -71,7 +71,7 @@ if (!in_array($self_int, [0, 0.5, 1, 2])) {
 }
 
 // --- Procesar icono (opcional) ---
-$nombreArchivo = null;
+$nombreArchivo = "";  // <-- inicializamos vacío
 if ($icono_base64 && strpos($icono_base64, 'data:image') === 0) {
     // detectar extensión
     $ext = (strpos($icono_base64, 'image/png') !== false) ? 'png' :
@@ -82,7 +82,7 @@ if ($icono_base64 && strpos($icono_base64, 'data:image') === 0) {
     }
 
     $nombreArchivo = uniqid('tipo_') . ".$ext";
-    $rutaDestino   = "../imagenes/tipos/" . $nombreArchivo;
+    $rutaDestino = $_SERVER['DOCUMENT_ROOT'] . "/Creatura_PHP/imagenes/tipos/" . $nombreArchivo;
     $base64data    = explode(',', $icono_base64)[1];
 
     if (@file_put_contents($rutaDestino, base64_decode($base64data)) === false) {
