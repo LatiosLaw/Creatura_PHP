@@ -101,16 +101,16 @@ INSERT INTO `creatura` (`nombre_creatura`, `id_tipo1`, `id_tipo2`, `descripcion`
 ('Elegg', 27, 21, 'Egg', 70, 65, 90, 155, 100, 80, 'T.R.O.N.N.Y.', 'elegg.png', 1),
 ('Gamekid Evolution', 25, 17, 'An old relic of the Arks Past', 100, 40, 90, 100, 40, 10, 'T.R.O.N.N.Y.', 'exia_gamekid.png', 1),
 ('Thousand Sunny', 22, 3, 'El barco que surcará toda la Grand Line', 180, 80, 160, 150, 90, 70, 'WeirdAniki', 'sunny.png', 1),
-('Spark', 4, 7, 'He just wans his job back...', 80, 100, 60, 100, 50, 120, 'Perepupengue', 'creatura_6861aa0ac622b.png', 1),
-('RadiaDoor', 22, 29, 'La puerta a la destrucción, o a el progreso.', 120, 30, 100, 200, 110, 10, 'Perepupengue', 'creatura_6861aacda3eb7.png', 1),
-('Type: Null', 28, 0, 'El chilcali.', 100, 100, 100, 100, 100, 100, 'Perepupengue', 'creatura_6861a3118fe2d.jpg', 1),
+('Spark', 4, 7, 'He just wans his job back...', 80, 100, 60, 100, 50, 120, 'Perepupengue', 'UnEmployed.png', 1),
+('RadiaDoor', 22, 29, 'La puerta a la destrucción, o a el progreso.', 120, 30, 100, 200, 110, 10, 'Perepupengue', 'RadiaDoor.png', 1),
+('Type: Null', 28, 0, 'El chilcali.', 100, 100, 100, 100, 100, 100, 'Perepupengue', 'tainul.jpg', 1),
 ('Rathalos', 2, 15, 'La vieja confiable', 100, 130, 90, 145, 135, 90, 'El Cazador', 'ratha.png', 1),
 ('Mizutsune', 3, 18, 'Kitsune Jabón', 90, 100, 85, 125, 115, 130, 'El Cazador', 'mizu.png', 1),
 ('Gore Magala', 16, 26, 'Misterio con Alas', 100, 150, 90, 135, 120, 130, 'El Cazador', 'goremagala.png', 1),
 ('Queen Of Hearts', 2, 16, 'Off with his head. NOW!', 50, 127, 65, 54, 87, 99, 'Perepupengue', 'Lorina.jpg', 1),
 ('PayasoChu', 4, 18, 'Jajajaj Chu jajajaj Pala', 50, 48, 31, 120, 152, 109, 'Perepupengue', 'PayasoChu.jpg', 1),
-('Tien Shin Han', 11, 7, 'I. Hate. Every thing about you.', 255, 255, 255, 255, 255, 255, 'Perepupengue', 'creatura_6861b91436785.png', 0),
-('Kiritsugu', 16, 0, 'Matando magos con plomo y edge', 70, 80, 68, 90, 91, 135, 'Perepupengue', 'creatura_6861b613cd56d.gif', 1);
+('Tien Shin Han', 11, 7, 'I. Hate. Every thing about you.', 255, 255, 255, 255, 255, 255, 'Perepupengue', 'TIAN.png', 0),
+('Kiritsugu', 16, 0, 'Matando magos con plomo y edge', 70, 80, 68, 90, 91, 135, 'Perepupengue', 'fumandoFacha.gif', 1);
 -- --------------------------------------------------------
 
 --
