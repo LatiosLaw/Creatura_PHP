@@ -214,7 +214,7 @@ function sincronizarSlider(input, sliderName) {
 
                         tr.innerHTML = `
         <td>${hab.id_habilidad}</td>
-                        <td style="background-color: ${color};"><img src="/Creatura_PHP/imagenes/tipos/${hab.icono_tipo_habilidad}">${hab.nombre_habilidad}</td>
+                        <td style="background-color: ${color};"><div><img src="/Creatura_PHP/imagenes/tipos/${hab.icono_tipo_habilidad}">${hab.nombre_habilidad}</div></td>
         <td>${hab.descripcion}</td>
         <td>${hab.categoria_habilidad}</td>
         <td>${hab.potencia}</td>
@@ -261,7 +261,7 @@ function sincronizarSlider(input, sliderName) {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
             <td>${hab.id}</td>
-                <td style="background-color: ${hab.color};"><img src="/Creatura_PHP/imagenes/tipos/${hab.icono}">${hab.nombre}</td>
+                <td style="background-color: ${hab.color};"><div><img src="/Creatura_PHP/imagenes/tipos/${hab.icono}">${hab.nombre}</div></td>
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>

@@ -116,10 +116,23 @@ table a{
     transition: background-color 0.3s ease;
 }
 
-table a div{
+table img{
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+    margin-right: 10px;
+    vertical-align: auto;
+}
+
+table div{
     display: flex;
     text-align: center;
     align-self: center;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 table a:hover{

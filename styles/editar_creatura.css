@@ -362,6 +362,25 @@ table button{
     transition: all 0.3s ease;
 }
 
+table img{
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+    margin-right: 10px;
+    vertical-align: auto;
+}
+
+table div{
+    display: flex;
+    text-align: center;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .agregar{
     margin: 20px 100px 40px 100px;
 }
@@ -392,7 +411,6 @@ th{
     background-color: darkgray;
     color: black;
     padding: 8px;
-    text-align: left;
     font-size: 16px;
     text-align: center;
     position: sticky;
@@ -401,7 +419,6 @@ th{
 }
 
 td{
-    text-align: left;
     border-bottom: 1px solid #ddd;
     font-size: 14px;
     text-align: center;

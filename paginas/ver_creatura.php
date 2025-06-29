@@ -214,8 +214,9 @@ if (isset($_SESSION['nickname'])) {
                         <td><a href="/Creatura_PHP/paginas/ver_habilidad.php?nombre_habilidad=<?= urlencode($habilidad['nombre_habilidad'])?>&creador=<?= urlencode($habilidad['creador'])?>&id_habilidad=<?= urlencode($habilidad['id_habilidad'])?>"><div><?= htmlspecialchars($habilidad['nombre_habilidad']) ?></div></a></td>
                         <td style="background-color: #<?= $tipo['color'] ?>;">
                             <a href='/Creatura_PHP/paginas/ver_tipo.php?nombre_tipo=<?= urlencode($tipo['nombre_tipo']) ?>&creador=<?= urlencode($tipo['creador']) ?>&id_tipo=<?= urlencode($tipo['id_tipo']) ?>'>
-                            <div><img src="/Creatura_PHP/imagenes/tipos/<?= urlencode($tipo['icono']) ?>"><?= htmlspecialchars($tipo['nombre_tipo']) ?></div>
-                        </a></td>
+                                <div><img src="/Creatura_PHP/imagenes/tipos/<?= urlencode($tipo['icono']) ?>"><?= htmlspecialchars($tipo['nombre_tipo']) ?></div>
+                            </a>
+                        </td>
                         <td><?= htmlspecialchars($habilidad['categoria_habilidad']) ?></td>
                         <td><?= $habilidad['potencia'] ?></td>
                         <td><?= htmlspecialchars($habilidad['descripcion']) ?></td>

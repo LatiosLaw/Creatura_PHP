@@ -271,19 +271,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const tdNombre = document.createElement("td");
 
+                const divNombre = document.createElement("div");
+
                 const img = document.createElement("img");
 img.src = `/Creatura_PHP/imagenes/tipos/${icono}`;
 img.alt = "Tipo";
-img.style.width = "20px";
-img.style.height = "20px";
-img.style.marginRight = "5px";
-img.style.verticalAlign = "middle";
 
 tdNombre.style.backgroundColor = color;
 
 const texto = document.createTextNode(hab.nombre_habilidad);
-tdNombre.appendChild(img);     // Primero la imagen
-tdNombre.appendChild(texto);   // Después el nombre como texto
+tdNombre.appendChild(divNombre);
+divNombre.appendChild(img); // Primero la imagen
+divNombre.appendChild(texto); // Después el nombre como texto
+     
 
                 const tdDescripcion = document.createElement("td");
                 tdDescripcion.textContent = hab.descripcion;
@@ -361,7 +361,7 @@ tdNombre.appendChild(texto);   // Después el nombre como texto
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
             <td>${hab.id}</td>
-                <td style="background-color: ${hab.color};"><img src="/Creatura_PHP/imagenes/tipos/${hab.icono}">${hab.nombre}</td>
+                <td style="background-color: ${hab.color};"><div><img src="/Creatura_PHP/imagenes/tipos/${hab.icono}">${hab.nombre}</div></td>
             <td>${hab.descripcion}</td>
             <td>${hab.categoria}</td>
             <td>${hab.potencia}</td>
