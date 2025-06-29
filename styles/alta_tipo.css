@@ -94,6 +94,10 @@
     transition: background-color 0.3s ease;
 }
 
+.guardar button:hover{
+    background-color: #333;
+}
+
 .imagen p, .imagen input{
     margin-bottom: 10px;
 }
@@ -146,6 +150,7 @@
 }
 
 .color div input{
+    cursor: pointer;
     height: 60px;
     width: 120px;
     padding: 6px 8px;

@@ -120,7 +120,7 @@ $lista_tipos_habilidad = $controladorTipo->listar_tipos();
         </div>
     </div>
     <div class="selector-tipo">
-        <label for="filtroTipoHabilidad">Filtrar por tipo:</label>
+        <label for="filtroTipoHabilidad">Filtrar por tipo </label>
         <select id="filtroTipoHabilidad" onchange="retornarHabilidades(this.value)">
             <option value="">Selecciona un tipo</option>
             <?php foreach ($lista_tipos_habilidad as $tipo): ?>
