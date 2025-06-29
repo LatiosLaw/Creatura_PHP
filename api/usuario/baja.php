@@ -46,29 +46,45 @@ if (is_array($tipos) && count($tipos) > 0) {
             }
         }
 
-        // Cambiar tipo en creaturas que lo tengan
         $criaturasAfectadas = $controladorTipo->retornar_creaturas_tipo($idTipo);
-        if (is_array($criaturasAfectadas)) {
-            foreach ($criaturasAfectadas as $crea) {
-                $nuevoTipo1 = $crea['id_tipo1'] == $idTipo ? $crea['id_tipo2'] : $crea['id_tipo1'];
-                $controladorCreatura->modificar_creatura(
-                    $crea['id_creatura'],
-                    $crea['nombre_creatura'],
-                    $nuevoTipo1,
-                    0,
-                    $crea['descripcion'],
-                    $crea['hp'],
-                    $crea['atk'],
-                    $crea['def'],
-                    $crea['spa'],
-                    $crea['sdef'],
-                    $crea['spe'],
-                    $crea['creador'],
-                    $crea['imagen'],
-                    $crea['publico']
-                );
+
+while ($crea = mysqli_fetch_assoc($criaturasAfectadas)) {
+        $nuevoTipo1 = $crea['id_tipo1'];
+        $nuevoTipo2 = $crea['id_tipo2'];
+
+        if ($crea['id_tipo1'] == $idTipo) {
+            if ($crea['id_tipo2'] != 0 && $crea['id_tipo2'] != $idTipo) {
+                $nuevoTipo1 = $crea['id_tipo2'];
+                $nuevoTipo2 = 0;
+            } else {
+                $nuevoTipo1 = 0;
+                $nuevoTipo2 = 0;
             }
+        } elseif ($crea['id_tipo2'] == $idTipo) {
+            $nuevoTipo2 = 0;
         }
+
+        if ($nuevoTipo1 == $nuevoTipo2 && $nuevoTipo1 != 0) {
+            $nuevoTipo2 = 0;
+        }
+
+        $controladorCreatura->modificar_creatura(
+            $crea['id_creatura'],
+            $crea['nombre_creatura'],
+            $nuevoTipo1,
+            $nuevoTipo2,
+            $crea['descripcion'],
+            $crea['hp'],
+            $crea['atk'],
+            $crea['def'],
+            $crea['spa'],
+            $crea['sdef'],
+            $crea['spe'],
+            $crea['creador'],
+            $crea['imagen'],
+            $crea['publico']
+        );
+}
 
         // Eliminar efectividades y tipo
         $controladorTipo->eliminar_efectividades($idTipo);

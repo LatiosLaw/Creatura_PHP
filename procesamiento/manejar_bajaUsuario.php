@@ -47,28 +47,51 @@ if (is_array($tipos_del_usuario) && count($tipos_del_usuario) > 0) {
         /*-------------------------------------------------
          * 2) Modificar criaturas que usan este tipo
          *------------------------------------------------*/
-        $criaturas = $controladorTipo->retornar_creaturas_tipo($tipo['id_tipo']);
-        if (is_array($criaturas)) {
-            foreach ($criaturas as $crea) {
-                $nuevoTipo1 = ($crea['id_tipo1'] == $tipo['id_tipo'])
-                              ? $crea['id_tipo2']
-                              : $crea['id_tipo1'];
+      $idTipoAEliminar = $tipo['id_tipo']; // ID del tipo a eliminar
 
-                $ok = $controladorCreatura->modificar_creatura(
-                    $crea['id_creatura'], $crea['nombre_creatura'],
-                    $nuevoTipo1, 0,                       // id_tipo2 pasa a 0
-                    $crea['descripcion'], $crea['hp'], $crea['atk'], $crea['def'],
-                    $crea['spa'], $crea['sdef'], $crea['spe'],
-                    $crea['creador'], $crea['imagen'], $crea['publico']
-                );
+$criaturasRs = $controladorTipo->retornar_creaturas_tipo($idTipoAEliminar);
 
-                if (!$ok) {
-                    $fallo = true;
-                    $mensaje_error = "Error al modificar criatura '{$crea['nombre_creatura']}'";
-                    break 2;      // sale del foreach tipos
-                }
+while ($crea = mysqli_fetch_assoc($criaturasRs)) {
+        $nuevoTipo1 = $crea['id_tipo1'];
+        $nuevoTipo2 = $crea['id_tipo2'];
+
+        // Caso: tipo a eliminar está en el primer tipo
+        if ($crea['id_tipo1'] == $idTipoAEliminar) {
+            if ($crea['id_tipo2'] != 0 && $crea['id_tipo2'] != $idTipoAEliminar) {
+                // Promover tipo 2 a tipo 1
+                $nuevoTipo1 = $crea['id_tipo2'];
+                $nuevoTipo2 = 0;
+            } else {
+                // Ambos son el tipo a eliminar o tipo2 es 0
+                $nuevoTipo1 = 0;
+                $nuevoTipo2 = 0;
             }
         }
+
+        // Caso: tipo a eliminar está en el segundo tipo
+        elseif ($crea['id_tipo2'] == $idTipoAEliminar) {
+            $nuevoTipo2 = 0;
+            // No tocar tipo1
+        }
+
+        // Ejecutar la actualización
+        $controladorCreatura->modificar_creatura(
+            $crea['id_creatura'],
+            $crea['nombre_creatura'],
+            $nuevoTipo1,
+            $nuevoTipo2,
+            $crea['descripcion'],
+            $crea['hp'],
+            $crea['atk'],
+            $crea['def'],
+            $crea['spa'],
+            $crea['sdef'],
+            $crea['spe'],
+            $crea['creador'],
+            $crea['imagen'],
+            $crea['publico']
+        );
+    }
 
         /*-------------------------------------------------
          * 3) Eliminar efectividades y el tipo en sí
