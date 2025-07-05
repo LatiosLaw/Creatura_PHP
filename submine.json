@@ -1,0 +1,156 @@
+{
+  "implemented": true,
+  "name": "submine",
+  "nationalPokedexNumber": 6433,
+  "primaryType": "water",
+"secondaryType": "steel",
+  "abilities": [
+      "clearbody",
+      "h:filter"
+  ],
+  "baseStats": {
+    "hp": 110,
+    "attack": 50,
+    "defence": 145,
+    "special_attack": 80,
+    "special_defence": 70,
+    "speed": 35
+  },
+"behaviour": {
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+	  "times": "night",
+	  "willSleepOnBed": false,
+      "light": "0-8"
+    },
+"moving": {
+	  "canLook": false,
+	  "walk": {
+        "canWalk": false,
+		"walkSpeed": 0.2,
+		"avoidsLand": true
+      },
+	  "swim": {
+              "swimSpeed": 0.3,
+              "canSwimInWater": true,
+			  "canSwimInLava" : false,
+			  "canBreatheUnderwater": true,
+			  "canBreatheUnderlava": false,
+			  "canWalkOnWater": false,
+			  "canWalkOnLava": false,
+			  "hurtByLava" : true,
+			  "avoidsWater": false
+          },
+      "fly": {
+        "canFly": false,
+		"flySpeedHorizontal": 0.3
+      }
+    }
+  },
+"features": [],
+  "catchRate": 45,
+  "maleRatio": 0.25,
+  "shoulderMountable": false,
+  "forms": [],
+  "baseExperienceYield": 440,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+      "water_2"
+  ],
+  "drops": {
+    "amount": "3",
+    "entries": [
+      {
+        "item": "minecraft:iron_ingot",
+        "quantityRange": "1-6"
+      },
+      {
+        "item": "minecraft:iron_block",
+        "quantityRange": "1",
+        "percentage": 8
+      },
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "1-7"
+      }
+    ]
+  },
+  "moves": [
+    "1:endure",
+    "1:swallow",
+    "2:watergun",
+    "5:harden",
+    "8:headbutt",
+    "10:bubblebeam",
+    "12:wideguard",
+    "15:takedown",
+    "22:bodyslam",
+    "23:thundershock",
+    "25:gearup",
+    "26:metalsound",
+    "29:aquaring",
+    "30:flashcannon",
+    "33:heavyslam",
+    "35:irontail",
+    "37:discharge",
+    "40:hydropump",
+    "44:slackoff",
+    "50:gyroball",
+    "60:steelbeam",
+    "61:metalburst",
+    "62:explosion",
+    "65:laserfocus",
+    "tm:rest",
+    "tm:dive",
+    "tm:waterfall",
+    "tm:ironhead",
+    "tm:thunderwave",
+    "tm:voltswitch",
+    "tm:strength",
+    "tm:reflect",
+    "tm:lightscreen",
+    "tm:sleeptalk",
+    "tm:defog",
+    "tm:liquidation",
+    "tm:substitute",
+    "tm:raindance",
+    "tm:taunt",
+    "tm:bodypress",
+    "tm:counter",
+    "tm:scald",
+    "tm:surf",
+    "tm:earthquake",
+    "tm:protect",
+    "tm:hiddenpower",
+    "tm:terablast",
+    "tm:irondefense",
+    "tm:spikes",
+    "tutor:steelroller"
+  ],
+  "labels": [
+      "custom"
+  ],
+  "pokedex": [
+      "cobblemon.species.submine.desc1",
+      "cobblemon.species.submine.desc2"
+  ],
+  "baseScale": 3.0,
+  "hitbox": {
+      "width": 1.5,
+      "height": 0.9,
+      "fixed": false
+  },
+  "baseFriendship": 50,
+  "evYield": {
+    "hp": 3,
+    "attack": 0,
+    "defence": 3,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "height": 20,
+  "weight": 14500
+}

@@ -288,6 +288,37 @@ function modificar_efectividad($atacante, $defensor, $multiplicador) {
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
 
+function retornar_tipoPorNombre($nombre_tipo) {
+
+    if ($nombre_tipo == "-") {
+        return [
+            "id_tipo" => 0,
+            "nombre_tipo" => "-",
+            "color" => "AAAAAA",
+            "icono" => "sin_icono.png",
+            "creador" => "SYSTEM"
+        ];
+    }
+
+    $query = "SELECT * FROM tipo WHERE nombre_tipo = '$nombre_tipo'";
+    $resultado = mysqli_query($this->conexion, $query);
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        return mysqli_fetch_assoc($resultado);
+    } else {
+        // En caso de que no se encuentre el tipo (inexistente)
+        return [
+            "id_tipo" => 0,
+            "nombre_tipo" => "-",
+            "color" => "AAAAAA",
+            "icono" => "sin_icono.png",
+            "creador" => "SYSTEM_ERROR"
+        ];
+    }
+  }
+
+
+
 }
 
 ?>
